@@ -3,3 +3,4 @@
 
 # Cannin tickets
 Android app to buy and sell tickets for events with stripe integration
+Lennin es medio no hombre
