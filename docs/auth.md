@@ -13,8 +13,8 @@ flowchart TD
   AC -- no --> AD([start application])
   B[display login screen]
   B--> C{user is already registered}
-  C -- no --> CA[display register form] --> CB[[register_form]]
-  C -- yes --> D[[login_form]]
+  C -- no --> CA[display register form] --> CB[[<a href="#signup">register_form</a>]]
+  C -- yes --> D[[<a href="#login">login_form</a>]]
 
 ```
 
@@ -26,7 +26,7 @@ flowchart TD
   direction TB
   A["inserts login credentials (email, password)"]
   A --> B[checks integrity of data] --> Bex@{ shape: braces, label: "no spaces, valid email, etc" }
-  B --> C[["HTTP POST LOGIN"]]
+  B --> C[["<a href="#http-post-login">HTTP POST LOGIN</a>"]]
   C --> D{response was successful}
   D -- no --> Derr[display response error]
   D -- yes --> E[extracts JWT]
@@ -36,7 +36,7 @@ flowchart TD
   FA --> FB[stores JWT] --> Fex@{shape: braces, label: "in android is recommended to save it in EncryptedSharedPreferences and in PrivateMode for security. <b>Reference<b/>: <a>https://medium.com/@sanjaykushwaha_58217/jwt-authentication-in-android-a-step-by-step-guide-d0dd768cb21a</a>"}
   end
   F --> FClass
-  FClass --> G[creates User class using user information and Session class]
+  FClass --> G["creates User class using user information, inserts it in the AppState.setCurrentUser() and Session class"]
   G --> 
   finish([start application])
   end
@@ -58,7 +58,7 @@ flowchart TD
     CA & CB --> D[checks integritiy of data] --> Dex@{ shape: braces, label: "Makes sure that there are no spaces and, email format is correct, no spacial characters, password is more than 8 characters long, password has a number and symbol, etc"}
     D --> F[Creates User object out of data]
     F --> G([User Object])
-    G --> H[[HTTP POST Register]]
+    G --> H[[<a href="#http-post-signup">HTTP POST Register</a>]]
     H --> I{register was successfull}
     I -- no --> Ierr[display proper errors]
     I -- yes --> J[redirect to login screen]
@@ -109,47 +109,4 @@ flowchart TD
     F --> G[prepare response data]
     G --> Gre[response = success: true, message: the user was created successfuly, status: 201]
   end
-```
-
-
-## Classes
-```mermaid
-classDiagram
-  direction RL
-
-  class User {
-    +uuid ID
-    +string name
-    +string password_hash
-    +Session session
-  }
-
-  class Seller {
-    +string company_email
-  }
-
-  class Buyer {
-    +string personal_email
-  }
-
-  class Role{
-    <<enumarator>>
-    buyer
-    seller
-  }
-
-  class Session {
-  +string accessToken
-
-  -saveAcccessToken()
-  -getAccessToken()
-  -clearSession()
-  }
-
-  User <|-- Seller : inherits
-  User <|-- Buyer : inherits
-
-  User "1" --> "1" Role : has_role
-
-  User "1" --> "0..1" Session: has
 ```
