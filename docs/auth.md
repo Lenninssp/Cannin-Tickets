@@ -1,112 +1,127 @@
+<!-- 
+Controllers only receive HTTP requests and return HTTP responses.
+
+Use Cases (Application layer) enforce business rules using Domain logic.
+
+Repositories assume that all rules have already been checked before saving.
+
+Services are the bitches of the use cases 
+-->
+
 # AUTH
 
 ### Start
 ```mermaid
 flowchart TD
-  start((start))
-  start --> A[splash screen]
-  A -->
-  Astart --> AA[starts Session instance]
-  AA --> AB[session gets JWT]
-  AB --> AC{is JWT expired?}
-  AC -- yes --> B
-  AC -- no --> AD([start application])
-  B[display login screen]
-  B--> C{user is already registered}
-  C -- no --> CA[display register form] --> CB[[<a href="#signup">register_form</a>]]
-  C -- yes --> D[[<a href="#login">login_form</a>]]
-
-```
-
-
-### Login
-```mermaid
-flowchart TD
-  subgraph login_form [login form]
-  direction TB
-  A["inserts login credentials (email, password)"]
-  A --> B[checks integrity of data] --> Bex@{ shape: braces, label: "no spaces, valid email, etc" }
-  B --> C[["<a href="#http-post-login">HTTP POST LOGIN</a>"]]
-  C --> D{response was successful}
-  D -- no --> Derr[display response error]
-  D -- yes --> E[extracts JWT]
-  E --> F[creates Session instance with JWT as a parameter]
-  subgraph FClass[session class]
-  FA[receives JWT]
-  FA --> FB[stores JWT] --> Fex@{shape: braces, label: "in android is recommended to save it in EncryptedSharedPreferences and in PrivateMode for security. <b>Reference<b/>: <a>https://medium.com/@sanjaykushwaha_58217/jwt-authentication-in-android-a-step-by-step-guide-d0dd768cb21a</a>"}
-  end
-  F --> FClass
-  FClass --> G["creates User class using user information, inserts it in the AppState.setCurrentUser() and Session class"]
-  G --> 
-  finish([start application])
-  end
-
-```
-
-
-
-### Signup 
-```mermaid 
-flowchart TD
-  subgraph register_form [register form]
-    direction TB
+    Start([App launched])
     
-     B[user inserts role]
-    B --> C{user is seller}
-    C -- yes --> CA[user inserts company name, email, phone, email, password, confirm password]
-    C -- no --> CB[user inserts name, email, phone, email, password, confirm password]
-    CA & CB --> D[checks integritiy of data] --> Dex@{ shape: braces, label: "Makes sure that there are no spaces and, email format is correct, no spacial characters, password is more than 8 characters long, password has a number and symbol, etc"}
-    D --> F[Creates User object out of data]
-    F --> G([User Object])
-    G --> H[[<a href="#http-post-signup">HTTP POST Register</a>]]
-    H --> I{register was successfull}
-    I -- no --> Ierr[display proper errors]
-    I -- yes --> J[redirect to login screen]
+    Start --> Splash[Show splash screen]
+
+    Splash --> Req["Send request: GET <a href="#get-authme">/auth/me</a> (Bearer JWT)"]
+
+    Req -->|200 OK| AppStart[Show Home / Main App]
+    Req -->|401 Unauthorized| LoginScreen[Show Login Screen]
+
+    LoginScreen --> Decision{User has no account?}
+    
+    Decision -- Yes --> ShowSignup[Show Signup Form]
+    ShowSignup --> SubmitSignup[User submits form]
+    SubmitSignup --> ServerSignup[POST <a href="#post-authsignup">/auth/signup</a>]
+    ServerSignup -->|OK| AppStart
+
+    Decision -- No --> ShowLogin[Show Login Form]
+    ShowLogin --> SubmitLogin[User submits form]
+    SubmitLogin --> ServerLogin[POST <a href="#post-authlogin">/auth/login</a>]
+    ServerLogin -->|OK| AppStart
+```
+
+### GET /auth/me 
+```mermaid
+sequenceDiagram
+  actor User
+  participant UI as APP (Splash Screen)
+  participant Controller as AuthController
+  participant SessionService as SessionService
+
+  User->>UI: Open app
+  UI->>Controller: GET /auth/me (bearer SessionService)
+  Controller->>SessionService: isValid(SessionService)
+  SessionService-->>Controller: return Token or Null
+  alt Token invalid or expired
+    Controller-->>UI: 401 Unauthorized
+    UI->>User: Show Login Screen
+  else Token valid:
+    Controller-->>UI: 200 OK + UserDTO
+    UI->>User: Navigate to Home Screen
   end
 ```
 
-### HTTP POST Login
+### POST /auth/signup
+
 ```mermaid
-flowchart TD
-  subgraph http_post_login [HTTP POST LOGIN]
-  direction TB
-    A[receives data: email and password]
-    A--> B{ data is complete}
-    B -- no --> Berr[Error: the data is not complete] --> Breturn[response = success: false, message: Error, status:400]
-    B -- yes --> C[checks data from the request]
-    C --> D{the data is clean?}
-    D -- no --> Derr[Error: the data has this errors] --> Dret[return = success: false, message: error, status: 400]
-    Derr --> Derrex@{shape: braces, label: "checks the same thing the frontend already checked but now in backend for extra safety"}
-    D -- yes --> E[fetches email in database to confirm existence]
-    E --> F{user exists}
-    F -- no --> Ferr[Error: user doesnt exist] --> Fret[return error, 400]
-    F -- yes --> G[extracts password hash from db]
-    G --> H[hashes request password]
-    H --> I[compares both passwords]
-    I --> J{are passwords equal}
-    J -- no --> Jerr[ERROR: the passwords dont match] -->  Jret[return = error, 400]
-    J -- yes --> K[SUCCESS: both passwords are congruent] --> Kret[return = success, 201]
-    K --> L[create JWT payload: userId, email, role, expiration]
-    L --> M[sign JWT with server private key]
-    M --> N[return response = success, 201, with JWT accessToken]
+sequenceDiagram
+  actor User
+  participant UI as App (Signup Form)
+  participant Controller as AuthController
+  participant UseCase as SignupUseCase
+  participant UserRepo as UserRepository
+  participant TokenService as TokenService (JWT)
+
+  User->>UI: clicks Signup button
+  UI->>Controller: POST /auth/signup (email, password, name)
+
+  Controller->>UseCase: execute(signupDTO)
+
+  UseCase->>UserRepo: findByEmail(email)
+  UserRepo-->>UseCase: existingUser or null
+
+  alt User already exists
+      UseCase-->>Controller: throw "UserExistsError"
+      Controller-->>UI: 409 Conflict (User already exists)
+      UI-->>User: Show error message
+  else Create user
+      UseCase->>UserRepo: createUser(user)
+      UserRepo-->>UseCase: savedUser
+
+      UseCase->>TokenService: generateJWT(savedUser)
+      TokenService-->>UseCase: jwtToken
+
+      UseCase-->>Controller: jwtToken
+      Controller-->>UI: 201 Created + JWT token
+      UI-->>User: Redirect to Home screen
   end
 ```
 
-### HTTP POST Signup
+
+### POST /auth/login
 
 ```mermaid
-flowchart TD
-  subgraph http_post_signup [HTTP POST SIGNUP]
-    direction TB
-    A[receives data: name, email, password, role]
-    A --> B{data is complete}
-    B -- no --> Berr[Error: the data is not complete] --> Breturn[response = success: false, message: Error, status:400]
-    B -- yes --> C[hash password]
-    C --> D[check for existing User/Email in DB]
-    D --> E{user exists}
-    E -- yes --> Eerr[Error: The user already exists] --> Eret[response = success: false, message: Error, status: 400]
-    E -- no --> F[save user object in database]
-    F --> G[prepare response data]
-    G --> Gre[response = success: true, message: the user was created successfuly, status: 201]
+sequenceDiagram
+  actor User
+  participant UI as App (login form)
+  participant Controller as AuthController
+  participant UseCase as LoginUseCase
+  participant UserRepo as UserRepository
+  participant TokenService as TokenService (JWT)
+
+  User->>UI: clicks login button
+  UI->>Controller: POST /auth/login (email, password)
+
+  Controller->>UseCase: execute(loginDTO)
+
+  UseCase->>UserRepo: findByEmail(email)
+  UserRepo-->>UseCase: existingUser or null 
+
+  alt User alredy exists
+    UseCase->>Controller: throw "UserExistsError"
+    Controller-->>UI: 409 Conflict (User already exists)
+    UI-->>User: Show error message
+  else Authorize user
+    UseCase->>TokenService: generateJWT(savedUser)
+    TokenService-->>UseCase: jwtToken
+    UseCase-->>Controller: jwtToken
+    Controller-->>UI: 201 Authorized + JWT token
+    UI-->>User: Redirect to Home screen
   end
+
 ```
