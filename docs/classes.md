@@ -76,6 +76,23 @@ classDiagram
       +String role
       +toDomain() User
     }
+
+    class UpdateProfileDTO {
+      +String? name
+      +String? email
+    }
+
+    class ChangePasswordDTO {
+      +String oldPassword
+      +String newPassword
+    }
+
+    class ProfileResponseDTO {
+      +UUID   id
+      +String name
+      +String email
+      +String role 
+    }
     
     class EventDTO {
       +String id

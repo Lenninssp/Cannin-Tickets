@@ -20,7 +20,7 @@ sequenceDiagram
       Session-->>Controller: claims { userId, role }   %% role comes from JWT
       Controller->>UseCase: execute(claims, CreateEventDTO)
 
-      UseCase->>UseCase: if !(claims.role in {ADMIN, SELLER}) → PermissionError
+      UseCase->>UseCase: if !(claims.role in {ADMIN, SELLER}) -> PermissionError
       alt Insufficient permissions
           UseCase-->>Controller: PermissionError("Not allowed to create events")
           Controller-->>UI: 403 Forbidden + message
@@ -86,7 +86,7 @@ sequenceDiagram
                   UseCase->>EventsRepo: save(Event)
                   EventsRepo-->>UseCase: Success
                   UseCase-->>Controller: Success
-                  Controller-->>UI: 204 No Content
+                  Controller-->>UI: 200 OK "Event successfully modified"
               end
           end
       end
