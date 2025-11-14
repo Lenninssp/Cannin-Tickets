@@ -11,6 +11,7 @@ classDiagram
       +String name
       +String email
       +Role role
+      +String profilePicturePath
       +validateEmail() bool
       +canCreateEvent() bool
     }
@@ -74,6 +75,7 @@ classDiagram
       +String name
       +String email
       +String role
+      +String profilePicturePath
       +toDomain() User
     }
 
