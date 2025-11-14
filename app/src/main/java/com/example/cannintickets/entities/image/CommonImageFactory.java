@@ -1,4 +1,10 @@
 package com.example.cannintickets.entities.image;
 
-public class CommonImageFactory {
+import java.io.File;
+
+public class CommonImageFactory  implements ImageFactory{
+    @Override
+    public ImageEntity create(File image) {
+        return new CommonImage(image);
+    }
 }
