@@ -43,17 +43,8 @@ sequenceDiagram
   participant Controller as AuthController
   participant SessionService as SessionService
 
-  User->>UI: Open app
-  UI->>Controller: GET /auth/me (bearer SessionService)
-  Controller->>SessionService: isValid(SessionService)
-  SessionService-->>Controller: return Token or Null
-  alt Token invalid or expired
-    Controller-->>UI: 401 Unauthorized
-    UI->>User: Show Login Screen
-  else Token valid:
-    Controller-->>UI: 200 OK + UserDTO
-    UI->>User: Navigate to Home Screen
-  end
+  User->>UI: Starts app
+  UI->>Controller: POST /auth/me 
 ```
 
 ### POST /auth/signup
@@ -64,32 +55,22 @@ sequenceDiagram
   participant UI as App (Signup Form)
   participant Controller as AuthController
   participant UseCase as SignupUseCase
+  participant UserEntity as User (Domain Entity)
   participant UserRepo as UserRepository
   participant TokenService as TokenService (JWT)
 
   User->>UI: clicks Signup button
   UI->>Controller: POST /auth/signup (email, password, name)
-
   Controller->>UseCase: execute(signupDTO)
-
-  UseCase->>UserRepo: findByEmail(email)
-  UserRepo-->>UseCase: existingUser or null
-
-  alt User already exists
-      UseCase-->>Controller: throw "UserExistsError"
-      Controller-->>UI: 409 Conflict (User already exists)
-      UI-->>User: Show error message
-  else Create user
-      UseCase->>UserRepo: createUser(user)
-      UserRepo-->>UseCase: savedUser
-
-      UseCase->>TokenService: generateJWT(savedUser)
-      TokenService-->>UseCase: jwtToken
-
-      UseCase-->>Controller: jwtToken
-      Controller-->>UI: 201 Created + JWT token
-      UI-->>User: Redirect to Home screen
-  end
+  UseCase->>UserEntity: User(signupDTO)
+  UserEntity-->>UseCase: UserInstance
+  UseCase->>UserEntity: isValid()
+  UserEntity-->>UseCase: validation result
+  UseCase->>UserRepo: save(UserEntity)
+  UserRepo-->>UseCase: success
+  UseCase-->>Controller: success
+  Controller-->>UI: 200 + OK
+  UI-->>User: display success message
 ```
 
 
@@ -107,21 +88,5 @@ sequenceDiagram
   User->>UI: clicks login button
   UI->>Controller: POST /auth/login (email, password)
 
-  Controller->>UseCase: execute(loginDTO)
-
-  UseCase->>UserRepo: findByEmail(email)
-  UserRepo-->>UseCase: existingUser or null 
-
-  alt User alredy exists
-    UseCase->>Controller: throw "UserExistsError"
-    Controller-->>UI: 409 Conflict (User already exists)
-    UI-->>User: Show error message
-  else Authorize user
-    UseCase->>TokenService: generateJWT(savedUser)
-    TokenService-->>UseCase: jwtToken
-    UseCase-->>Controller: jwtToken
-    Controller-->>UI: 201 Authorized + JWT token
-    UI-->>User: Redirect to Home screen
-  end
 
 ```
