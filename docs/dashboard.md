@@ -40,6 +40,7 @@ sequenceDiagram
   participant Controller as SavedEventController
   participant SessionService as SessionService (JWT)
   participant UseCase as SaveEventUseCase
+  participant EventEntity as Event (Domain Entity)
   participant EventRepo as EventRepository
   participant SavedRepo as SavedEventRepository
 
@@ -54,10 +55,9 @@ sequenceDiagram
       SessionService-->>Controller: userId
 
       Controller->>UseCase: execute(userId, eventId)
-
+      
       UseCase->>EventRepo: findById(eventId)
       EventRepo-->>UseCase: Event or null
-
       alt Event not found or event.notPublic
           UseCase-->>Controller: throw "Cannot save event"
           Controller-->>UI: 400 Bad Request (cannot save)
