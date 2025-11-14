@@ -28,6 +28,7 @@ sequenceDiagram
       UseCase-->>Controller: DomainError
       Controller-->>UI: 400 bad request + error message
     else
+      UserEntity-->>UseCase: User (modified)
       UseCase->>UserRepo: modify(User)
       User-->>UseCase: Success
       UseCase->>Controller: Success
@@ -69,7 +70,7 @@ sequenceDiagram
           Controller-->>UI: 400 Bad Request + message
       else Match
           Hashing-->>UseCase: true
-          UseCase->>UserEntity: changePassword(ChangePasswordDTO.newPassword)
+          UseCase->>UserEntity: User.changePassword(ChangePasswordDTO.newPassword)
 
           alt Domain validation fails (min length, etc)
               UserEntity-->>UseCase: DomainError
@@ -84,4 +85,15 @@ sequenceDiagram
       end
   end
 
+```
+
+### Change user image
+```mermaid
+sequenceDiagram
+  actor User
+  participant UI
+  participant Controller as ProfilePictureController
+  participant Session as SessionService (JWT)
+  participant UseCase as ProfilePictureUseCase
+  participant UserRepo as UserRepository
 ```
