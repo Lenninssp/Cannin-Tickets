@@ -49,7 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
         submit.setOnClickListener(V -> {
             SignupController endpoint = new SignupController();
 //            Log.d("password", password1.getText().toString() + " " + password2.getText().toString() + " " + parsedRole);
-            UserSignupResponseModel response = endpoint.POST(new UserSignupRequestModel("Lennin", "lenninssp1021@gmail.com", "Sabogareto13*", "Seller"));
+            UserSignupResponseModel response = endpoint.POST(new UserSignupRequestModel("LenninSabogal", "lenninssp1021@gmail.com", "Sabogareto13*", "Seller"));
 
 //            if (password1.getText().toString().equals(password2.getText().toString())){
 //                UserSignupResponseModel response = endpoint.POST(new UserSignupRequestModel(name.getText().toString(), email.getText().toString(), password1.getText().toString(), parsedRole));
