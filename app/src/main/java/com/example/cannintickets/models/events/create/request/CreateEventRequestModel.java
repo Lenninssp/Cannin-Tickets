@@ -3,52 +3,45 @@ package com.example.cannintickets.models.events.create.request;
 import java.io.File;
 public class CreateEventRequestModel {
     private String name;
+    private String description;
     private String eventDate;
-    private double priceGA;
-    private double priceVIP;
     private String location;
     private boolean isPrivate;
-    private File coverImage;
+    private String coverImage;
 
     public CreateEventRequestModel(
-        String name,
-        String eventDate,
-        double priceGA,
-        double priceVIP,
-        String location,
-        boolean isPrivate,
-        File coverImage
+            String name,
+            String description,
+            String eventDate,
+            String location,
+            boolean isPrivate,
+            String coverImage
     ){
         this.name = name;
         this.eventDate = eventDate;
-        this.priceGA = priceGA;
-        this.priceVIP = priceVIP;
         this.location = location;
         this.isPrivate = isPrivate;
         this.coverImage = coverImage;
+        this.description = description;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getEventDate() {
-        return eventDate;
+    public String getDescription() {
+        return description;
     }
 
-    public double getPriceGA() {
-        return priceGA;
+    public String getEventDate() {
+        return eventDate;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public double getPriceVIP() {
-        return priceVIP;
-    }
-
-    public File getCoverImage() {
+    public String getCoverImage() {
         return coverImage;
     }
 

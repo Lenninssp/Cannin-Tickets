@@ -318,7 +318,6 @@ classDiagram
       +Bool isPrivate
       +String coverImageUrl
       +String organizerId
-      +Date updatedAt
     }
 
     class Ticket {
