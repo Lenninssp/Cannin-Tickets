@@ -11,7 +11,7 @@ public class EventPersistenceModel {
     private final String eventDate;    // ISO 8601 string
     private final String location;
     private final boolean isPrivate;
-    private final File coverImage;
+    private final String coverImage;
     private final String organizerId;
 
     public EventPersistenceModel(
@@ -20,7 +20,7 @@ public class EventPersistenceModel {
             String eventDateISO,
             String location,
             boolean isPrivate,
-            File coverImage,
+            String coverImage,
             String organizerId
     ) {
         this.name = name;
@@ -57,7 +57,7 @@ public class EventPersistenceModel {
         return isPrivate;
     }
 
-    public File getCoverImage() {
+    public String getCoverImage() {
         return coverImage;
     }
 

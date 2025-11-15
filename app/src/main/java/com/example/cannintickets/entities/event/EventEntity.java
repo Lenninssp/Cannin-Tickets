@@ -7,4 +7,5 @@ public interface EventEntity {
     boolean isNameValid();
     boolean isDescriptionValid();
     boolean isLocationValid();
+    String[] isValid();
 }

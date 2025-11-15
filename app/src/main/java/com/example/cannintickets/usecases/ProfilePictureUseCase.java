@@ -14,9 +14,11 @@ import java.io.File;
 public class ProfilePictureUseCase {
     private final Context context;
     final CommonImageFactory imageFactory;
+    final ImageRepository imageRepo;
     public ProfilePictureUseCase(Context context) {
         this.context = context.getApplicationContext(); // safe
         this.imageFactory = new CommonImageFactory();
+        this.imageRepo = new ImageRepository();
     }
 
 
@@ -29,7 +31,7 @@ public class ProfilePictureUseCase {
             return new String[]{"ERROR", "Profile picture is invalid"};
         }
 
-        String[] result  = ImageRepository.create(context, image.getImage());
+        String[] result  = imageRepo.create(context, image.getImage());
 
         if (result[0].equals( "SUCCESS")) {
             System.out.println(result[1]);

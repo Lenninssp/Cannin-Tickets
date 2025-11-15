@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.util.UUID;
 
 public class ImageRepository {
-    public static String[] create(Context context, File image) {
+    public String[] create(Context context, File image) {
 
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
         if (bitmap == null) {

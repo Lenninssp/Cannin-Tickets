@@ -7,7 +7,7 @@ public class CreateEventRequestModel {
     private String eventDate;
     private String location;
     private boolean isPrivate;
-    private String coverImage;
+    private File coverImage;
 
     public CreateEventRequestModel(
             String name,
@@ -15,7 +15,7 @@ public class CreateEventRequestModel {
             String eventDate,
             String location,
             boolean isPrivate,
-            String coverImage
+            File coverImage
     ){
         this.name = name;
         this.eventDate = eventDate;
@@ -41,7 +41,7 @@ public class CreateEventRequestModel {
         return location;
     }
 
-    public String getCoverImage() {
+    public File getCoverImage() {
         return coverImage;
     }
 

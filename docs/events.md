@@ -8,6 +8,7 @@ participant UI as App (create event view)
 participant Controller as CreateEventController
 participant UseCase as CreateEventUseCase
 participant EventEntity as Event (Domain entity)
+participant ImageEntity as Image (Domain entity)
 participant UserEntity as User (Domain entity)
 participant AuthRepo as UserAuthRepository
 participant UserRepo as UserRepository
@@ -40,8 +41,22 @@ alt the event request data is not valid
   Controller-->>UI: 401 + error message
   UI-->>User: display error
 else the event req data is valid
-EventEntity-->>UseCase: isValie = true
-UseCase->>EventRepo: saveEvent(eventRequest)
+EventEntity-->>UseCase: isValid = true
+
+Note over UseCase,ImageEntity: Create and validate Image entity
+  UseCase->>ImageEntity: new Image(imageFile)
+  ImageEntity-->>UseCase: imageInstance
+
+  UseCase->>ImageEntity: isValid()
+  ImageEntity-->>UseCase: validationResult
+ alt image is invalid
+  UseCase-->>Controller: (Error: Invalid image)
+  Controller-->>UI: 400 - Bad Request
+  UI-->>User: Show validation error
+else image is valid
+ UseCase->>ImageRepo: save(imageInstance)
+  ImageRepo-->>UseCase: savedImagePath
+  UseCase->>EventRepo: saveEvent(eventRequest, savedImagePath, organizerId)
 alt the connection with the db failed
   UseCase-->>Controller: error, couldnt connect with database
   Controller-->>UI: 401, could not connect with db
@@ -50,6 +65,8 @@ else the connection was successful
 EventRepo-->UseCase: the event was created succesfully
 UseCase-->>Controller: success message
 Controller-->>UI: 201 + OK
+end
+
 end
 end
 end
