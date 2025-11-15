@@ -53,24 +53,26 @@ sequenceDiagram
 sequenceDiagram
   actor User
   participant UI as App (Signup Form)
-  participant Controller as AuthController
-  participant UseCase as SignupUseCase
+  participant Controller as SignupController
+  participant UseCase as SignupUsecCase
   participant UserEntity as User (Domain Entity)
-  participant UserRepo as UserRepository
-  participant TokenService as TokenService (JWT)
+  participant AuthRepo as Auth Firebase Repository
+  participant UserRepo as User Repositort
 
-  User->>UI: clicks Signup button
-  UI->>Controller: POST /auth/signup (email, password, name)
-  Controller->>UseCase: execute(signupDTO)
-  UseCase->>UserEntity: User(signupDTO)
-  UserEntity-->>UseCase: UserInstance
+  User->>UI: signup form and send
+  UI->>Controller: POST (signupUserRequest)
+  Controller->>UseCase: execute(signupUserRequest)
+  UseCase->>UserEntity: new User(signupUserRequest)
+  UserEntity-->>UseCase: User
   UseCase->>UserEntity: isValid()
-  UserEntity-->>UseCase: validation result
-  UseCase->>UserRepo: save(UserEntity)
-  UserRepo-->>UseCase: success
-  UseCase-->>Controller: success
-  Controller-->>UI: 200 + OK
-  UI-->>User: display success message
+  UserEntity-->>UseCase: user is valid
+  UseCase->>AuthRepo: create(user)
+  AuthRepo-->>UseCase: user created + FirebaseUser
+  UseCase->>UserRepo: create(user)
+  UserRepo-->>UseCase: message user created successfully
+  UseCase-->>Controller: message
+  Controller-->>UI: 201 + message
+  UI-->User: redirect to dashboard
 ```
 
 

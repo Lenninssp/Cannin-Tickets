@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.auth.signup.request;
+package com.example.cannintickets.models.user.auth.request;
 
 public class UserSignupRequestModel {
     String username;

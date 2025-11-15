@@ -1,6 +1,6 @@
-package com.example.cannintickets.models.auth.presenters;
+package com.example.cannintickets.models.user.auth.presenters;
 
-import com.example.cannintickets.models.auth.response.UserResponseModel;
+import com.example.cannintickets.models.user.auth.response.UserResponseModel;
 
 public interface UserPresenter {
     UserResponseModel prepareSuccessView(UserResponseModel user);

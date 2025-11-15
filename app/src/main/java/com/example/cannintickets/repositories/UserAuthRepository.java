@@ -1,7 +1,6 @@
 package com.example.cannintickets.repositories;
-import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
-import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
-import com.google.android.gms.tasks.Task;
+import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

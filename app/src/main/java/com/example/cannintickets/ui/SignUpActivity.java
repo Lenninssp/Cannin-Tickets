@@ -15,11 +15,8 @@ import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.auth.LoginController;
 import com.example.cannintickets.controllers.auth.LogoutController;
 import com.example.cannintickets.controllers.auth.SignupController;
-import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
-import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
-import com.example.cannintickets.models.auth.response.UserResponseModel;
-
-import java.util.concurrent.CompletableFuture;
+import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
 
 public class SignUpActivity extends AppCompatActivity {
     Button signup, login, logout, currentState;
