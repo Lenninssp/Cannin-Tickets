@@ -82,6 +82,8 @@ sequenceDiagram
   participant UI as App (login form)
   participant Controller as AuthController
   participant UseCase as LoginUseCase
+  participant Session as SessionService
+  participant User as UserEntity
   participant UserRepo as UserRepository
   participant TokenService as TokenService (JWT)
 

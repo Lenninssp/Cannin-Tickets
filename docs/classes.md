@@ -70,6 +70,7 @@ classDiagram
   
   %% DATA LAYER - DTOs for API/Network
   namespace Data {
+
     class UserDTO {
       +String id
       +String name
@@ -133,10 +134,15 @@ classDiagram
   
   %% PERSISTENCE LAYER - Database Entities
   namespace Persistence {
+      class FirebaseUser {
+      +string id
+      +string email
+      +string passwordHash
+    }
+
     class UserEntity {
       +String id
       +String name
-      +String passwordHash
       +String email
       +String role
       +Date createdAt
