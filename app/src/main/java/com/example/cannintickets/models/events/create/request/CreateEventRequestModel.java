@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.events.request;
+package com.example.cannintickets.models.events.create.request;
 
 import java.io.File;
 public class CreateEventRequestModel {
@@ -11,7 +11,6 @@ public class CreateEventRequestModel {
     private int capacityGA;
     private int capacityVIP;
     private File coverImage;
-    private String organizerEmail;
 
     public CreateEventRequestModel(
         String name,
@@ -22,8 +21,7 @@ public class CreateEventRequestModel {
         boolean isPrivate,
         int capacityGA,
         int capacityVIP,
-        File coverImage,
-        String organizerEmail
+        File coverImage
     ){
         this.name = name;
         this.eventDate = eventDate;
@@ -34,7 +32,6 @@ public class CreateEventRequestModel {
         this.capacityGA = capacityGA;
         this.capacityVIP = capacityVIP;
         this.coverImage = coverImage;
-        this.organizerEmail = organizerEmail;
     }
 
     public String getName() {
@@ -69,9 +66,6 @@ public class CreateEventRequestModel {
         return coverImage;
     }
 
-    public String getOrganizerEmail() {
-        return organizerEmail;
-    }
     public boolean isPrivate() {
         return isPrivate;
     }

@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.events.response;
+package com.example.cannintickets.models.events.create.response;
 
 public class CreateEventResponseModel {
     String message;
