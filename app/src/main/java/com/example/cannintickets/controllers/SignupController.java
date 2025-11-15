@@ -1,12 +1,19 @@
 package com.example.cannintickets.controllers;
 
-public class SignupController {
-    public static String[] POST (
-            String name,
-            String email,
-            String password,
-            String role
-    ) {
+import com.example.cannintickets.boundaries.input.UserInputBoundary;
+import com.example.cannintickets.models.request.UserSignupRequestModel;
+import com.example.cannintickets.models.response.UserSignupResponseModel;
+import com.example.cannintickets.usecases.SignupUseCase;
 
+public class SignupController {
+
+    final UserInputBoundary userInput;
+
+    public SignupController() {
+        this.userInput = new SignupUseCase();
+    }
+    public UserSignupResponseModel POST(UserSignupRequestModel requestModel){
+        System.out.println("Here at least");
+        return userInput.create(requestModel);
     }
 }
