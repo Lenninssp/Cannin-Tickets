@@ -12,8 +12,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
-import com.example.cannintickets.controllers.LoginController;
-import com.example.cannintickets.controllers.SignupController;
+import com.example.cannintickets.controllers.auth.LoginController;
+import com.example.cannintickets.controllers.auth.LogoutController;
+import com.example.cannintickets.controllers.auth.SignupController;
 import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
 import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.example.cannintickets.models.auth.response.UserResponseModel;
@@ -34,16 +35,33 @@ public class SignUpActivity extends AppCompatActivity {
         currentState = findViewById(R.id.current_state);
         debugtxt = findViewById(R.id.debug_txt);
 
+        logout.setOnClickListener(V -> {
+            LogoutController endpoint = new LogoutController();
+            endpoint.POST()
+                    .thenApply(message -> {
+                        if (message[0].equals("ERROR")){
+                            Toast.makeText(this, "There was an error", Toast.LENGTH_SHORT).show();
+                            debugtxt.setText(message[1]);
+                            return  message;
+                        }
+                        else {
+                            Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+                            debugtxt.setText("User logged out successfully");
+                            return message;
+                        }
+                    });
+        });
+
         login.setOnClickListener(V -> {
             LoginController endpoint = new LoginController();
-            CompletableFuture<UserResponseModel> response = endpoint.POST(
+            endpoint.POST(
                     new UserLoginRequestModel(
                             "Lenninssp1021@gmail.com",
                             "Sabogareto13*")
 
             ).thenApply(success -> {
                 Toast.makeText(this, "Process completed", Toast.LENGTH_SHORT).show();
-                if(success.isSuccess()){
+                if(!success.isSuccess()){
                     debugtxt.setText(success.getError());
                 }
                 else {
@@ -61,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                            "lenninssp1021@gmail.com",
 //                            "Sabogareto13*",
 //                            "Seller")
-            CompletableFuture<UserResponseModel> response = endpoint.POST(
+            endpoint.POST(
                     new UserSignupRequestModel(
                             "CamiloMontero",
                             "camilo@gmail.com",
@@ -69,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
                             "Seller")
             ).thenApply(success -> {
                 Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
-                if(success.isSuccess()){
+                if(!success.isSuccess()){
                     debugtxt.setText(success.getError());
                 }
                 else {

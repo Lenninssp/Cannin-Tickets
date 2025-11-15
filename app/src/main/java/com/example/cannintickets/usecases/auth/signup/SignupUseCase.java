@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.signup;
+package com.example.cannintickets.usecases.auth.signup;
 
 import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;

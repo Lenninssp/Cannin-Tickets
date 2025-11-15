@@ -1,9 +1,9 @@
-package com.example.cannintickets.controllers;
+package com.example.cannintickets.controllers.auth;
 
-import com.example.cannintickets.usecases.signup.UserSignupInputBoundary;
+import com.example.cannintickets.usecases.auth.signup.UserSignupInputBoundary;
 import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.example.cannintickets.models.auth.response.UserResponseModel;
-import com.example.cannintickets.usecases.signup.SignupUseCase;
+import com.example.cannintickets.usecases.auth.signup.SignupUseCase;
 
 import java.util.concurrent.CompletableFuture;
 

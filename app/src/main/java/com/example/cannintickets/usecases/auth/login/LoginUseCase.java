@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.login;
+package com.example.cannintickets.usecases.auth.login;
 
 import com.example.cannintickets.entities.user.login.CommonUserLoginFactory;
 import com.example.cannintickets.entities.user.login.UserLoginEntity;
@@ -7,7 +7,6 @@ import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel
 import com.example.cannintickets.models.auth.presenters.UserPresenter;
 import com.example.cannintickets.models.auth.presenters.UserResponseFormatter;
 import com.example.cannintickets.models.auth.response.UserResponseModel;
-import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.example.cannintickets.repositories.UserAuthRepository;
 
 import java.util.concurrent.CompletableFuture;

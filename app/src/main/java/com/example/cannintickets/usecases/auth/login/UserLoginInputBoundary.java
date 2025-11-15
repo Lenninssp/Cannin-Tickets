@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.login;
+package com.example.cannintickets.usecases.auth.login;
 
 import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
 import com.example.cannintickets.models.auth.response.UserResponseModel;
