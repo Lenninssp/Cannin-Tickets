@@ -166,7 +166,6 @@ classDiagram
       +Int soldGA
       +Int soldVIP
       +String status
-      +String tags
       +String coverImageUrl
       +String organizerId
       +Date updatedAt
@@ -260,3 +259,76 @@ Example on how to structure my classes
    UserEntity.swift
    EventEntity.swift
 -->
+
+
+```mermaid
+classDiagram 
+  direction TB
+  
+
+  namespace persistence {
+     class Event {
+      +String name
+      +String description
+      +Date eventDate
+      +String location
+      +Bool isPrivate
+      +String coverImageUrl
+    }
+
+    class Ticket {
+      +string id
+      +int name
+      +int sold
+      +int capacity
+      +double price
+      +string eventId
+    }
+  }
+
+  namespace Domain {
+    class Event {
+    +String name
+    +String description
+    +LocalDateTime eventDate
+    +String location
+    +int sold
+
+    +isEventInTheFuture();
+    +isNameValid();
+    +isDescriptionValid();
+    }
+
+    class Ticket {
+      +double price
+      +string name
+      +isPriceNameValid()
+      +isPriceValid()
+    }
+  }
+
+  namespace Data{
+    class Event {
+      +String id
+      +String name
+      +String description
+      +Date creationDate
+      +Date eventDate
+      +String location
+      +Bool isPrivate
+      +String coverImageUrl
+      +String organizerId
+      +Date updatedAt
+    }
+
+    class Ticket {
+      +string id
+      +int name
+      +int sold
+      +int capacity
+      +double price
+      +string eventId
+    }
+  }
+
+```

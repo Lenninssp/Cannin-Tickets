@@ -8,8 +8,6 @@ public class CreateEventRequestModel {
     private double priceVIP;
     private String location;
     private boolean isPrivate;
-    private int capacityGA;
-    private int capacityVIP;
     private File coverImage;
 
     public CreateEventRequestModel(
@@ -19,8 +17,6 @@ public class CreateEventRequestModel {
         double priceVIP,
         String location,
         boolean isPrivate,
-        int capacityGA,
-        int capacityVIP,
         File coverImage
     ){
         this.name = name;
@@ -29,8 +25,6 @@ public class CreateEventRequestModel {
         this.priceVIP = priceVIP;
         this.location = location;
         this.isPrivate = isPrivate;
-        this.capacityGA = capacityGA;
-        this.capacityVIP = capacityVIP;
         this.coverImage = coverImage;
     }
 
@@ -48,14 +42,6 @@ public class CreateEventRequestModel {
 
     public String getLocation() {
         return location;
-    }
-
-    public int getCapacityGA() {
-        return capacityGA;
-    }
-
-    public int getCapacityVIP() {
-        return capacityVIP;
     }
 
     public double getPriceVIP() {

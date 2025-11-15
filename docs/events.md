@@ -25,12 +25,13 @@ else user is authenticated
 AuthRepo-->>UseCase: success, the user is authenticated
 UseCase->>UserRepo: getUser(email)
 UserRepo-->>UseCase: User
-UseCase->>UseCase: User.canCreateEvents()
+UseCase->>UserRepo: User.canCreateEvents()
 alt user can't create events
   UseCase-->>Controller: error message
   Controller-->>UI: 401 + user doesnt have enough permits
   UI-->>User: display error, send to dashboard
 else user can create events
+UserRepo-->>UseCase: user can create events
 UseCase->>EventEntity: new Event(CreateEventRequest + userEmail)
 EventEntity-->>UseCase: Event
 UseCase->>EventEntity: isValid
