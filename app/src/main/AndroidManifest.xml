@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CanninTickets">
         <activity
+            android:name=".ui.EventActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.ProfilePictureActivity"
             android:exported="false" />
         <activity

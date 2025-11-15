@@ -19,6 +19,12 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/go_event"
+        android:text="Event"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/go_image"
         android:text="Image"
         />

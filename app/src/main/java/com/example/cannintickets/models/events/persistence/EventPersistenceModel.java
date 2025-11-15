@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.events.create.persistence;
+package com.example.cannintickets.models.events.persistence;
 
 import java.io.File;
 import java.time.LocalDateTime;

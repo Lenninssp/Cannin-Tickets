@@ -2,7 +2,7 @@ package com.example.cannintickets.repositories;
 
 import androidx.annotation.NonNull;
 
-import com.example.cannintickets.models.events.create.persistence.EventPersistenceModel;
+import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -11,7 +11,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class EventRepository {
 

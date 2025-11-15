@@ -25,6 +25,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.controllers.ProfilePictureController;
+import com.example.cannintickets.ui.EventActivity;
 import com.example.cannintickets.ui.ProfilePictureActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.google.firebase.FirebaseApp;
@@ -37,6 +38,7 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
     Button goImage;
     Button goSignUp;
+    Button goEvent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         goImage = findViewById(R.id.go_image);
         goSignUp = findViewById(R.id.go_signup);
+        goEvent = findViewById(R.id.go_event);
 
         goImage.setOnClickListener(V -> {
             Intent intent = new Intent(this, ProfilePictureActivity.class);
@@ -55,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         });
+
+        goEvent.setOnClickListener(V -> {
+            Intent intent = new Intent(this, EventActivity.class);
+            startActivity(intent);
+        });
+
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

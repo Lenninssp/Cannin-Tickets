@@ -5,7 +5,7 @@ import com.example.cannintickets.entities.event.EventEntity;
 import com.example.cannintickets.entities.event.EventFactory;
 import com.example.cannintickets.entities.image.CommonImageFactory;
 import com.example.cannintickets.entities.image.ImageEntity;
-import com.example.cannintickets.models.events.create.persistence.EventPersistenceModel;
+import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.models.events.create.presenter.CreateEventPresenter;
 import com.example.cannintickets.models.events.create.presenter.CreateEventResponseFormatter;
 import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
@@ -16,8 +16,6 @@ import com.example.cannintickets.repositories.UserAuthRepository;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateEventUseCase implements CreateEventInputBundary {
@@ -55,16 +53,16 @@ public class CreateEventUseCase implements CreateEventInputBundary {
         );
 
 
-        if (!image.isValid()) {
-            return CompletableFuture.completedFuture(
-                    eventPresenter.prepareFailView(
-                            new CreateEventResponseModel(
-                                    "The image is not valid",
-                                    false
-                            )
-                    )
-            );
-        }
+//        if (!image.isValid()) {
+//            return CompletableFuture.completedFuture(
+//                    eventPresenter.prepareFailView(
+//                            new CreateEventResponseModel(
+//                                    "The image is not valid",
+//                                    false
+//                            )
+//                    )
+//            );
+//        }
         // todo: make a better image upload implementation because this one aint it
 
 
