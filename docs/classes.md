@@ -152,6 +152,7 @@ classDiagram
     
     class EventEntity {
       +String id
+
       +String name
       +String description
       +Date creationDate
@@ -168,7 +169,6 @@ classDiagram
       +String tags
       +String coverImageUrl
       +String organizerId
-      +Date createdAt
       +Date updatedAt
       +toDomain() Event
     }
