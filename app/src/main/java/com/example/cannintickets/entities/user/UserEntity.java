@@ -5,7 +5,7 @@ public interface UserEntity {
     boolean isUsernameValid();
     boolean isRoleValid();
     boolean isEmailValid();
-    boolean isValid();
+    String[] isValid();
 
     String getUsername();
     String getPassword();

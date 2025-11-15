@@ -17,7 +17,7 @@ public class CommonUser implements  UserEntity{
     public boolean isPasswordValid(){
         // taken from: https://www.youtube.com/watch?v=nS83eojwKac
         // taken from: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
-        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$";
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$";;
         return password.matches(regex);
     }
 
@@ -39,8 +39,44 @@ public class CommonUser implements  UserEntity{
     }
 
     @Override
-    public boolean isValid() {
-        return isPasswordValid() && isEmailValid() && isRoleValid() && isUsernameValid();
+    public String[] isValid() {
+
+        if (!isUsernameValid()) {
+            return new String[] {
+                    "ERROR",
+                    "Invalid username. Requirements:\n" +
+                            "- 8 to 20 characters\n" +
+                            "- Only letters, numbers, dots, and underscores\n" +
+                            "- Cannot start or end with '.' or '_'\n" +
+                            "- Cannot contain consecutive dots or underscores ('..' or '__')"
+            };
+        }
+
+        if (!isEmailValid()) {
+            return new String[] {
+                    "ERROR",
+                    "Invalid email format. Must follow: name@domain.com"
+            };
+        }
+
+        if (!isPasswordValid()) {
+            return new String[] {
+                    "ERROR",
+                    "Invalid password. Requirements:\n" +
+                            "- At least 8 characters\n" +
+                            "- Must contain at least one letter\n" +
+                            "- Must contain at least one number"
+            };
+        }
+
+        if (!isRoleValid()) {
+            return new String[] {
+                    "ERROR",
+                    "Invalid role. Allowed roles: USER, ADMIN"
+            };
+        }
+
+        return new String[] {"OK", "Valid user"};
     }
 
     @Override
