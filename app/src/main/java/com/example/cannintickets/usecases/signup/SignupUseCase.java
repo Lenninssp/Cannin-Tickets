@@ -1,6 +1,5 @@
-package com.example.cannintickets.usecases;
+package com.example.cannintickets.usecases.signup;
 
-import com.example.cannintickets.boundaries.input.UserInputBoundary;
 import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;

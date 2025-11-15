@@ -53,10 +53,13 @@ public class SignUpActivity extends AppCompatActivity {
                             "Seller")
             ).thenApply(success -> {
                 Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
+                if(success.getFailed()){
+                    debugtxt.setText(success.getError());
+                }
+                else {
+                    debugtxt.setText("success");
+                }
                 return success;
-            }).exceptionally(error -> {
-                Toast.makeText(this, "Unexpected error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                return null;
             });
 
         });

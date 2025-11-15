@@ -1,4 +1,4 @@
-package com.example.cannintickets.boundaries.input;
+package com.example.cannintickets.usecases.signup;
 
 import com.example.cannintickets.models.request.UserSignupRequestModel;
 import com.example.cannintickets.models.response.UserSignupResponseModel;

@@ -12,8 +12,8 @@ public class UserAuthRepository {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public CompletableFuture<UserSignupResponseModel> currentState() {
-        return CompletableFuture.completedFuture(new UserResponseFormatter().prepareFailView("there was an error"));
+    public CompletableFuture<String> currentState() {
+        return CompletableFuture.completedFuture("error");
     }
 
     // taken from: https://firebase.google.com/docs/auth/android/start#java
