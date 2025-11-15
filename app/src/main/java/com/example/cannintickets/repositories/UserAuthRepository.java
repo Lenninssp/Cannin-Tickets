@@ -1,4 +1,5 @@
 package com.example.cannintickets.repositories;
+import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
 import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -10,7 +11,21 @@ public class UserAuthRepository {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    public CompletableFuture<String> currentState() {
+    public void logout() {
+        mAuth.signOut();
+    }
+
+    public CompletableFuture<String> login(UserLoginRequestModel user) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        mAuth.signInWithEmailAndPassword(user.getEmail(), user.getPassword())
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        future.complete("Log in was successfull");
+                    }
+                    else {
+                        future.complete("Authentications failed: " + task.getException());
+                    }
+                });
         return CompletableFuture.completedFuture("error");
     }
 

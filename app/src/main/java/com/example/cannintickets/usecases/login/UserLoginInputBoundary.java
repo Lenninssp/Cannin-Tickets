@@ -6,5 +6,5 @@ import com.example.cannintickets.models.auth.response.UserResponseModel;
 import java.util.concurrent.CompletableFuture;
 
 public interface UserLoginInputBoundary {
-    CompletableFuture<UserResponseModel> create(UserLoginRequestModel requestModel);
+    CompletableFuture<UserResponseModel> execute(UserLoginRequestModel requestModel);
 }

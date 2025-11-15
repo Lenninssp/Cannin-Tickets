@@ -12,7 +12,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
+import com.example.cannintickets.controllers.LoginController;
 import com.example.cannintickets.controllers.SignupController;
+import com.example.cannintickets.models.auth.login.request.UserLoginRequestModel;
 import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.example.cannintickets.models.auth.response.UserResponseModel;
 
@@ -31,6 +33,25 @@ public class SignUpActivity extends AppCompatActivity {
         logout = findViewById(R.id.log_out);
         currentState = findViewById(R.id.current_state);
         debugtxt = findViewById(R.id.debug_txt);
+
+        login.setOnClickListener(V -> {
+            LoginController endpoint = new LoginController();
+            CompletableFuture<UserResponseModel> response = endpoint.POST(
+                    new UserLoginRequestModel(
+                            "Lenninssp1021@gmail.com",
+                            "Sabogareto13*")
+
+            ).thenApply(success -> {
+                Toast.makeText(this, "Process completed", Toast.LENGTH_SHORT).show();
+                if(success.isSuccess()){
+                    debugtxt.setText(success.getError());
+                }
+                else {
+                    debugtxt.setText("success");
+                }
+                return success;
+            });
+        });
 
         signup.setOnClickListener(V -> {
             SignupController endpoint = new SignupController();
@@ -58,9 +79,6 @@ public class SignUpActivity extends AppCompatActivity {
             });
 
         });
-
-
-
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
