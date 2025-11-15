@@ -1,7 +1,5 @@
 package com.example.cannintickets.repositories;
-import com.example.cannintickets.models.presenters.UserResponseFormatter;
-import com.example.cannintickets.models.request.UserSignupRequestModel;
-import com.example.cannintickets.models.response.UserSignupResponseModel;
+import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.CompletableFuture;

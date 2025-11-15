@@ -1,26 +1,23 @@
 
-package com.example.cannintickets.models.response;
+package com.example.cannintickets.models.auth.response;
 
-public class UserSignupResponseModel {
+public class UserResponseModel {
     String username;
     String email;
     String role;
     String error;
-    boolean failed;
 
-    public UserSignupResponseModel(String name, String email, String role) {
+    public UserResponseModel(String name, String email, String role) {
         this.email = email;
         this.username = name;
         this.role = role;
         this.error = "";
-        this.failed = false;
     }
-    public UserSignupResponseModel(String error) {
+    public UserResponseModel(String error) {
         this.error = error;
         this.username = "";
         this.email = "";
         this.role = "";
-        this.failed = true;
     }
 
     public boolean isSuccess() {
@@ -43,7 +40,4 @@ public class UserSignupResponseModel {
         return error;
     }
 
-    public boolean getFailed() {
-        return failed;
-    }
 }

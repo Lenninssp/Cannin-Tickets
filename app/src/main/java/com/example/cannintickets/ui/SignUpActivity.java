@@ -1,11 +1,7 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,9 +13,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.SignupController;
-import com.example.cannintickets.models.presenters.UserResponseFormatter;
-import com.example.cannintickets.models.request.UserSignupRequestModel;
-import com.example.cannintickets.models.response.UserSignupResponseModel;
+import com.example.cannintickets.models.auth.signup.request.UserSignupRequestModel;
+import com.example.cannintickets.models.auth.response.UserResponseModel;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -45,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
 //                            "lenninssp1021@gmail.com",
 //                            "Sabogareto13*",
 //                            "Seller")
-            CompletableFuture<UserSignupResponseModel> response = endpoint.POST(
+            CompletableFuture<UserResponseModel> response = endpoint.POST(
                     new UserSignupRequestModel(
                             "CamiloMontero",
                             "camilo@gmail.com",
@@ -53,7 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
                             "Seller")
             ).thenApply(success -> {
                 Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
-                if(success.getFailed()){
+                if(success.isSuccess()){
                     debugtxt.setText(success.getError());
                 }
                 else {
