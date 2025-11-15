@@ -14,8 +14,8 @@ public class LoginController {
     }
 
     public CompletableFuture<UserResponseModel> POST(UserLoginRequestModel requestModel) {
-        return userInput.execute(requestModel).thenApply(success->{
-            return success;
+        return userInput.execute(requestModel).thenApply(result->{
+            return result;
         });
     }
 }
