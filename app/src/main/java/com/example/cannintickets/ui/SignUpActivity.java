@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         });
 
-        
+
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

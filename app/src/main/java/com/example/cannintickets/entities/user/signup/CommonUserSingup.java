@@ -2,13 +2,13 @@ package com.example.cannintickets.entities.user.signup;
 
 import com.example.cannintickets.entities.user.UserRole;
 
-public class CommonSignupUserSingup implements UserSingupEntity {
+public class CommonUserSingup implements UserSingupEntity {
     String username;
     String email;
     String password;
     String role;
 
-    public CommonSignupUserSingup(String username, String email, String password, String role) {
+    public CommonUserSingup(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
         this.password = password;

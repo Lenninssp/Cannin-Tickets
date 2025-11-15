@@ -1,7 +1,7 @@
 package com.example.cannintickets.usecases;
 
 import com.example.cannintickets.boundaries.input.UserInputBoundary;
-import com.example.cannintickets.entities.user.signup.CommonUserSignupSignupFactory;
+import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.models.presenters.UserPresenter;
@@ -16,7 +16,7 @@ public class SignupUseCase implements UserInputBoundary {
     final UserPresenter userPresenter;
 
     public SignupUseCase() {
-        this.userSignupFactory = new CommonUserSignupSignupFactory();
+        this.userSignupFactory = new CommonUserSignupFactory();
         this.userPresenter = new UserResponseFormatter();
     }
 
