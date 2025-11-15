@@ -1,6 +1,6 @@
-package com.example.cannintickets.entities.user;
+package com.example.cannintickets.entities.user.signup;
 
-public interface UserEntity {
+public interface UserSingupEntity {
     boolean isPasswordValid();
     boolean isUsernameValid();
     boolean isRoleValid();

@@ -1,13 +1,19 @@
 package com.example.cannintickets.repositories;
+import com.example.cannintickets.models.presenters.UserResponseFormatter;
 import com.example.cannintickets.models.request.UserSignupRequestModel;
+import com.example.cannintickets.models.response.UserSignupResponseModel;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.CompletableFuture;
-public class UserRepository {
+public class UserAuthRepository {
     final FirebaseAuth mAuth;
 
-    public UserRepository() {
+    public UserAuthRepository() {
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public CompletableFuture<UserSignupResponseModel> currentState() {
+        return CompletableFuture.completedFuture(new UserResponseFormatter().prepareFailView("there was an error"));
     }
 
     // taken from: https://firebase.google.com/docs/auth/android/start#java
