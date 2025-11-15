@@ -16,8 +16,11 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.SignupController;
+import com.example.cannintickets.models.presenters.UserResponseFormatter;
 import com.example.cannintickets.models.request.UserSignupRequestModel;
 import com.example.cannintickets.models.response.UserSignupResponseModel;
+
+import java.util.concurrent.CompletableFuture;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText name, email, password1, password2;
@@ -49,7 +52,25 @@ public class SignUpActivity extends AppCompatActivity {
         submit.setOnClickListener(V -> {
             SignupController endpoint = new SignupController();
 //            Log.d("password", password1.getText().toString() + " " + password2.getText().toString() + " " + parsedRole);
-            UserSignupResponseModel response = endpoint.POST(new UserSignupRequestModel("LenninSabogal", "lenninssp1021@gmail.com", "Sabogareto13*", "Seller"));
+//            CompletableFuture<UserSignupResponseModel> response = endpoint.POST(
+//                    new UserSignupRequestModel(
+//                            "LenninSabogal",
+//                            "lenninssp1021@gmail.com",
+//                            "Sabogareto13*",
+//                            "Seller")
+            CompletableFuture<UserSignupResponseModel> response = endpoint.POST(
+                    new UserSignupRequestModel(
+                            "CamiloMontero",
+                            "camilo@gmail.com",
+                            "Sabogareto13*",
+                            "Seller")
+            ).thenApply(success -> {
+                Toast.makeText(this, "User created", Toast.LENGTH_SHORT).show();
+                return success;
+            }).exceptionally(error -> {
+                Toast.makeText(this, "Unexpected error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                return null;
+            });
 
 //            if (password1.getText().toString().equals(password2.getText().toString())){
 //                UserSignupResponseModel response = endpoint.POST(new UserSignupRequestModel(name.getText().toString(), email.getText().toString(), password1.getText().toString(), parsedRole));

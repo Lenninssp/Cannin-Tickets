@@ -10,6 +10,6 @@ public class UserResponseFormatter implements UserPresenter {
 
     @Override
     public UserSignupResponseModel prepareFailView(String error) {
-        throw new Error(error);
+        return new UserSignupResponseModel(error);
     }
 }

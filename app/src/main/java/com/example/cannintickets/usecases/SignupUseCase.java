@@ -9,7 +9,7 @@ import com.example.cannintickets.models.presenters.UserResponseFormatter;
 import com.example.cannintickets.models.request.UserSignupRequestModel;
 import com.example.cannintickets.models.response.UserSignupResponseModel;
 import com.example.cannintickets.repositories.UserRepository;
-import com.example.cannintickets.services.AuthService;
+import java.util.concurrent.CompletableFuture;
 
 public class SignupUseCase implements UserInputBoundary {
     final UserFactory userFactory;
@@ -21,15 +21,8 @@ public class SignupUseCase implements UserInputBoundary {
     }
 
     @Override
-    public UserSignupResponseModel create(UserSignupRequestModel requestModel) {
-
-        System.out.println("[INFO] Starting user signup flow...");
-        System.out.println("[DEBUG] Incoming request model: username=" + requestModel.getUsername()
-                + ", email=" + requestModel.getEmail()
-                + ", role=" + requestModel.getRole());
-
+    public CompletableFuture<UserSignupResponseModel> create(UserSignupRequestModel requestModel) {
         // todo: check if user doesn't exist
-        System.out.println("[INFO] Creating user entity from factory...");
         UserEntity user = userFactory.create(
                 requestModel.getUsername(),
                 requestModel.getEmail(),
@@ -37,16 +30,12 @@ public class SignupUseCase implements UserInputBoundary {
                 requestModel.getRole()
         );
 
-        System.out.println("[DEBUG] User entity created: username=" + user.getUsername()
-                + ", email=" + user.getEmail()
-                + ", role=" + user.getRole());
-
-        if (!user.isValid()) {
-            System.out.println("[WARN] User validation failed. Rejecting signup.");
-            return userPresenter.prepareFailView("The user is not valid");
+        String[] userIsValid = user.isValid();
+        if (userIsValid[0].equals("ERROR")) {
+            UserSignupResponseModel response = userPresenter.prepareFailView(userIsValid[1]);
+            return CompletableFuture.completedFuture(response);
         }
 
-        System.out.println("[INFO] User is valid. Preparing repository request model...");
         UserSignupRequestModel userRsModel = new UserSignupRequestModel(
                 user.getUsername(),
                 user.getEmail(),
@@ -54,26 +43,15 @@ public class SignupUseCase implements UserInputBoundary {
                 user.getRole()
         );
 
-        System.out.println("[DEBUG] Repository request model prepared. Saving to database...");
-
         UserRepository repo = new UserRepository();
-        String[] response = repo.save(userRsModel);
+        return repo.save(userRsModel).thenApply(successMessage -> {
+            UserSignupResponseModel accountResponseModel = new UserSignupResponseModel(user.getUsername(), user.getEmail(), user.getRole());
+            return userPresenter.prepareSuccessView(accountResponseModel);
 
-        if (response[0].equals("ERROR")) {
-            System.out.println("[ERROR] Repository failed: " + response[1]);
-            return userPresenter.prepareFailView(response[1]);
-        }
+        }).exceptionally(error -> {
+            return userPresenter.prepareFailView(error.getMessage());
+        });
 
-        System.out.println("[INFO] Repository save successful. Preparing response model...");
 
-        UserSignupResponseModel accountResponseModel =
-                new UserSignupResponseModel(user.getUsername(), user.getEmail(), user.getRole());
-
-        System.out.println("[DEBUG] Response model created. username=" + accountResponseModel.getUsername()
-                + ", email=" + accountResponseModel.getEmail()
-                + ", role=" + accountResponseModel.getRole());
-
-        System.out.println("[INFO] Returning success view to presenter.");
-        return userPresenter.prepareSuccessView(accountResponseModel);
     }
 }
