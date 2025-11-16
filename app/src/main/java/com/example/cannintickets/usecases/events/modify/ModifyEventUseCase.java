@@ -7,6 +7,7 @@ import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.models.events.modify.ModifyEventPresenter;
+
 import com.example.cannintickets.models.events.modify.ModifyEventReponseFormatter;
 import com.example.cannintickets.models.events.modify.ModifyEventRequestModel;
 import com.example.cannintickets.models.events.modify.ModifyEventResponseModel;
@@ -106,8 +107,6 @@ public class ModifyEventUseCase implements  ModifyEventInputBoundary{
                             )
                     );
                 }
-                System.out.println("REQUEST MODEL ID 1 = " + eventToModify.getId());
-
                 EventPersistenceModel updateModel = new EventPersistenceModel(
                         eventToModify.getName(),
                         eventToModify.getDescription(),

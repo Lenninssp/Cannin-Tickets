@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.events.CreateEventController;
+import com.example.cannintickets.controllers.events.DeleteEventController;
 import com.example.cannintickets.controllers.events.GetEventsController;
 import com.example.cannintickets.controllers.events.ModifyEventController;
 import com.example.cannintickets.models.events.create.CreateEventRequestModel;
@@ -23,7 +24,7 @@ import com.example.cannintickets.models.events.modify.ModifyEventRequestModel;
 import java.io.File;
 
 public class EventActivity extends AppCompatActivity {
-    Button createEvent, getEvents, updateEvent;
+    Button createEvent, getEvents, updateEvent, deleteEvent;
     TextView debugText;
     EditText modId;
     @Override
@@ -38,6 +39,7 @@ public class EventActivity extends AppCompatActivity {
         debugText = findViewById(R.id.events_text);
 
         updateEvent = findViewById(R.id.modify_event);
+        deleteEvent = findViewById(R.id.delete_event);
 
         modId = findViewById(R.id.mod_id);
 
@@ -90,7 +92,6 @@ public class EventActivity extends AppCompatActivity {
 
                 String displayText = sb.toString();
 
-                // Switch to UI thread
                 runOnUiThread(() -> {
                     debugText.setText(displayText);
                 });
@@ -98,6 +99,21 @@ public class EventActivity extends AppCompatActivity {
                 return null;
             });
 
+        });
+
+        deleteEvent.setOnClickListener(V -> {
+            DeleteEventController endpoint = new DeleteEventController();
+            endpoint.DELETE(modId.getText().toString()).thenApply(event -> {
+                if (event.isSuccessful()){
+                    Toast.makeText(this, "The event was Deleted", Toast.LENGTH_SHORT).show();
+                    System.out.println("The event creation was deleted successful");
+                }
+                else {
+                    Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
+                    System.out.println(event.getMessage());
+                }
+                return event;
+            });;
         });
 
         createEvent.setOnClickListener(V -> {
