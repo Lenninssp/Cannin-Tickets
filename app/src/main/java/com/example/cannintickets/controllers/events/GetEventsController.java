@@ -15,8 +15,8 @@ public class GetEventsController {
     }
 
     public CompletableFuture<List<GetEventResponseModel>> GET() {
-        return userInput.execute().thenApply(retult -> {
-            return retult;
+        return userInput.execute().thenApply(result -> {
+            return result;
         });
     }
 }

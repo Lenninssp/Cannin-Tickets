@@ -140,8 +140,9 @@ public class ModifyTicketUseCase implements ModifyTicketInputBoundary {
                 }).exceptionally(error -> {
                     return presenter.prepareFailView(error.getMessage());
                 });
+            }).exceptionally( error -> {
+               return presenter.prepareFailView(error.getMessage());
             });
-
         }).exceptionally(error -> {
             return presenter.prepareFailView(error.getMessage());
         });
