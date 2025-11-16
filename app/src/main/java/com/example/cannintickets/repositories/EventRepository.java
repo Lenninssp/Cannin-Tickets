@@ -67,7 +67,6 @@ public class EventRepository {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        System.out.println(e.toString());
                         future.complete(e.toString());
                     }
                 });
