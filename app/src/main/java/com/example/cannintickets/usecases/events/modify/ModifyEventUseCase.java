@@ -73,21 +73,27 @@ public class ModifyEventUseCase implements ModifyEventInputBoundary {
                 );
 
 
-                if (requestModel.getName() != null)
-                    eventToModify.updateName(requestModel.getName());
+                try {
+                    if (requestModel.getName() != null)
+                        eventToModify.updateName(requestModel.getName());
 
-                if (requestModel.getDescription() != null)
-                    eventToModify.updateDescription(requestModel.getDescription());
+                    if (requestModel.getDescription() != null)
+                        eventToModify.updateDescription(requestModel.getDescription());
 
-                if (requestModel.getLocation() != null)
-                    eventToModify.updateLocation(requestModel.getLocation());
+                    if (requestModel.getLocation() != null)
+                        eventToModify.updateLocation(requestModel.getLocation());
 
-                if (requestModel.getEventDate() != null)
-                    eventToModify.updateDate(LocalDateTime.parse(requestModel.getEventDate()));
+                    if (requestModel.getEventDate() != null)
+                        eventToModify.updateDate(LocalDateTime.parse(requestModel.getEventDate()));
 
-                if (requestModel.isPrivate() != null)
-                    eventToModify.updatePrivacy(requestModel.isPrivate());
+                    if (requestModel.isPrivate() != null)
+                        eventToModify.updatePrivacy(requestModel.isPrivate());
 
+                } catch (IllegalArgumentException e) {
+                    return CompletableFuture.completedFuture(
+                            eventPresenter.prepareFailView(e.getMessage())
+                    );
+                }
                 if (eventToModify.isValid()[0].equals("ERROR")) {
                     return CompletableFuture.completedFuture(eventPresenter.prepareFailView("The new event is not valid"));
                 }
@@ -107,7 +113,9 @@ public class ModifyEventUseCase implements ModifyEventInputBoundary {
                     return eventPresenter.prepareFailView(error.getMessage());
                 });
             });
-        }).exceptionally(error -> {return eventPresenter.prepareFailView(error.getMessage());});
+        }).exceptionally(error -> {
+            return eventPresenter.prepareFailView(error.getMessage());
+        });
     }
 
 
