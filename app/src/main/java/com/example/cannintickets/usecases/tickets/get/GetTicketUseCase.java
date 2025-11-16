@@ -93,12 +93,26 @@ public class GetTicketUseCase implements GetTicketInputBoundary{
                                 ticket.getSold()
                         );
                         if (ticketEntity.isValid()[0].equals("SUCCESS")){
-                            returnList.add(new GetTicketResponseModel(
-                                    ticket.getId(),
-                                    ticket.getName(),
-                                    ticket.getPrice(),
-                                    ticket.getEventId()
-                            ));
+                            if(userEntity.canCreateEvents()) {
+                                returnList.add(new GetTicketResponseModel(
+                                        ticket.getId(),
+                                        ticket.getName(),
+                                        ticket.getPrice(),
+                                        ticket.getEventId(),
+                                        ticket.getCapacity(),
+                                        ticket.getSold()
+                                ));
+                            }else {
+                                returnList.add(new GetTicketResponseModel(
+                                        ticket.getId(),
+                                        ticket.getName(),
+                                        ticket.getPrice(),
+                                        ticket.getEventId(),
+                                        null,
+                                        null
+                                ));
+                            }
+
                         }
                     }
                     return presenter.prepareSuccessView(returnList);
