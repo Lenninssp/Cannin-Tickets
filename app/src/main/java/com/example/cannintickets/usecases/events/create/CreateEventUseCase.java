@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.events;
+package com.example.cannintickets.usecases.events.create;
 
 import com.example.cannintickets.entities.event.CommonEventFactory;
 import com.example.cannintickets.entities.event.EventEntity;
@@ -14,7 +14,6 @@ import com.example.cannintickets.models.events.create.presenter.CreateEventPrese
 import com.example.cannintickets.models.events.create.presenter.CreateEventResponseFormatter;
 import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
 import com.example.cannintickets.models.events.create.response.CreateEventResponseModel;
-import com.example.cannintickets.models.user.persistence.UserPersistenceModel;
 import com.example.cannintickets.repositories.EventRepository;
 import com.example.cannintickets.repositories.ImageRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;

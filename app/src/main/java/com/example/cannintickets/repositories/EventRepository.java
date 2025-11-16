@@ -3,12 +3,18 @@ package com.example.cannintickets.repositories;
 import androidx.annotation.NonNull;
 
 import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +24,30 @@ public class EventRepository {
 
     public EventRepository() {
         db = FirebaseFirestore.getInstance();
+    }
+
+    public CompletableFuture<List<EventPersistenceModel>> getPublic() {
+        CompletableFuture<List<EventPersistenceModel>> future = new CompletableFuture<>();
+        db.collection("Event")
+                .whereEqualTo("isPrivate", false)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<EventPersistenceModel> loopList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                EventPersistenceModel event = document.toObject(EventPersistenceModel.class);
+                                event.setId(document.getId());
+                                loopList.add(event);
+                            }
+                            future.complete(loopList);
+                        } else {
+                            future.complete(null);
+                        }
+                    }
+                });
+        return future;
     }
 
     public CompletableFuture<String> create(EventPersistenceModel event) {

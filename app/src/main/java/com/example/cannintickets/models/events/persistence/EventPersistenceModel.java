@@ -4,16 +4,17 @@ import java.io.File;
 import java.time.LocalDateTime;
 
 public class EventPersistenceModel {
+    private String id;
+    private String name;
+    private String description;
+    private String creationDate; // ISO 8601 string
+    private String eventDate;    // ISO 8601 string
+    private String location;
+    private boolean isPrivate;
+    private String coverImage;
+    private String organizerId;
 
-    private final String name;
-    private final String description;
-    private final String creationDate; // ISO 8601 string
-    private final String eventDate;    // ISO 8601 string
-    private final String location;
-    private final boolean isPrivate;
-    private final String coverImage;
-    private final String organizerId;
-
+    public EventPersistenceModel() {}
     public EventPersistenceModel(
             String name,
             String description,
@@ -63,5 +64,12 @@ public class EventPersistenceModel {
 
     public String getOrganizerId() {
         return organizerId;
+    }
+    public String getId()  {
+        return  id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

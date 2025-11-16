@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.events;
+package com.example.cannintickets.usecases.events.create;
 
 import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
 import com.example.cannintickets.models.events.create.response.CreateEventResponseModel;

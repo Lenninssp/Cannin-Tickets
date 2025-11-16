@@ -2,6 +2,7 @@ package com.example.cannintickets.ui;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -12,12 +13,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.events.CreateEventController;
+import com.example.cannintickets.controllers.events.GetEventsController;
 import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
+import com.example.cannintickets.models.events.get.response.GetEventResponseModel;
 
 import java.io.File;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class EventActivity extends AppCompatActivity {
-    Button createEvent;
+    Button createEvent, getEvents;
+    TextView debugText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,7 +31,43 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
         createEvent = findViewById(R.id.create_event);
+        getEvents = findViewById(R.id.get_events);
 
+        debugText = findViewById(R.id.events_text);
+
+        getEvents.setOnClickListener(v -> {
+
+            GetEventsController endpoint = new GetEventsController();
+
+            endpoint.GET().thenApply(events -> {
+
+                StringBuilder sb = new StringBuilder();
+
+                for (GetEventResponseModel event : events) {
+                    System.out.println(event.getId());
+                    if (event.hasError()) {
+                        sb.append("❌ Error: ").append(event.getError()).append("\n\n");
+                    } else {
+                        sb.append(" ID: ").append(event.getId()).append("\n")
+                                .append("📌 Name: ").append(event.getName()).append("\n")
+                                .append("📄 Description: ").append(event.getDescription()).append("\n")
+                                .append("📍 Location: ").append(event.getLocation()).append("\n")
+                                .append("🗓 Date: ").append(event.getEventDate()).append("\n");
+                        sb.append("\n--------------------------\n\n");
+                    }
+                }
+
+                String displayText = sb.toString();
+
+                // Switch to UI thread
+                runOnUiThread(() -> {
+                    debugText.setText(displayText);
+                });
+
+                return null;
+            });
+
+        });
 
         createEvent.setOnClickListener(V -> {
             CreateEventController endpoint = new CreateEventController();
@@ -35,7 +77,7 @@ public class EventActivity extends AppCompatActivity {
                             "Respects for the death guy",
                             "2027-04-20T18:30",
                             "Any city, Austria",
-                            true,
+                            false,
                             new File("empty")
                     )
             ).thenApply(event -> {

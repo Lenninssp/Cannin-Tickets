@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
             LoginController endpoint = new LoginController();
             endpoint.POST(
                     new UserLoginRequestModel(
-                            "lenninpoderoso@gmail.com",
+                            "cacorra@gmail.com",
                             "Sabogareto13*")
 
             ).thenApply(success -> {
@@ -78,10 +78,10 @@ public class SignUpActivity extends AppCompatActivity {
 //                            "Seller")
             endpoint.POST(
                     new UserSignupRequestModel(
-                            "el_poderoro",
-                            "lenninpoderoso@gmail.com",
+                            "cacorroCocarra",
+                            "cacorra@gmail.com",
                             "Sabogareto13*",
-                            "Seller")
+                            "Buyer")
             ).thenApply(success -> {
                 Toast.makeText(this, success.toString(), Toast.LENGTH_SHORT).show();
                 if(!success.isSuccess()){

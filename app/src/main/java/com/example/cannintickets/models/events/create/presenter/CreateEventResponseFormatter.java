@@ -4,8 +4,12 @@ import com.example.cannintickets.models.events.create.response.CreateEventRespon
 
 public class CreateEventResponseFormatter implements CreateEventPresenter{
     @Override
-    public CreateEventResponseModel prepareSuccessView(CreateEventResponseModel response) { return  response; }
+    public CreateEventResponseModel prepareSuccessView(CreateEventResponseModel response) {
+        return  response;
+    }
 
     @Override
-    public CreateEventResponseModel prepareFailView(CreateEventResponseModel response) { return response; }
+    public CreateEventResponseModel prepareFailView(CreateEventResponseModel response) {
+        return response;
+    }
 }
