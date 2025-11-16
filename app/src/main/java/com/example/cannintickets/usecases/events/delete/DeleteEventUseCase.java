@@ -37,7 +37,6 @@ public class DeleteEventUseCase implements DeleteEventInputBoundary {
 
     public CompletableFuture<SimpleResponseModel> execute(String id) {
 
-        List<GetEventResponseModel> returnList = new ArrayList<>();
         FirebaseUser user = authRepo.currentUser();
         if (user == null) {
             return CompletableFuture.completedFuture(
