@@ -104,14 +104,14 @@ public class CreateTicketUseCase implements CreateTicketInputBoundary{
                 return ticketRepo.create(ticketPersisted).thenApply(successMessage -> {
                     return ticketPresenter.prepareSuccessView("The ticket was successfully created");
                 }).exceptionally(errorMessage -> {
-                    return ticketPresenter.prepareFailView("There was an error creating the ticket " + errorMessage);
+                    return ticketPresenter.prepareFailView("There was an error creating the ticket " + errorMessage.getMessage());
                 });
             }).exceptionally(error -> {
-                return  ticketPresenter.prepareFailView("The event could not be found in the db");
+                return  ticketPresenter.prepareFailView("The event could not be found in the db: " + error.getMessage());
             });
 
         }).exceptionally(error -> {
-            return  ticketPresenter.prepareFailView("The user could not be found in the db");
+            return  ticketPresenter.prepareFailView("The user could not be found in the db: " + error.getMessage());
         });
     }
 
