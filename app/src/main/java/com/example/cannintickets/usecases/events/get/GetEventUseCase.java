@@ -65,7 +65,7 @@ public class GetEventUseCase implements GetEventInputBoundary{
                     ));
                 }
             }
-            return returnList;
+            return eventPresenter.prepareSuccessView(returnList);
         }).exceptionally(error -> {
             return eventPresenter.prepareFailView(
                             "There was an error: " + error.getMessage()

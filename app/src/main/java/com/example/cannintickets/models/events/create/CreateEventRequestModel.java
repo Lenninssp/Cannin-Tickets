@@ -2,12 +2,12 @@ package com.example.cannintickets.models.events.create;
 
 import java.io.File;
 public class CreateEventRequestModel {
-    private String name;
-    private String description;
-    private String eventDate;
-    private String location;
-    private boolean isPrivate;
-    private File coverImage;
+    private final String name;
+    private final String description;
+    private final String eventDate;
+    private final String location;
+    private final boolean isPrivate;
+    private final File coverImage;
 
     public CreateEventRequestModel(
             String name,
