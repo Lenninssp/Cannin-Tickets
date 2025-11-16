@@ -57,7 +57,7 @@ public class GetEventUseCase implements GetEventInputBoundary{
                 );
 
                 // todo: return event image here
-                if (EventValidator.validateEvent(eventEntity)[0].equals("SUCCESS")){
+                if (eventEntity.isValid()[0].equals("SUCCESS")){
                     returnList.add(new GetEventResponseModel(
                             event.getId(),
                             event.getName(),
