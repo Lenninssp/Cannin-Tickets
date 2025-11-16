@@ -10,14 +10,12 @@ public class TicketPersistenceModel {
 
     public TicketPersistenceModel(){}
     public TicketPersistenceModel(
-        String id,
         String name,
         String eventId,
         int capacity,
         int sold,
         double price
     ){
-        this.id = id;
         this.name = name;
         this.eventId = eventId;
         this.capacity = capacity;

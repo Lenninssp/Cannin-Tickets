@@ -101,13 +101,13 @@ public class CreateEventUseCase implements CreateEventInputBoundary {
                     ""
             );
 
-            return repo.create(eventPersisted).thenApply(successMesssage -> {
+            return repo.create(eventPersisted).thenApply(successMessage -> {
                 return eventPresenter.prepareSuccessView("The event was created successfully");
             }).exceptionally(errorMessage -> {
-                return eventPresenter.prepareSuccessView(errorMessage.getMessage());
+                return eventPresenter.prepareFailView(errorMessage.getMessage());
             });
         }).exceptionally(error -> {
-            return  eventPresenter.prepareFailView("The user could not be found in the db");
+            return  eventPresenter.prepareFailView(error.getMessage());
         });
 
 
