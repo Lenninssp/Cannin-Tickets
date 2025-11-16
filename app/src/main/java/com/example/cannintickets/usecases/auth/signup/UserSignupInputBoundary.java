@@ -1,7 +1,7 @@
 package com.example.cannintickets.usecases.auth.signup;
 
-import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
-import com.example.cannintickets.models.user.auth.response.UserResponseModel;
+import com.example.cannintickets.models.user.auth.UserSignupRequestModel;
+import com.example.cannintickets.models.user.auth.UserResponseModel;
 
 import java.util.concurrent.CompletableFuture;
 

@@ -1,7 +1,7 @@
 package com.example.cannintickets.controllers.auth;
 
-import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
-import com.example.cannintickets.models.user.auth.response.UserResponseModel;
+import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.UserResponseModel;
 import com.example.cannintickets.usecases.auth.login.LoginUseCase;
 import com.example.cannintickets.usecases.auth.login.UserLoginInputBoundary;
 

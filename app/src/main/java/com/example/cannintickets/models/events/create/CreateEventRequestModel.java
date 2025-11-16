@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.events.create.request;
+package com.example.cannintickets.models.events.create;
 
 import java.io.File;
 public class CreateEventRequestModel {

@@ -1,7 +1,7 @@
 package com.example.cannintickets.usecases.events.create;
 
-import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
-import com.example.cannintickets.models.events.create.response.CreateEventResponseModel;
+import com.example.cannintickets.models.events.create.CreateEventRequestModel;
+import com.example.cannintickets.models.events.create.CreateEventResponseModel;
 
 import java.util.concurrent.CompletableFuture;
 

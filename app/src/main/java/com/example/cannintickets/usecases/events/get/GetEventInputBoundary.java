@@ -1,6 +1,6 @@
 package com.example.cannintickets.usecases.events.get;
 
-import com.example.cannintickets.models.events.get.response.GetEventResponseModel;
+import com.example.cannintickets.models.events.get.GetEventResponseModel;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

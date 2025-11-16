@@ -1,6 +1,4 @@
-package com.example.cannintickets.models.events.get.presenter;
-
-import com.example.cannintickets.models.events.get.response.GetEventResponseModel;
+package com.example.cannintickets.models.events.get;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.cannintickets.repositories;
-import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
-import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
+import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.UserSignupRequestModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.events.get.response;
+package com.example.cannintickets.models.events.get;
 
 import java.io.File;
 

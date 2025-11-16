@@ -1,6 +1,4 @@
-package com.example.cannintickets.models.user.auth.presenters;
-
-import com.example.cannintickets.models.user.auth.response.UserResponseModel;
+package com.example.cannintickets.models.user.auth;
 
 public class UserResponseFormatter implements UserPresenter {
     @Override

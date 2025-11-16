@@ -1,4 +1,4 @@
-package com.example.cannintickets.models.user.auth.request;
+package com.example.cannintickets.models.user.auth;
 
 public class UserLoginRequestModel {
     String email;

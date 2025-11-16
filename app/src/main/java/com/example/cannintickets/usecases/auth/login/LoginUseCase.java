@@ -3,10 +3,10 @@ package com.example.cannintickets.usecases.auth.login;
 import com.example.cannintickets.entities.user.login.CommonUserLoginFactory;
 import com.example.cannintickets.entities.user.login.UserLoginEntity;
 import com.example.cannintickets.entities.user.login.UserLoginFactory;
-import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
-import com.example.cannintickets.models.user.auth.presenters.UserPresenter;
-import com.example.cannintickets.models.user.auth.presenters.UserResponseFormatter;
-import com.example.cannintickets.models.user.auth.response.UserResponseModel;
+import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.UserPresenter;
+import com.example.cannintickets.models.user.auth.UserResponseFormatter;
+import com.example.cannintickets.models.user.auth.UserResponseModel;
 import com.example.cannintickets.repositories.UserAuthRepository;
 
 import java.util.concurrent.CompletableFuture;

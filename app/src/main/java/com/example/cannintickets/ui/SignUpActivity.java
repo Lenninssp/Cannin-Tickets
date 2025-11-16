@@ -15,8 +15,8 @@ import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.auth.LoginController;
 import com.example.cannintickets.controllers.auth.LogoutController;
 import com.example.cannintickets.controllers.auth.SignupController;
-import com.example.cannintickets.models.user.auth.request.UserLoginRequestModel;
-import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
+import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
+import com.example.cannintickets.models.user.auth.UserSignupRequestModel;
 
 public class SignUpActivity extends AppCompatActivity {
     Button signup, login, logout, currentState;

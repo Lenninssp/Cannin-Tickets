@@ -1,6 +1,4 @@
-package com.example.cannintickets.models.events.create.presenter;
-
-import com.example.cannintickets.models.events.create.response.CreateEventResponseModel;
+package com.example.cannintickets.models.events.create;
 
 public interface CreateEventPresenter {
     CreateEventResponseModel prepareSuccessView(CreateEventResponseModel message);

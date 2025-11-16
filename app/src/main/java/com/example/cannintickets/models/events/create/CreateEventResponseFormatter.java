@@ -1,6 +1,4 @@
-package com.example.cannintickets.models.events.create.presenter;
-
-import com.example.cannintickets.models.events.create.response.CreateEventResponseModel;
+package com.example.cannintickets.models.events.create;
 
 public class CreateEventResponseFormatter implements CreateEventPresenter{
     @Override

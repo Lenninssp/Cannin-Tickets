@@ -1,6 +1,6 @@
 package com.example.cannintickets.controllers.events;
 
-import com.example.cannintickets.models.events.get.response.GetEventResponseModel;
+import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.usecases.events.get.GetEventInputBoundary;
 import com.example.cannintickets.usecases.events.get.GetEventUseCase;
 

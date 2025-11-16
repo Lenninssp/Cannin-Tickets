@@ -1,5 +1,5 @@
 
-package com.example.cannintickets.models.user.auth.response;
+package com.example.cannintickets.models.user.auth;
 
 public class UserResponseModel {
     String username;

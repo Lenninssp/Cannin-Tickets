@@ -14,12 +14,10 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.events.CreateEventController;
 import com.example.cannintickets.controllers.events.GetEventsController;
-import com.example.cannintickets.models.events.create.request.CreateEventRequestModel;
-import com.example.cannintickets.models.events.get.response.GetEventResponseModel;
+import com.example.cannintickets.models.events.create.CreateEventRequestModel;
+import com.example.cannintickets.models.events.get.GetEventResponseModel;
 
 import java.io.File;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class EventActivity extends AppCompatActivity {
     Button createEvent, getEvents;
