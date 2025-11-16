@@ -9,6 +9,7 @@ public class GetEventResponseModel {
     private String eventDate;
     private String location;
     private File coverImage;
+    private String organizerId;
 
     private String error;
 
@@ -23,7 +24,8 @@ public class GetEventResponseModel {
             String description,
             String eventDate,
             String location,
-            File coverImage
+            File coverImage,
+            String organizerId
     ){
         this.id = id;
         this.name = name;
@@ -31,6 +33,7 @@ public class GetEventResponseModel {
         this.location = location;
         this.coverImage = coverImage;
         this.description = description;
+        this.organizerId = organizerId;
     }
 
     public boolean hasError() {
@@ -64,5 +67,9 @@ public class GetEventResponseModel {
 
     public String getId() {
         return id;
+    }
+
+    public String getOrganizerId() {
+        return organizerId;
     }
 }

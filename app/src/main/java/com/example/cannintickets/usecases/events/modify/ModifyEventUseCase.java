@@ -6,7 +6,6 @@ import com.example.cannintickets.entities.event.EventFactory;
 import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
-import com.example.cannintickets.models.events.create.CreateEventResponseModel;
 import com.example.cannintickets.models.events.modify.ModifyEventPresenter;
 import com.example.cannintickets.models.events.modify.ModifyEventReponseFormatter;
 import com.example.cannintickets.models.events.modify.ModifyEventRequestModel;
@@ -17,7 +16,6 @@ import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
@@ -72,13 +70,15 @@ public class ModifyEventUseCase implements  ModifyEventInputBoundary{
             }
 
             return eventRepo.get(requestModel.getId()).thenCompose(successEvent -> {
+                System.out.println("REQUEST MODEL ID 0 = " + successEvent.getId());
 
-                EventEntity eventToModify = eventFactory.create(
+                EventEntity eventToModify = eventFactory.createFromPersistence(
+                        successEvent.getId(),
                         successEvent.getName(),
                         successEvent.getDescription(),
                         LocalDateTime.parse(successEvent.getEventDate()),
                         successEvent.getLocation(),
-                        successEvent.isPrivate(),
+                        successEvent.getIsPrivate(),
                         successEvent.getOrganizerId()
                 );
 
@@ -106,6 +106,7 @@ public class ModifyEventUseCase implements  ModifyEventInputBoundary{
                             )
                     );
                 }
+                System.out.println("REQUEST MODEL ID 1 = " + eventToModify.getId());
 
                 EventPersistenceModel updateModel = new EventPersistenceModel(
                         eventToModify.getName(),
@@ -136,7 +137,7 @@ public class ModifyEventUseCase implements  ModifyEventInputBoundary{
         }).exceptionally(error -> {
             return eventPresenter.prepareFailView(
                     new ModifyEventResponseModel(
-                            "The event you want to edit doesn't exist",
+                            error.getMessage(),
                             false
                     )
             );

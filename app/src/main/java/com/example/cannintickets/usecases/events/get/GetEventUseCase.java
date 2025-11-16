@@ -64,7 +64,8 @@ public class GetEventUseCase implements GetEventInputBoundary{
                             event.getDescription(),
                             event.getEventDate(),
                             event.getLocation(),
-                            new File("")
+                            new File(""),
+                            event.getOrganizerId()
                     ));
                 }
             }

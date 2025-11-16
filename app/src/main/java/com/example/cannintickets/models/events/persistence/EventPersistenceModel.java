@@ -10,9 +10,12 @@ public class EventPersistenceModel {
     private String creationDate; // ISO 8601 string
     private String eventDate;    // ISO 8601 string
     private String location;
-    private boolean isPrivate;
+    private Boolean isPrivate;
     private String coverImage;
     private String organizerId;
+
+    private String organizerImageUrl;
+
 
     public EventPersistenceModel() {}
     public EventPersistenceModel(
@@ -20,7 +23,7 @@ public class EventPersistenceModel {
             String description,
             String eventDateISO,
             String location,
-            boolean isPrivate,
+            Boolean isPrivate,
             String coverImage,
             String organizerId,
             String id
@@ -56,7 +59,7 @@ public class EventPersistenceModel {
         return location;
     }
 
-    public boolean isPrivate() {
+    public boolean getIsPrivate() {
         return isPrivate;
     }
 
@@ -74,4 +77,6 @@ public class EventPersistenceModel {
     public void setId(String id) {
         this.id = id;
     }
+    public String getOrganizerImageUrl() { return organizerImageUrl; }
+
 }

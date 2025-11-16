@@ -53,24 +53,25 @@ public class EventRepository {
         newEvent.put("description", eventPersistenceModel.getDescription());
         newEvent.put("creationDate", eventPersistenceModel.getCreationDate());
         newEvent.put("eventDate", eventPersistenceModel.getEventDate());
-        newEvent.put("isPrivate", eventPersistenceModel.isPrivate());
+        newEvent.put("isPrivate", eventPersistenceModel.getIsPrivate());
         newEvent.put("location", eventPersistenceModel.getLocation());
         newEvent.put("organizerId", eventPersistenceModel.getOrganizerId());
         newEvent.put("organizerImageUrl", eventPersistenceModel.getCoverImage());
-        db.collection("Event").document(eventPersistenceModel.getId()).update()
+        db.collection("Event").document(eventPersistenceModel.getId()).update(newEvent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        future.complete("The event was successfully created");
+                        future.complete("The event was successfully modified");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        System.out.println(e.toString());
                         future.complete(e.toString());
                     }
                 });
-
+        return future;
     }
 
     public CompletableFuture<EventPersistenceModel> get(String id) {
@@ -81,12 +82,16 @@ public class EventRepository {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
-                            future.complete(document.toObject(EventPersistenceModel.class));
+                            EventPersistenceModel event = document.toObject(EventPersistenceModel.class);
+                            assert event != null;
+                            event.setId(document.getId());
+                            future.complete(event);
                         } else {
                             future.complete(null);
                         }
                     }
                 });
+        return future;
     }
 
 
@@ -122,7 +127,7 @@ public class EventRepository {
         newEvent.put("description", event.getDescription());
         newEvent.put("creationDate", event.getCreationDate());
         newEvent.put("eventDate", event.getEventDate());
-        newEvent.put("isPrivate", event.isPrivate());
+        newEvent.put("isPrivate", event.getIsPrivate());
         newEvent.put("location", event.getLocation());
         newEvent.put("organizerId", event.getOrganizerId());
         newEvent.put("organizerImageUrl", event.getCoverImage());
