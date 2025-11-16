@@ -1,7 +1,7 @@
 package com.example.cannintickets.controllers.events;
 
 import com.example.cannintickets.models.events.modify.ModifyEventRequestModel;
-import com.example.cannintickets.models.events.modify.ModifyEventResponseModel;
+import com.example.cannintickets.models.simple.SimpleResponseModel;
 import com.example.cannintickets.usecases.events.modify.ModifyEventInputBoundary;
 import com.example.cannintickets.usecases.events.modify.ModifyEventUseCase;
 
@@ -14,7 +14,7 @@ public class ModifyEventController {
         this.userInput = new ModifyEventUseCase();
     }
 
-    public CompletableFuture<ModifyEventResponseModel> POST(ModifyEventRequestModel requestModel){
+    public CompletableFuture<SimpleResponseModel> POST(ModifyEventRequestModel requestModel){
         return userInput.execute(requestModel).thenApply(result -> {
             return result;
         });

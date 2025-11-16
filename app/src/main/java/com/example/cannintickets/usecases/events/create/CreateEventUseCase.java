@@ -10,10 +10,10 @@ import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
-import com.example.cannintickets.models.events.create.CreateEventPresenter;
-import com.example.cannintickets.models.events.create.CreateEventResponseFormatter;
 import com.example.cannintickets.models.events.create.CreateEventRequestModel;
-import com.example.cannintickets.models.events.create.CreateEventResponseModel;
+import com.example.cannintickets.models.simple.SimplePresenter;
+import com.example.cannintickets.models.simple.SimpleResponseFormatter;
+import com.example.cannintickets.models.simple.SimpleResponseModel;
 import com.example.cannintickets.repositories.EventRepository;
 import com.example.cannintickets.repositories.ImageRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
@@ -23,19 +23,19 @@ import com.google.firebase.auth.FirebaseUser;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
-public class CreateEventUseCase implements CreateEventInputBundary {
+public class CreateEventUseCase implements CreateEventInputBoundary {
     final EventRepository repo;
     final UserAuthRepository authRepo;
     final ImageRepository imageRepo;
     final UserRepository userRepo;
-    final CreateEventPresenter eventPresenter;
+    final SimplePresenter eventPresenter;
     final EventFactory eventFactory;
     final ImageFactory imageFactory;
     final UserSignupFactory userFactory;
 
     public CreateEventUseCase() {
         this.repo = new EventRepository();
-        this.eventPresenter = new CreateEventResponseFormatter();
+        this.eventPresenter = new SimpleResponseFormatter();
         this.authRepo = new UserAuthRepository();
         this.userRepo = new UserRepository();
         this.eventFactory = new CommonEventFactory();
@@ -44,14 +44,11 @@ public class CreateEventUseCase implements CreateEventInputBundary {
         this.userFactory = new CommonUserSignupFactory();
     }
 
-    public CompletableFuture<CreateEventResponseModel> execute(CreateEventRequestModel requestModel) {
+    public CompletableFuture<SimpleResponseModel> execute(CreateEventRequestModel requestModel) {
         FirebaseUser user = authRepo.currentUser();
         if (user == null) {
             return CompletableFuture.completedFuture(
-                    eventPresenter.prepareFailView(new CreateEventResponseModel(
-                            "The user doesn't exist or isn't authenticated",
-                            false
-                    ))
+                    eventPresenter.prepareFailView("The user doesn't exist or isn't authenticated")
             );
         }
 
@@ -65,13 +62,7 @@ public class CreateEventUseCase implements CreateEventInputBundary {
 
             if (!userEntity.canCreateEvents()){
                 return CompletableFuture.completedFuture(
-                        eventPresenter.prepareFailView(
-                                new CreateEventResponseModel(
-                                        "The user doesn't have enough permissions to create events",
-                                        false
-                                )
-
-                        )
+                        eventPresenter.prepareFailView("The user doesn't have enough permissions to create events" )
                 );
             }
             //todo: here I should check the user table to check the permissions
@@ -95,13 +86,7 @@ public class CreateEventUseCase implements CreateEventInputBundary {
 
             if (event.isValid()[0].equals("ERROR")) {
                 return CompletableFuture.completedFuture(
-                        eventPresenter.prepareFailView(
-                                new CreateEventResponseModel(
-                                        event.isValid()[1],
-                                        false
-                                )
-
-                        )
+                        eventPresenter.prepareFailView( event.isValid()[1] )
                 );
             }
 
@@ -117,22 +102,12 @@ public class CreateEventUseCase implements CreateEventInputBundary {
             );
 
             return repo.create(eventPersisted).thenApply(successMesssage -> {
-                return eventPresenter.prepareSuccessView(new CreateEventResponseModel(
-                        "The event was created successfully",
-                        true
-                ));
+                return eventPresenter.prepareSuccessView("The event was created successfully");
             }).exceptionally(errorMessage -> {
-                return eventPresenter.prepareSuccessView(new CreateEventResponseModel(
-                        errorMessage.getMessage(),
-                        false
-                ));
+                return eventPresenter.prepareSuccessView(errorMessage.getMessage());
             });
         }).exceptionally(error -> {
-            return  eventPresenter.prepareFailView(
-                    new CreateEventResponseModel(
-                            "The user could not be found in the db",
-                            false
-                    ));
+            return  eventPresenter.prepareFailView("The user could not be found in the db");
         });
 
 

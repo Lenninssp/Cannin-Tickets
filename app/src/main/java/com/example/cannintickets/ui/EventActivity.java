@@ -55,7 +55,7 @@ public class EventActivity extends AppCompatActivity {
                             null
                     )
             ).thenApply(event -> {
-                if(event.isSuccessful()) {
+                if(event.isSuccess()) {
                     Toast.makeText(this, "The event was updated", Toast.LENGTH_SHORT).show();
                     System.out.println("The event was updated successful");
                 }
@@ -104,7 +104,7 @@ public class EventActivity extends AppCompatActivity {
         deleteEvent.setOnClickListener(V -> {
             DeleteEventController endpoint = new DeleteEventController();
             endpoint.DELETE(modId.getText().toString()).thenApply(event -> {
-                if (event.isSuccessful()){
+                if (event.isSuccess()){
                     Toast.makeText(this, "The event was Deleted", Toast.LENGTH_SHORT).show();
                     System.out.println("The event creation was deleted successful");
                 }
@@ -128,7 +128,7 @@ public class EventActivity extends AppCompatActivity {
                             new File("empty")
                     )
             ).thenApply(event -> {
-                if (event.isSuccessful()){
+                if (event.isSuccess()){
                     Toast.makeText(this, "The event was created", Toast.LENGTH_SHORT).show();
                     System.out.println("The event creation was successful");
                 }
