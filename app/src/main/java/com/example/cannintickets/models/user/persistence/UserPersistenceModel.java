@@ -3,12 +3,14 @@ package com.example.cannintickets.models.user.persistence;
 import java.time.LocalDateTime;
 
 public class UserPersistenceModel {
-    private final String email;
-    private final String username;
-    private final String role;
-    private final String createdAt;
-    private final String updatedAt;
+    private String email;
+    private String username;
+    private String role;
+    private String createdAt;
+    private String updatedAt;
 
+    public UserPersistenceModel() {
+    }
     public UserPersistenceModel(
             String email,
             String username,

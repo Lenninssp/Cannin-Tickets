@@ -4,10 +4,15 @@ import androidx.annotation.NonNull;
 
 import com.example.cannintickets.models.user.auth.request.UserSignupRequestModel;
 import com.example.cannintickets.models.user.persistence.UserPersistenceModel;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +23,26 @@ public class UserRepository {
 
     public UserRepository() { this.db = FirebaseFirestore.getInstance();}
 
+    //taken from: https://firebase.google.com/docs/firestore/query-data/get-data?_gl=1*d5ol3o*_up*MQ..*_ga*ODI0OTAxNDAwLjE3NjMyMzQ5OTY.*_ga_CW55HF8NVT*czE3NjMyMzQ5OTUkbzEkZzAkdDE3NjMyMzQ5OTUkajYwJGwwJGgw
+    public CompletableFuture<UserPersistenceModel> get(String email) {
+        CompletableFuture<UserPersistenceModel> future = new CompletableFuture<>();
+        db.collection("User")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (querySnapshot.isEmpty()) {
+                        future.complete(null);
+                        return;
+                    }
+                    DocumentSnapshot doc = querySnapshot.getDocuments().get(0);
+                    UserPersistenceModel user = doc.toObject(UserPersistenceModel.class);
+                    future.complete(user);
+                })
+                .addOnFailureListener(future::completeExceptionally);
+        return future;
+    }
+
+    // taken from: https://firebase.google.com/docs/firestore/quickstart?_gl=1*89v0o6*_up*MQ..*_ga*ODI0OTAxNDAwLjE3NjMyMzQ5OTY.*_ga_CW55HF8NVT*czE3NjMyMzQ5OTUkbzEkZzAkdDE3NjMyMzQ5OTUkajYwJGwwJGgw
     public CompletableFuture<String> create(UserPersistenceModel user) {
         CompletableFuture<String> future = new CompletableFuture<>();
 

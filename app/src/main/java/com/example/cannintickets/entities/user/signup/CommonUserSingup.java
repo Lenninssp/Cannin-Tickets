@@ -16,6 +16,11 @@ public class CommonUserSingup implements UserSingupEntity {
     }
 
     @Override
+    public boolean canCreateEvents() {
+        return  UserRole.findByName(role) == UserRole.ADMIN || UserRole.findByName(role) == UserRole.BUYER;
+    }
+
+    @Override
     public boolean isPasswordValid(){
         // taken from: https://www.youtube.com/watch?v=nS83eojwKac
         // taken from: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
@@ -81,23 +86,4 @@ public class CommonUserSingup implements UserSingupEntity {
         return new String[] {"OK", "Valid user"};
     }
 
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getRole() {
-        return role;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
 }

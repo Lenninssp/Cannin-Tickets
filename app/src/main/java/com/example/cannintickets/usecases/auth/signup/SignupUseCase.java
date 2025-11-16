@@ -41,18 +41,18 @@ public class SignupUseCase implements UserSignupInputBoundary {
             return CompletableFuture.completedFuture(response);
         }
         UserSignupRequestModel userRsModel = new UserSignupRequestModel(
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getRole()
+                requestModel.getUsername(),
+                requestModel.getEmail(),
+                requestModel.getPassword(),
+                requestModel.getRole()
         );
         return repo.save(userRsModel).thenApply(successMessage -> {
             UserPersistenceModel persistenceUser = new UserPersistenceModel(
-                    user.getEmail(),
-                    user.getUsername(),
-                    user.getRole()
+                    requestModel.getEmail(),
+                    requestModel.getUsername(),
+                    requestModel.getRole()
             );
-            UserResponseModel accountResponseModel = new UserResponseModel(user.getUsername(), user.getEmail(), user.getRole());
+            UserResponseModel accountResponseModel = new UserResponseModel(requestModel.getUsername(), requestModel.getEmail(), requestModel.getRole());
             userRepo.create(persistenceUser).thenApply(successMessage2 -> {
                 return userPresenter.prepareSuccessView(accountResponseModel);
             }).exceptionally(error -> {

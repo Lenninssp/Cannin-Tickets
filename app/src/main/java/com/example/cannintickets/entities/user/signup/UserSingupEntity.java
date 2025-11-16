@@ -5,10 +5,8 @@ public interface UserSingupEntity {
     boolean isUsernameValid();
     boolean isRoleValid();
     boolean isEmailValid();
+    boolean canCreateEvents();
     String[] isValid();
 
-    String getUsername();
-    String getPassword();
-    String getEmail();
-    String getRole();
+
 }
