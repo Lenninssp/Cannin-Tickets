@@ -8,6 +8,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -25,6 +26,69 @@ public class EventRepository {
     public EventRepository() {
         db = FirebaseFirestore.getInstance();
     }
+
+    public CompletableFuture<String> delete(String eventId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        db.collection("Event").document(eventId)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        future.complete("The data was successfully deleted");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        future.complete(e.toString());
+                    }
+                });
+        return future;
+
+    }
+    public CompletableFuture<String> modify(EventPersistenceModel eventPersistenceModel){
+        CompletableFuture<String> future = new CompletableFuture<>();
+        Map<String, Object> newEvent = new HashMap<>();
+        newEvent.put("name", eventPersistenceModel.getName());
+        newEvent.put("description", eventPersistenceModel.getDescription());
+        newEvent.put("creationDate", eventPersistenceModel.getCreationDate());
+        newEvent.put("eventDate", eventPersistenceModel.getEventDate());
+        newEvent.put("isPrivate", eventPersistenceModel.isPrivate());
+        newEvent.put("location", eventPersistenceModel.getLocation());
+        newEvent.put("organizerId", eventPersistenceModel.getOrganizerId());
+        newEvent.put("organizerImageUrl", eventPersistenceModel.getCoverImage());
+        db.collection("Event").document(eventPersistenceModel.getId()).update()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        future.complete("The event was successfully created");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        future.complete(e.toString());
+                    }
+                });
+
+    }
+
+    public CompletableFuture<EventPersistenceModel> get(String id) {
+        CompletableFuture<EventPersistenceModel> future = new CompletableFuture<>();
+        db.collection("Event").document(id).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            future.complete(document.toObject(EventPersistenceModel.class));
+                        } else {
+                            future.complete(null);
+                        }
+                    }
+                });
+    }
+
 
     public CompletableFuture<List<EventPersistenceModel>> getPublic() {
         CompletableFuture<List<EventPersistenceModel>> future = new CompletableFuture<>();

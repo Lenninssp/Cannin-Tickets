@@ -9,6 +9,7 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.repositories.EventRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
+import com.example.cannintickets.services.EventValidator;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
@@ -45,16 +46,18 @@ public class GetEventUseCase implements GetEventInputBoundary{
         return eventRepo.getPublic().thenApply( successMessage -> {
 
             for(EventPersistenceModel event : successMessage) {
-                LocalDateTime eventDate = LocalDateTime.parse(event.getEventDate().toString());
+                LocalDateTime eventDate = LocalDateTime.parse(event.getEventDate());
                 EventEntity eventEntity = eventFactory.create(
                         event.getName(),
                         event.getDescription(),
                         eventDate,
-                        event.getLocation()
+                        event.getLocation(),
+                        null,
+                        null
                 );
 
                 // todo: return event image here
-                if (eventEntity.isEventInTheFuture()){
+                if (EventValidator.validateEvent(eventEntity)[0].equals("SUCCESS")){
                     returnList.add(new GetEventResponseModel(
                             event.getId(),
                             event.getName(),

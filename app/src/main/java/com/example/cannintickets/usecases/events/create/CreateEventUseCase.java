@@ -87,7 +87,9 @@ public class CreateEventUseCase implements CreateEventInputBundary {
                     requestModel.getName(),
                     requestModel.getDescription(),
                     eventDate,
-                    requestModel.getLocation()
+                    requestModel.getLocation(),
+                    null,
+                    null
             );
 
 
@@ -110,7 +112,8 @@ public class CreateEventUseCase implements CreateEventInputBundary {
                     requestModel.getLocation(),
                     requestModel.isPrivate(),
                     "",
-                    user.getEmail()
+                    user.getEmail(),
+                    ""
             );
 
             return repo.create(eventPersisted).thenApply(successMesssage -> {

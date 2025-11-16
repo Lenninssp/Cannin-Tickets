@@ -4,6 +4,7 @@ public class ModifyEventRequestModel {
     private final String id;
     private final String name;
     private final String description;
+    private final String eventDate;
     private final String location;
     private final Boolean isPrivate;
 
@@ -12,6 +13,7 @@ public class ModifyEventRequestModel {
             String name,
             String description,
             String location,
+            String eventDate,
             Boolean isPrivate
     ){
         if (id == null || id.trim().isEmpty()) {
@@ -22,6 +24,7 @@ public class ModifyEventRequestModel {
         this.description = description;
         this.location = location;
         this.isPrivate = isPrivate;
+        this.eventDate = eventDate;
     }
 
     public String getDescription() {
@@ -40,7 +43,11 @@ public class ModifyEventRequestModel {
         return name;
     }
 
-    public boolean isPrivate() {
+    public Boolean isPrivate() {
         return isPrivate;
+    }
+
+    public String getEventDate() {
+        return eventDate;
     }
 }

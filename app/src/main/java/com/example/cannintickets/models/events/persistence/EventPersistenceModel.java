@@ -22,7 +22,8 @@ public class EventPersistenceModel {
             String location,
             boolean isPrivate,
             String coverImage,
-            String organizerId
+            String organizerId,
+            String id
     ) {
         this.name = name;
         this.description = description;
@@ -32,6 +33,7 @@ public class EventPersistenceModel {
         this.isPrivate = isPrivate;
         this.coverImage = coverImage;
         this.organizerId = organizerId;
+        this.id = id;
     }
 
     public String getName() {

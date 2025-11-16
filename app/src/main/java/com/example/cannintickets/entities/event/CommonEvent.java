@@ -1,112 +1,109 @@
 package com.example.cannintickets.entities.event;
 
+import com.example.cannintickets.services.EventValidator;
+
 import java.time.LocalDateTime;
 
-public class CommonEvent implements EventEntity{
-    private static final int MAX_NAME_LENGTH = 80;
-    private static final int MAX_DESCRIPTION_LENGTH = 500;
-    final String name;
-    final String description;
-    final LocalDateTime eventDate;
-    final String location;
+public class CommonEvent implements EventEntity {
+    private String id;
+    private String name;
+    private String description;
+    private LocalDateTime eventDate;
+    private String location;
+    private Boolean isPrivate;
+    private String organizerId;
 
     public CommonEvent(
             String name,
             String description,
             LocalDateTime eventDate,
-            String location
+            String location,
+            Boolean isPrivate,
+            String organizerId
     ) {
         this.name = name;
         this.description = description;
         this.eventDate = eventDate;
         this.location = location;
+        this.isPrivate = isPrivate;
+        this.organizerId = organizerId;
     }
 
-    public boolean isEventInTheFuture() {
-        if (eventDate == null) return false;
-        return eventDate.isAfter(LocalDateTime.now());
-    }
-    public boolean isNameValid() {
-        if (name == null) return false;
-        String trimmed = name.trim();
-        return !trimmed.isEmpty() && trimmed.length() <= MAX_NAME_LENGTH;
-    }
-    public boolean isDescriptionValid() {
-        if (description == null) return false;
-        return description.length() <= MAX_DESCRIPTION_LENGTH;
+    public CommonEvent(
+            String id,
+            String name,
+            String description,
+            LocalDateTime eventDate,
+            String location,
+            Boolean isPrivate,
+            String organizerId
+    ) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.eventDate = eventDate;
+        this.location = location;
+        this.isPrivate = isPrivate;
+        this.organizerId = organizerId;
     }
 
-    public boolean isLocationValid() {
-        if (location == null) return false;
-        String trimmed = location.trim();
-        if (trimmed.isEmpty()) return false;
-        for (char c : trimmed.toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {
-                return true;
-            }
-        }
-        return false;
-    }
     @Override
     public String[] isValid() {
-        // Used ChatGPT to generate the error messages, aka to make them more verbose about what happened
-        if (!isEventInTheFuture()) {
-            return new String[]{
-                    "ERROR",
-                    "The event date must be in the future. Please choose a date and time after the current moment."
-            };
-        }
-
-        if (!isNameValid()) {
-            if (name == null || name.trim().isEmpty()) {
-                return new String[]{
-                        "ERROR",
-                        "The event name cannot be empty. Please provide a title for your event."
-                };
-            }
-            if (name.trim().length() > MAX_NAME_LENGTH) {
-                return new String[]{
-                        "ERROR",
-                        "The event name is too long. Maximum allowed length is "
-                                + MAX_NAME_LENGTH + " characters."
-                };
-            }
-            return new String[]{"ERROR", "The event name is invalid."};
-        }
-
-        if (!isDescriptionValid()) {
-            if (description == null) {
-                return new String[]{
-                        "ERROR",
-                        "The event description cannot be null. Please write a short description of the event."
-                };
-            }
-            if (description.length() > MAX_DESCRIPTION_LENGTH) {
-                return new String[]{
-                        "ERROR",
-                        "The event description is too long. Maximum allowed length is "
-                                + MAX_DESCRIPTION_LENGTH + " characters."
-                };
-            }
-            return new String[]{"ERROR", "The event description is invalid."};
-        }
-
-        if (!isLocationValid()) {
-            if (location == null || location.trim().isEmpty()) {
-                return new String[]{
-                        "ERROR",
-                        "The event location cannot be empty. Please specify where the event takes place."
-                };
-            }
-            return new String[]{
-                    "ERROR",
-                    "The event location must contain at least one letter or number. Avoid only using symbols."
-            };
-        }
-
-        return new String[]{"SUCCESS", "The event is valid."};
+        return EventValidator.validateEvent(this);
     }
 
+    public boolean canModify(String userId) {
+        if (userId == null || organizerId == null) {
+            return false;
+        }
+        return organizerId.equals(userId);
+    }
 
+    public void updateName(String newName) {
+        String error = EventValidator.validateName(newName);
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        this.name = newName.trim();
+    }
 
+    public void updateDescription(String newDescription) {
+        String error = EventValidator.validateDescription(newDescription);
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        this.description = newDescription;
+    }
+
+    public void updateLocation(String newLocation) {
+        String error = EventValidator.validateLocation(newLocation);
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        this.location = newLocation.trim();
+    }
+
+    public void updateDate(LocalDateTime newDate) {
+        String error = EventValidator.validateDate(newDate);
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+        this.eventDate = newDate;
+    }
+
+    public void updatePrivacy(Boolean privacy) {
+        if (privacy == null) {
+            throw new IllegalArgumentException("Privacy cannot be null");
+        }
+        this.isPrivate = privacy;
+    }
+
+    // Getters
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getDescription() { return description; }
+    public LocalDateTime getEventDate() { return eventDate; }
+    public String getLocation() { return location; }
+    public Boolean getIsPrivate() { return isPrivate; }
+    public String getOrganizerId() { return organizerId; }
 }

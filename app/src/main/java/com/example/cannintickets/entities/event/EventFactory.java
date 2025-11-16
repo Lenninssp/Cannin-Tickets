@@ -7,6 +7,18 @@ public interface EventFactory {
             String name,
             String description,
             LocalDateTime eventDate,
-            String location
+            String location,
+            Boolean isPrivate,
+            String organizerId
+    );
+
+    EventEntity createFromPersistence(
+            String id,
+            String name,
+            String description,
+            LocalDateTime eventDate,
+            String location,
+            Boolean isPrivate,
+            String organizerId
     );
 }
