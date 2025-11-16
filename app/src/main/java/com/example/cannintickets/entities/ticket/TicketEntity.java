@@ -13,4 +13,6 @@ public interface TicketEntity {
     int getCapacity();
     double getPrice();
     int getSold();
+    String getId();
+    String getEventId();
 }

@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.tickets.delete;
+package com.example.cannintickets.usecases.tickets.modify;
 
 import com.example.cannintickets.entities.event.CommonEventFactory;
 import com.example.cannintickets.entities.event.EventEntity;
@@ -12,6 +12,8 @@ import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.models.simple.SimplePresenter;
 import com.example.cannintickets.models.simple.SimpleResponseFormatter;
 import com.example.cannintickets.models.simple.SimpleResponseModel;
+import com.example.cannintickets.models.tickets.modify.ModifyTicketRequestModel;
+import com.example.cannintickets.models.tickets.persistence.TicketPersistenceModel;
 import com.example.cannintickets.repositories.EventRepository;
 import com.example.cannintickets.repositories.TicketRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
@@ -21,7 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
-public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
+public class ModifyTicketUseCase implements ModifyTicketInputBoundary {
     final UserAuthRepository authRepo;
     final UserRepository userRepo;
     final EventRepository eventRepo;
@@ -31,7 +33,7 @@ public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
     final TicketFactory ticketFactory;
     final SimplePresenter presenter;
 
-    public DeleteTicketUseCase() {
+    public ModifyTicketUseCase() {
         this.authRepo = new UserAuthRepository();
         this.userRepo = new UserRepository();
         this.eventRepo = new EventRepository();
@@ -42,9 +44,8 @@ public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
         this.ticketFactory = new CommonTicketFactory();
     }
 
-
     @Override
-    public CompletableFuture<SimpleResponseModel> execute(String id) {
+    public CompletableFuture<SimpleResponseModel> execute(ModifyTicketRequestModel requestModel) {
         FirebaseUser user = authRepo.currentUser();
         if (user == null) {
             return CompletableFuture.completedFuture(
@@ -67,7 +68,7 @@ public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
                 );
             }
 
-            return ticketRepo.get(id).thenCompose(ticketPersistence -> {
+            return ticketRepo.get(requestModel.getId()).thenCompose(ticketPersistence -> {
                 if (ticketPersistence == null) {
                     return CompletableFuture.completedFuture(
                             presenter.prepareFailView("The ticket does not exist")
@@ -97,11 +98,45 @@ public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
                         );
                     }
 
-                    return ticketRepo.delete(id).thenApply(msg ->
-                            presenter.prepareSuccessView("Ticket deleted successfully")
-                    ).exceptionally(error ->
-                            presenter.prepareFailView(error.getMessage())
+                    TicketEntity ticketEntity = ticketFactory.createFromPersistence(
+                            ticketPersistence.getId(),
+                            ticketPersistence.getName(),
+                            ticketPersistence.getEventId(),
+                            ticketPersistence.getCapacity(),
+                            ticketPersistence.getPrice(),
+                            ticketPersistence.getSold()
                     );
+
+                    try {
+                        if (requestModel.getName() != null)
+                            ticketEntity.updateName(requestModel.getName());
+
+                        if (requestModel.getCapacity() != null)
+                            ticketEntity.updateCapacity(requestModel.getCapacity());
+
+                        if (requestModel.getPrice() != null)
+                            ticketEntity.updatePrice(requestModel.getPrice());
+
+                    } catch (IllegalArgumentException e) {
+                        return CompletableFuture.completedFuture(
+                                presenter.prepareFailView(e.getMessage())
+                        );
+                    }
+
+                    TicketPersistenceModel modTicketPersistence = new TicketPersistenceModel(
+                            ticketEntity.getId(),
+                            ticketEntity.getName(),
+                            ticketEntity.getEventId(),
+                            ticketEntity.getCapacity(),
+                            ticketEntity.getSold(),
+                            ticketEntity.getPrice()
+                    );
+
+                    return ticketRepo.modify(modTicketPersistence).thenApply( success -> {
+                       return presenter.prepareSuccessView("The ticket was successfully modified");
+                    }).exceptionally(error -> {
+                        return presenter.prepareFailView(error.getMessage());
+                    });
                 }).exceptionally(error -> {
                     return presenter.prepareFailView(error.getMessage());
                 });

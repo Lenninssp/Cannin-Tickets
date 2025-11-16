@@ -22,6 +22,21 @@ public class TicketPersistenceModel {
         this.sold = sold;
         this.price = price;
     }
+    public TicketPersistenceModel(
+            String id,
+            String name,
+            String eventId,
+            int capacity,
+            int sold,
+            double price
+    ){
+        this.id = id;
+        this.name = name;
+        this.eventId = eventId;
+        this.capacity = capacity;
+        this.sold = sold;
+        this.price = price;
+    }
 
 
     public String getName() {
