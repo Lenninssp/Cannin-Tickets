@@ -62,7 +62,7 @@ public class DeleteTicketUseCase implements DeleteTicketInputBoundary {
 
             if (!userEntity.canCreateEvents()) {
                 return CompletableFuture.completedFuture(
-                        presenter.prepareFailView("The user doesn't have enough permissions to create events"
+                        presenter.prepareFailView("The user doesn't have enough permissions to delete events"
                         )
                 );
             }

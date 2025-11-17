@@ -59,9 +59,9 @@ public class CreateTicketUseCase implements CreateTicketInputBoundary{
                     "",
                     successUser.getRole()
             );
-            if (userEntity.canCreateEvents()){
+            if (!userEntity.canCreateEvents()){
                 return CompletableFuture.completedFuture(
-                        ticketPresenter.prepareFailView("This method is intended only for buyers, please use the proper get method for the sellers" )
+                        ticketPresenter.prepareFailView("This method is intended only for sellers, please use the proper get method for the sellers" )
                 );
             }
             return eventRepo.get(requestModel.getEventId()).thenCompose(succesEvent -> {

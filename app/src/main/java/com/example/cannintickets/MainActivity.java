@@ -11,11 +11,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.cannintickets.ui.EventActivity;
 import com.example.cannintickets.ui.ProfilePictureActivity;
 import com.example.cannintickets.ui.SignUpActivity;
+import com.example.cannintickets.ui.TicketActivity;
 
 public class MainActivity extends AppCompatActivity {
     Button goImage;
     Button goSignUp;
     Button goEvent;
+    Button goTicket;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         goImage = findViewById(R.id.go_image);
         goSignUp = findViewById(R.id.go_signup);
         goEvent = findViewById(R.id.go_event);
+        goTicket = findViewById(R.id.go_ticket);
 
         goImage.setOnClickListener(V -> {
             Intent intent = new Intent(this, ProfilePictureActivity.class);
@@ -38,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
 
         goEvent.setOnClickListener(V -> {
             Intent intent = new Intent(this, EventActivity.class);
+            startActivity(intent);
+        });
+
+        goTicket.setOnClickListener(V -> {
+            Intent intent = new Intent(this, TicketActivity.class);
             startActivity(intent);
         });
 
