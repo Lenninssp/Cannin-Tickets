@@ -17,7 +17,7 @@ public class CommonUserSingup implements UserSingupEntity {
 
     @Override
     public boolean canCreateEvents() {
-        return  UserRole.findByName(role) == UserRole.ADMIN || UserRole.findByName(role) == UserRole.BUYER;
+        return  UserRole.findByName(role) == UserRole.ADMIN || UserRole.findByName(role) == UserRole.SELLER;
     }
 
     @Override

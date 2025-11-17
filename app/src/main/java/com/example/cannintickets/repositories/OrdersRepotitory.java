@@ -26,19 +26,19 @@ public class OrdersRepotitory {
         this.db = FirebaseFirestore.getInstance();
     }
 
-    public CompletableFuture<List<OrderPersistenceModel>> getEventOrders(String eventId) {
-        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
-
-    }
-    public CompletableFuture<List<OrderPersistenceModel>> getMyOrders(String userEmail) {
-        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
-
-    }
+//    public CompletableFuture<List<OrderPersistenceModel>> getEventOrders(String eventId) {
+//        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
+//
+//    }
+//    public CompletableFuture<List<OrderPersistenceModel>> getMyOrders(String userEmail) {
+//        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
+//
+//    }
 
     public CompletableFuture<String> create(OrderPersistenceModel order) throws StripeException {
         CompletableFuture<String> future = new CompletableFuture<>();
         Stripe.apiKey = stripeSecretKey;
-        long amountInCents = Math.round(order.getAmount() * 100);
+        long amountInCents = Math.round(order.getTotal() * 100);
         // taken from: https://docs.stripe.com/payments/accept-a-payment?platform=android&lang=java
         PaymentIntentCreateParams paymentIntentParams =
                 PaymentIntentCreateParams.builder()
@@ -54,7 +54,7 @@ public class OrdersRepotitory {
         newOrder.put("ticketName", order.getTicketName());
         newOrder.put("ticketPrice", order.getTicketPrice());
         newOrder.put("status", order.getStatus());
-        newOrder.put("amount", order.getAmount());
+        newOrder.put("amount", order.getTotal());
         newOrder.put("quantity", order.getQuantity());
         newOrder.put("paymentIntentId", paymentIntent.getClientSecret());
         newOrder.put("eventName", order.getEventName());

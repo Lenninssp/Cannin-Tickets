@@ -1,5 +1,7 @@
 package com.example.cannintickets.models.orders;
 
+import java.time.LocalDateTime;
+
 public class OrderPersistenceModel {
     private String id;
     private String customerEmail;
@@ -7,11 +9,13 @@ public class OrderPersistenceModel {
     private String ticketName;
     private Double ticketPrice;
     private Integer quantity;
-    private Double amount;
+    private Double total;
     private String paymentIntentId;
     private String status;
     private String eventName;
     private String eventId;
+    private String createdAt;
+    private String updatedAt;
     public OrderPersistenceModel() {}
     public OrderPersistenceModel(
             String id,
@@ -20,11 +24,13 @@ public class OrderPersistenceModel {
             String ticketName,
             Double ticketPrice,
             Integer quantity,
-            Double amount,
+            Double total,
             String paymentIntentId,
             String status,
             String eventName,
-            String eventId
+            String eventId,
+            String createdAt,
+            String updatedAt
     ) {
         this.id = id;
         this.customerEmail = customerEmail;
@@ -32,11 +38,13 @@ public class OrderPersistenceModel {
         this.ticketName = ticketName;
         this.ticketPrice = ticketPrice;
         this.quantity = quantity;
-        this.amount = amount;
+        this.total = total;
         this.paymentIntentId = paymentIntentId;
         this.status = status;
         this.eventName = eventName;
         this.eventId = eventId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public void setId(String id) {
@@ -47,8 +55,8 @@ public class OrderPersistenceModel {
         return id;
     }
 
-    public Double getAmount() {
-        return amount;
+    public Double getTotal() {
+        return total;
     }
 
     public Integer getQuantity() {
@@ -85,5 +93,13 @@ public class OrderPersistenceModel {
 
     public String getEventId() {
         return eventId;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
     }
 }

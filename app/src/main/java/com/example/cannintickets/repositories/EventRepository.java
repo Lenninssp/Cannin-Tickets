@@ -93,6 +93,30 @@ public class EventRepository {
         return future;
     }
 
+    public CompletableFuture<List<EventPersistenceModel>> getFromEmail(String email) {
+        CompletableFuture<List<EventPersistenceModel>> future = new CompletableFuture<>();
+        db.collection("Event")
+                .whereEqualTo("organizerId", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<EventPersistenceModel> loopList = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                EventPersistenceModel event = document.toObject(EventPersistenceModel.class);
+                                event.setId(document.getId());
+                                loopList.add(event);
+                            }
+                            future.complete(loopList);
+                        } else {
+                            future.complete(null);
+                        }
+                    }
+                });
+        return future;
+    }
+
 
     public CompletableFuture<List<EventPersistenceModel>> getPublic() {
         CompletableFuture<List<EventPersistenceModel>> future = new CompletableFuture<>();

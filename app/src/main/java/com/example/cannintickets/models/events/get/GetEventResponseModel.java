@@ -10,12 +10,36 @@ public class GetEventResponseModel {
     private String location;
     private File coverImage;
     private String organizerId;
+    private String creationDate;
+    private Boolean isPrivate;
 
     private String error;
 
 
     public GetEventResponseModel(String error) {
         this.error = error;
+    }
+
+    public GetEventResponseModel(
+            String id,
+            String name,
+            String description,
+            String eventDate,
+            String location,
+            File coverImage,
+            String organizerId,
+            String creationDate,
+            Boolean isPrivate
+    ){
+        this.id = id;
+        this.name = name;
+        this.eventDate = eventDate;
+        this.location = location;
+        this.coverImage = coverImage;
+        this.description = description;
+        this.organizerId = organizerId;
+        this.creationDate = creationDate;
+        this.isPrivate = isPrivate;
     }
 
     public GetEventResponseModel(
@@ -71,5 +95,13 @@ public class GetEventResponseModel {
 
     public String getOrganizerId() {
         return organizerId;
+    }
+
+    public String getCreationDate() {
+        return creationDate;
+    }
+
+    public Boolean getPrivate() {
+        return isPrivate;
     }
 }

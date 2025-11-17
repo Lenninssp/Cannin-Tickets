@@ -85,7 +85,7 @@ public class EventActivity extends AppCompatActivity {
                                 .append("📄 Description: ").append(event.getDescription()).append("\n")
                                 .append("📍 Location: ").append(event.getLocation()).append("\n")
                                 .append("🗓 Date: ").append(event.getEventDate()).append("\n")
-                                        .append("Organizator: ").append(event.getOrganizerId()).append("\n");
+                                .append("Organizator: ").append(event.getOrganizerId()).append("\n");
                         sb.append("\n--------------------------\n\n");
                     }
                 }
