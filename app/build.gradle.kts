@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
@@ -17,6 +19,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val localProperties = Properties()
+    val localPropertiesFile = File(rootDir, "secret.properties")
+    if (localPropertiesFile.exists() && localPropertiesFile.isFile){
+        localPropertiesFile.inputStream().use {
+            localProperties.load(it)
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -24,7 +34,24 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField(
+                "String",
+                "STRIPE_SECRET_KEY",
+                "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
+            )
         }
+        debug {
+            buildConfigField(
+                "String",
+                "STRIPE_SECRET_KEY",
+                "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
+            )
+        }
+    }
+    buildFeatures {
+        compose = true
+        buildConfig = true
+
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -45,4 +72,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.stripe:stripe-java:30.2.0")
+    implementation("com.stripe:stripe-android:22.1.1")
+    implementation("com.stripe:financial-connections:22.1.1")
 }

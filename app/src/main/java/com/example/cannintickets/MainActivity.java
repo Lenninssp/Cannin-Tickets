@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-
+        // taken from: https://www.youtube.com/watch?v=28YhHH1mp3o
+        // This is how to get the stripe key
+        // String stripeKey = BuildConfig.STRIPE_SECRET_KEY;
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
