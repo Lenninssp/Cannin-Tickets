@@ -11,6 +11,7 @@ public class OrderPersistenceModel {
     private String paymentIntentId;
     private String status;
     private String eventName;
+    private String eventId;
     public OrderPersistenceModel() {}
     public OrderPersistenceModel(
             String id,
@@ -22,7 +23,8 @@ public class OrderPersistenceModel {
             Double amount,
             String paymentIntentId,
             String status,
-            String eventName
+            String eventName,
+            String eventId
     ) {
         this.id = id;
         this.customerEmail = customerEmail;
@@ -34,6 +36,7 @@ public class OrderPersistenceModel {
         this.paymentIntentId = paymentIntentId;
         this.status = status;
         this.eventName = eventName;
+        this.eventId = eventId;
     }
 
     public void setId(String id) {
@@ -78,5 +81,9 @@ public class OrderPersistenceModel {
 
     public String getTicketName() {
         return ticketName;
+    }
+
+    public String getEventId() {
+        return eventId;
     }
 }

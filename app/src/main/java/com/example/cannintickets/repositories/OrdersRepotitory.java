@@ -13,6 +13,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -23,6 +24,15 @@ public class OrdersRepotitory {
     public OrdersRepotitory() {
         this.stripeSecretKey = BuildConfig.STRIPE_SECRET_KEY;
         this.db = FirebaseFirestore.getInstance();
+    }
+
+    public CompletableFuture<List<OrderPersistenceModel>> getEventOrders(String eventId) {
+        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
+
+    }
+    public CompletableFuture<List<OrderPersistenceModel>> getMyOrders(String userEmail) {
+        CompletableFuture<List<OrderPersistenceModel>> future = new CompletableFuture<>();
+
     }
 
     public CompletableFuture<String> create(OrderPersistenceModel order) throws StripeException {
