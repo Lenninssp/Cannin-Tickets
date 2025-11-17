@@ -24,7 +24,7 @@ public class EventRepository {
     final FirebaseFirestore db;
 
     public EventRepository() {
-        db = FirebaseFirestore.getInstance();
+        this.db = FirebaseFirestore.getInstance();
     }
 
     public CompletableFuture<String> delete(String eventId) {
