@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CanninTickets">
+        <activity
+            android:name=".ui.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.CheckOutActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.TicketActivity"
             android:exported="false" />
@@ -26,7 +39,7 @@
             android:name=".ui.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

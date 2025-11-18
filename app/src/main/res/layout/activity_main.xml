@@ -33,4 +33,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/go_ticket"
         android:text="tickets"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/go_payment"
+        android:text="payment"/>
 </LinearLayout>

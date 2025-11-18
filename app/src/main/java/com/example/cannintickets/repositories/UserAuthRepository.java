@@ -28,10 +28,11 @@ public class UserAuthRepository {
                         future.complete("Log in was successfull");
                     }
                     else {
-                        future.complete("Authentications failed: " + task.getException());
-                    }
+                        Exception e = task.getException();
+                        String errorMessage = (e != null) ? e.getMessage() : "Authentication failed";
+                        future.completeExceptionally(new Exception(errorMessage));                    }
                 });
-        return CompletableFuture.completedFuture("error");
+        return future;
     }
 
     // taken from: https://firebase.google.com/docs/auth/android/start#java
