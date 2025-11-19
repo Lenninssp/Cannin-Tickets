@@ -19,7 +19,6 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class GetEventUseCase implements GetEventInputBoundary {
@@ -89,13 +88,13 @@ public class GetEventUseCase implements GetEventInputBoundary {
                             ));
                         }
                     }
-                return eventPresenter.prepareSuccessView(returnList);
-            }).exceptionally(error -> {
-                return eventPresenter.prepareFailView(
-                        "There was an error: " + error.getMessage()
-                );
-            });
-        }
+                    return eventPresenter.prepareSuccessView(returnList);
+                }).exceptionally(error -> {
+                    return eventPresenter.prepareFailView(
+                            "There was an error: " + error.getMessage()
+                    );
+                });
+            }
 
             return eventRepo.getPublic().thenApply(successMessage -> {
 
