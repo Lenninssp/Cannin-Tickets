@@ -9,6 +9,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.cannintickets.ui.BuyerEventsActivity;
 import com.example.cannintickets.ui.CheckOutActivity;
 import com.example.cannintickets.ui.EventActivity;
 import com.example.cannintickets.ui.ProfilePictureActivity;
@@ -16,7 +17,7 @@ import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
 
 public class MainActivity extends AppCompatActivity {
-
+    Button goBuyersEvents;
     Button goPayment;
     Button goImage;
     Button goSignUp;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        goBuyersEvents = findViewById(R.id.go_buyersevents);
         goImage = findViewById(R.id.go_image);
         goSignUp = findViewById(R.id.go_signup);
         goEvent = findViewById(R.id.go_event);
@@ -56,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
 
         goPayment.setOnClickListener(V -> {
             Intent intent = new Intent(this, CheckOutActivity.class);
+            startActivity(intent);
+        });
+
+        goBuyersEvents.setOnClickListener(V -> {
+            Intent intent = new Intent(this, BuyerEventsActivity.class);
             startActivity(intent);
         });
 

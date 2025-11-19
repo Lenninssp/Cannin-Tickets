@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.cannintickets.MainActivity;
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.auth.LoginController;
+import com.example.cannintickets.entities.user.login.UserLoginEntity;
 import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -28,11 +29,17 @@ public class LoginActivity extends AppCompatActivity {
     TextView register;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+
+
+
 
         email = findViewById(R.id.email_input);
         password = findViewById(R.id.password_input);

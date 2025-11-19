@@ -1,0 +1,55 @@
+package com.example.cannintickets.ui;
+
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.cannintickets.R;
+import com.example.cannintickets.controllers.events.GetEventsController;
+import com.example.cannintickets.models.events.get.GetEventResponseModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SellerEventsActivity extends AppCompatActivity {
+
+    RecyclerView recyclerView;
+    EventAdapter adapter;
+
+    List<GetEventResponseModel> events = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_seller_events);
+
+
+        adapter = new EventAdapter(events);
+
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        loadEvents();
+    }
+
+    private void loadEvents() {
+        GetEventsController endpoint = new GetEventsController();
+        endpoint.GET().thenAccept(eventList -> {
+
+            events.clear();
+            events.addAll(eventList);
+            adapter.notifyDataSetChanged();
+
+
+
+        });
+    }
+}
