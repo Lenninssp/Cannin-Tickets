@@ -7,6 +7,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.cannintickets.BuildConfig;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.*;
 
@@ -32,7 +33,7 @@ public class CheckOutActivity extends AppCompatActivity {
     PaymentSheet paymentSheet;
     Button payment;
 
-
+    String SecretKey = BuildConfig.SECRET_KEY;
     String CustomerId = "";
     String ClientSecret = "";
     String EmphericalKey = "";
@@ -45,7 +46,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
         payment = findViewById(R.id.payment);
 
-        PaymentConfiguration.init(this, PublishableKey);
+        PaymentConfiguration.init(this, BuildConfig.PUBLISHABLE_KEY);
 
         paymentSheet = new PaymentSheet(this, paymentSheetResult -> {
             onPaymentResult(paymentSheetResult);

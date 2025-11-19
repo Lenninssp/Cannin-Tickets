@@ -39,12 +39,32 @@ android {
                 "STRIPE_SECRET_KEY",
                 "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
             )
+            buildConfigField(
+                "String",
+                "PUBLISHABLE_KEY",
+                "\"${localProperties.getProperty("PUBLISHABLE_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "SECRET_KEY",
+                "\"${localProperties.getProperty("SECRET_KEY")}\""
+            )
         }
         debug {
             buildConfigField(
                 "String",
                 "STRIPE_SECRET_KEY",
                 "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "PUBLISHABLE_KEY",
+                "\"${localProperties.getProperty("PUBLISHABLE_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "SECRET_KEY",
+                "\"${localProperties.getProperty("SECRET_KEY")}\""
             )
         }
     }
