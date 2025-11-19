@@ -4,8 +4,8 @@ import java.util.List;
 
 public class GetTicketResponseFormatter implements GetTicketPresenter{
     @Override
-    public List<GetTicketResponseModel> prepareSuccessView(List<GetTicketResponseModel> response) {
-        return response;
+    public List<GetTicketResponseModel> prepareSuccessView(List<GetTicketResponseModel> tickets) {
+        return tickets;
     }
 
     @Override
