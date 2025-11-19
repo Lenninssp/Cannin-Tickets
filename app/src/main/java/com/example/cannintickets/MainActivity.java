@@ -8,12 +8,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.cannintickets.ui.BuyerEventsActivity;
+import com.example.cannintickets.ui.CheckOutActivity;
 import com.example.cannintickets.ui.EventActivity;
 import com.example.cannintickets.ui.ProfilePictureActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
 
 public class MainActivity extends AppCompatActivity {
+    Button goBuyersEvents;
+    Button goPayment;
     Button goImage;
     Button goSignUp;
     Button goEvent;
@@ -24,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
+        goBuyersEvents = findViewById(R.id.go_buyersevents);
         goImage = findViewById(R.id.go_image);
         goSignUp = findViewById(R.id.go_signup);
         goEvent = findViewById(R.id.go_event);
         goTicket = findViewById(R.id.go_ticket);
+        goPayment = findViewById(R.id.go_payment);
 
         goImage.setOnClickListener(V -> {
             Intent intent = new Intent(this, ProfilePictureActivity.class);
@@ -48,6 +55,19 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, TicketActivity.class);
             startActivity(intent);
         });
+
+        goPayment.setOnClickListener(V -> {
+            Intent intent = new Intent(this, CheckOutActivity.class);
+            startActivity(intent);
+        });
+
+        goBuyersEvents.setOnClickListener(V -> {
+            Intent intent = new Intent(this, BuyerEventsActivity.class);
+            startActivity(intent);
+        });
+
+
+
 
         // taken from: https://www.youtube.com/watch?v=28YhHH1mp3o
         // This is how to get the stripe key

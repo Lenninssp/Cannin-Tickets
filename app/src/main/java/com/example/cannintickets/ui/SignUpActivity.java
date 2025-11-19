@@ -53,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
             LoginController endpoint = new LoginController();
             endpoint.POST(
                     new UserLoginRequestModel(
-                            "sesoos2@gmail.com",
+                            "sesoos22222@gmail.com",
                             "cocoMarino23")
 
             ).thenApply(success -> {

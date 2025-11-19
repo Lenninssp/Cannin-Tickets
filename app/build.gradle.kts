@@ -39,12 +39,32 @@ android {
                 "STRIPE_SECRET_KEY",
                 "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
             )
+            buildConfigField(
+                "String",
+                "PUBLISHABLE_KEY",
+                "\"${localProperties.getProperty("PUBLISHABLE_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "SECRET_KEY",
+                "\"${localProperties.getProperty("SECRET_KEY")}\""
+            )
         }
         debug {
             buildConfigField(
                 "String",
                 "STRIPE_SECRET_KEY",
                 "\"${localProperties.getProperty("STRIPE_SECRET_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "PUBLISHABLE_KEY",
+                "\"${localProperties.getProperty("PUBLISHABLE_KEY")}\""
+            )
+            buildConfigField(
+                "String",
+                "SECRET_KEY",
+                "\"${localProperties.getProperty("SECRET_KEY")}\""
             )
         }
     }
@@ -65,6 +85,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.volley)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
