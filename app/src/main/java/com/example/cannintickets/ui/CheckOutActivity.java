@@ -37,6 +37,7 @@ public class CheckOutActivity extends AppCompatActivity {
     String CustomerId = "";
     String ClientSecret = "";
     String EmphericalKey = "";
+    //mensage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
