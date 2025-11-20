@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -80,25 +81,28 @@ public class EventDetailActivity extends AppCompatActivity {
             List<GetTicketResponseModel> ticketList = adapter.getTickets();
             List<Integer> quantityList = adapter.getQuantities();
 
-            total = 0.0;
+            double total = 0.0;
+            ArrayList<String> ticketIds = new ArrayList<>();
+            ArrayList<Integer> quantities = new ArrayList<>();
 
             for (int i = 0; i < ticketList.size(); i++) {
                 GetTicketResponseModel ticket = ticketList.get(i);
                 int qty = quantityList.get(i);
 
                 if (qty > 0) {
-                    String ticketId = ticket.getId();
-                    double price = ticket.getPrice();
-
-                    total += price * qty;
-
-                    System.out.println("ticketId: " + ticketId + " qty: " + qty);
+                    total += ticket.getPrice() * qty;
+                    ticketIds.add(ticket.getId());
+                    quantities.add(qty);
                 }
             }
 
-            System.out.println("TOTAL: " + total);
+            Intent intent = new Intent(EventDetailActivity.this, CheckOutActivity.class);
+            intent.putExtra("total", total);
+            intent.putExtra("eventId", eventId);
+            intent.putStringArrayListExtra("ticketIds", ticketIds);
+            intent.putIntegerArrayListExtra("quantities", quantities);
 
-            // TODO: now you can send total + selected tickets to your order use case
+            startActivity(intent);
         });
 
 

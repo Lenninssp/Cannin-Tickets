@@ -13,7 +13,6 @@ import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.entities.usertickets.CommonUserTicketFactory;
-import com.example.cannintickets.entities.usertickets.UserTicketEntity;
 import com.example.cannintickets.entities.usertickets.UserTicketFactory;
 import com.example.cannintickets.models.orders.OrderPersistenceModel;
 import com.example.cannintickets.models.orders.OrderRequestModel;
@@ -82,7 +81,7 @@ public class CreateOrderUseCase implements CreateOderInputBoundary {
                             userPersistence.getRole()
                     );
 
-                    if (!userEntity.canCreateEvents()) {
+                    if (userEntity.canCreateEvents()) {
                         return CompletableFuture.completedFuture(
                                 presenter.prepareFailView("Error: sellers can't create orders")
                         );
@@ -112,7 +111,7 @@ public class CreateOrderUseCase implements CreateOderInputBoundary {
                                                     ticketPersistence.getSold()
                                             );
 
-                                            if (!ticketEntity.getEventId().equals(eventEntity.getId())) {
+                                            if (!ticketEntity.getEventId().equals(orderRequest.getEventId())) {
                                                 return CompletableFuture.completedFuture(
                                                         presenter.prepareFailView("The ticket does not belong to the event")
                                                 );
