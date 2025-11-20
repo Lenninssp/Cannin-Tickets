@@ -1,56 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:gravity="center"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".ui.EventActivity">
 
     <Button
+        android:id="@+id/get_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="create event"
-        android:id="@+id/create_event"/>
+        android:text="get image" />
+
+    <Button
+        android:id="@+id/create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="create event" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
+
         <Button
+            android:id="@+id/modify_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="modify event"
-            android:id="@+id/modify_event"/>
+            android:text="modify event" />
+
         <Button
+            android:id="@+id/delete_event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="delete event"
-            android:id="@+id/delete_event"/>
+            android:text="delete event" />
 
     </LinearLayout>
 
     <EditText
+        android:id="@+id/mod_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mod_id"
-        android:hint="event id"/>;
+        android:hint="event id" />
 
 
     <Button
+        android:id="@+id/get_events"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="get events"
-        android:id="@+id/get_events"/>
+        android:text="get events" />
 
 
     <TextView
+        android:id="@+id/events_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/events_text"
-        android:text="events"/>
+        android:text="events" />
 
 </LinearLayout>

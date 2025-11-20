@@ -16,6 +16,7 @@ import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
@@ -103,10 +104,10 @@ public class ModifyEventUseCase implements ModifyEventInputBoundary {
                         eventToModify.getEventDate().toString(),
                         eventToModify.getLocation(),
                         eventToModify.getIsPrivate(),
-                        "",
-                        user.getEmail(),
-                        eventToModify.getId()
+                        null,
+                        user.getEmail()
                 );
+                updateModel.setId(eventToModify.getId());
                 return eventRepo.modify(updateModel).thenApply(success -> {
                     return eventPresenter.prepareSuccessView("The update was successful");
                 }).exceptionally(error -> {

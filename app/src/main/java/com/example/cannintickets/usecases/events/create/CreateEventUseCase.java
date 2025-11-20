@@ -9,8 +9,8 @@ import com.example.cannintickets.entities.image.ImageFactory;
 import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
-import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.models.events.create.CreateEventRequestModel;
+import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.models.simple.SimplePresenter;
 import com.example.cannintickets.models.simple.SimpleResponseFormatter;
 import com.example.cannintickets.models.simple.SimpleResponseModel;
@@ -26,12 +26,12 @@ import java.util.concurrent.CompletableFuture;
 public class CreateEventUseCase implements CreateEventInputBoundary {
     final EventRepository repo;
     final UserAuthRepository authRepo;
-    final ImageRepository imageRepo;
     final UserRepository userRepo;
     final SimplePresenter eventPresenter;
     final EventFactory eventFactory;
     final ImageFactory imageFactory;
     final UserSignupFactory userFactory;
+    final ImageRepository imageRepo;
 
     public CreateEventUseCase() {
         this.repo = new EventRepository();
@@ -39,9 +39,9 @@ public class CreateEventUseCase implements CreateEventInputBoundary {
         this.authRepo = new UserAuthRepository();
         this.userRepo = new UserRepository();
         this.eventFactory = new CommonEventFactory();
-        this.imageRepo = new ImageRepository();
         this.imageFactory = new CommonImageFactory();
         this.userFactory = new CommonUserSignupFactory();
+        this.imageRepo = new ImageRepository();
     }
 
     public CompletableFuture<SimpleResponseModel> execute(CreateEventRequestModel requestModel) {
@@ -54,60 +54,64 @@ public class CreateEventUseCase implements CreateEventInputBoundary {
 
         return userRepo.get(user.getEmail()).thenCompose(successUser -> {
             UserSingupEntity userEntity = userFactory.create(
-                successUser.getUsername(),
+                    successUser.getUsername(),
                     successUser.getEmail(),
                     "",
                     successUser.getRole()
             );
 
-            if (!userEntity.canCreateEvents()){
+            if (!userEntity.canCreateEvents()) {
                 return CompletableFuture.completedFuture(
-                        eventPresenter.prepareFailView("The user doesn't have enough permissions to create events" )
+                        eventPresenter.prepareFailView("The user doesn't have enough permissions to create events")
                 );
             }
-            //todo: here I should check the user table to check the permissions
+
             ImageEntity image = imageFactory.create(
                     requestModel.getCoverImage()
             );
-            // todo: make a better image upload implementation because this one aint it
 
-            //taken from: https://stackoverflow.com/questions/41992970/how-do-i-convert-an-iso-8601-date-time-string-to-java-time-localdatetime
-            LocalDateTime eventDate = LocalDateTime.parse(requestModel.getEventDate());
+            return imageRepo.create(image.getImage(), requestModel.getName()).thenCompose(imageString -> {
+                //taken from: https://stackoverflow.com/questions/41992970/how-do-i-convert-an-iso-8601-date-time-string-to-java-time-localdatetime
+                LocalDateTime eventDate = LocalDateTime.parse(requestModel.getEventDate());
 
-            EventEntity event = eventFactory.create(
-                    requestModel.getName(),
-                    requestModel.getDescription(),
-                    eventDate,
-                    requestModel.getLocation(),
-                    null,
-                    null
-            );
-
-
-            if (event.isValid()[0].equals("ERROR")) {
-                return CompletableFuture.completedFuture(
-                        eventPresenter.prepareFailView( event.isValid()[1] )
+                EventEntity event = eventFactory.create(
+                        requestModel.getName(),
+                        requestModel.getDescription(),
+                        eventDate,
+                        requestModel.getLocation(),
+                        null,
+                        null
                 );
-            }
 
-            EventPersistenceModel eventPersisted = new EventPersistenceModel(
-                    requestModel.getName(),
-                    requestModel.getDescription(),
-                    requestModel.getEventDate(),
-                    requestModel.getLocation(),
-                    requestModel.isPrivate(),
-                    "",
-                    user.getEmail(),
-                    ""
-            );
 
-            return repo.create(eventPersisted).thenApply(successMessage -> {
-                return eventPresenter.prepareSuccessView("The event was created successfully");
-            }).exceptionally(errorMessage -> {
-                return eventPresenter.prepareFailView(errorMessage.getMessage());
+                if (event.isValid()[0].equals("ERROR")) {
+                    return CompletableFuture.completedFuture(
+                            eventPresenter.prepareFailView(event.isValid()[1])
+                    );
+                }
+
+                EventPersistenceModel eventPersisted = new EventPersistenceModel(
+                        requestModel.getName(),
+                        requestModel.getDescription(),
+                        requestModel.getEventDate(),
+                        requestModel.getLocation(),
+                        requestModel.isPrivate(),
+                        imageString,
+                        user.getEmail()
+                );
+
+                return repo.create(eventPersisted).thenApply(successMessage -> {
+                    return eventPresenter.prepareSuccessView("The event was created successfully");
+                }).exceptionally(errorMessage -> {
+                    return eventPresenter.prepareFailView(errorMessage.getMessage());
+                });
+
+            }).exceptionally(error -> {
+                return eventPresenter.prepareFailView("Error uploading image: " + error);
             });
+
         }).exceptionally(error -> {
-            return  eventPresenter.prepareFailView(error.getMessage());
+            return eventPresenter.prepareFailView(error.getMessage());
         });
 
 

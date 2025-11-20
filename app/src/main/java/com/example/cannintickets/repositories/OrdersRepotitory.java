@@ -2,7 +2,6 @@ package com.example.cannintickets.repositories;
 
 import androidx.annotation.NonNull;
 
-import com.example.cannintickets.entities.order.OrderEntity;
 import com.example.cannintickets.models.orders.OrderPersistenceModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;

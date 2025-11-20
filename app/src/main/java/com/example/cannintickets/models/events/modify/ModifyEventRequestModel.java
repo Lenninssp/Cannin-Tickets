@@ -1,5 +1,7 @@
 package com.example.cannintickets.models.events.modify;
 
+import java.io.File;
+
 public class ModifyEventRequestModel {
     private final String id;
     private final String name;
