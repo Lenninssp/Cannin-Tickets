@@ -5,34 +5,98 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.firebase.FirebaseApp;
+import androidx.annotation.NonNull;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class ImageRepository {
-    public String[] create(Context context, File image) {
+
+    final FirebaseStorage storage;
+    final StorageReference storageRef;
+
+    public ImageRepository() {
+        this.storage = FirebaseStorage.getInstance("gs://cannintickets.firebasestorage.app");
+        this.storageRef = storage.getReference();
+    }
+
+    public CompletableFuture<File> get(String imagePath) {
+        System.out.println("LENNIN" + imagePath);
+        CompletableFuture<File> returnImage = new CompletableFuture<>();
+
+        StorageReference pathReference = storageRef.child(imagePath);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", ".jpg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        File finalLocalFile = localFile;
+        pathReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                System.out.println(finalLocalFile);
+                returnImage.complete(finalLocalFile);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                returnImage.completeExceptionally(e);
+            }
+        });
+
+        return returnImage;
+    }
+
+    public CompletableFuture<String> create(File image, String eventId) {
+        CompletableFuture<String> future = new CompletableFuture<>();
 
         Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+
         if (bitmap == null) {
-            return new String[]{"ERROR", "Could not decode bitmap"};
+            future.complete("Could not decode bitmap");
         }
 
-        File dir = new File(context.getExternalFilesDir("profilePictures"), "");
-        if (!dir.exists() && !dir.mkdirs()) {
-            return new String[]{"ERROR", "Could not create folder"};
-        }
+        StorageReference eventRef = storageRef.child("images/"+ eventId + ".jpg");
 
-        File output = new File(dir, UUID.randomUUID().toString() + ".jpg");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        try (FileOutputStream out = new FileOutputStream(output)) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            return new String[]{"SUCCESS", output.getAbsolutePath()};
-        }
-        catch (Exception e) {
-            return new String[]{"ERROR", "Could not save image: " + e.getMessage()};
-        }
+        assert bitmap != null;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = eventRef.putBytes(data);
+
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                future.complete("There was an error uploading the image");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                StorageMetadata metadata = taskSnapshot.getMetadata();
+
+                assert metadata != null;
+                future.complete(metadata.getPath());
+            }
+        });
+        return future;
     }
 }

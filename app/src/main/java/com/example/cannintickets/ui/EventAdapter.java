@@ -1,8 +1,11 @@
 package com.example.cannintickets.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +46,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder>{
         GetEventResponseModel event = events.get(position);
         holder.eventname.setText(event.getName());
         holder.eventdescription.setText(event.getEventDate());
+        if (event.getCoverImage().exists()) {
+            holder.imageview.setImageBitmap(BitmapFactory.decodeFile(event.getCoverImage().getAbsolutePath()));
+        }
 
 
 
@@ -58,7 +64,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder>{
     }
 
     public class viewholder extends RecyclerView.ViewHolder {
-
+        ImageView imageview;
         TextView eventname;
         TextView eventdescription;
         public viewholder(@NonNull View itemView) {
@@ -66,7 +72,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder>{
 
             eventname = itemView.findViewById(R.id.event_name);
             eventdescription = itemView.findViewById(R.id.event_date);
-
+            imageview = itemView.findViewById(R.id.event_image);
 
         }
     }

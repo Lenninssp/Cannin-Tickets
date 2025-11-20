@@ -96,4 +96,7 @@ dependencies {
     implementation("com.stripe:stripe-java:30.2.0")
     implementation("com.stripe:stripe-android:22.1.1")
     implementation("com.stripe:financial-connections:22.1.1")
+    implementation("com.google.firebase:firebase-storage")
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+
 }

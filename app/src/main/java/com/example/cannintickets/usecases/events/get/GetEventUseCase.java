@@ -11,15 +11,17 @@ import com.example.cannintickets.models.events.get.GetEventResponseFormatter;
 import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.repositories.EventRepository;
+import com.example.cannintickets.repositories.ImageRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.File;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 public class GetEventUseCase implements GetEventInputBoundary {
     final EventRepository eventRepo;
@@ -28,7 +30,7 @@ public class GetEventUseCase implements GetEventInputBoundary {
     final GetEventPresenter eventPresenter;
     final UserRepository userRepo;
     final UserSignupFactory userFactory;
-
+    final ImageRepository imageRepo;
 
     public GetEventUseCase() {
         this.eventFactory = new CommonEventFactory();
@@ -37,12 +39,13 @@ public class GetEventUseCase implements GetEventInputBoundary {
         this.eventPresenter = new GetEventResponseFormatter();
         this.userRepo = new UserRepository();
         this.userFactory = new CommonUserSignupFactory();
+        this.imageRepo = new ImageRepository();
     }
 
     @Override
     public CompletableFuture<List<GetEventResponseModel>> execute() {
-        List<GetEventResponseModel> returnList = new ArrayList<>();
         FirebaseUser user = authRepo.currentUser();
+
         if (user == null) {
             return CompletableFuture.completedFuture(
                     eventPresenter.prepareFailView(
@@ -51,87 +54,126 @@ public class GetEventUseCase implements GetEventInputBoundary {
             );
         }
 
-        return userRepo.get(user.getEmail()).thenCompose(successUser -> {
-            UserSingupEntity userEntity = userFactory.create(
-                    successUser.getUsername(),
-                    successUser.getEmail(),
-                    "",
-                    successUser.getRole()
-            );
-            if (userEntity.canCreateEvents()) {
-                return eventRepo.getFromEmail(user.getEmail()).thenApply(successMessage -> {
-                    for (EventPersistenceModel event : successMessage) {
-                        LocalDateTime eventDate = LocalDateTime.parse(event.getEventDate());
-                        EventEntity eventEntity = eventFactory.create(
-                                event.getName(),
-                                event.getDescription(),
-                                eventDate,
-                                event.getLocation(),
-                                null,
-                                null
-                        );
+        return userRepo.get(user.getEmail())
+                .thenCompose(successUser -> {
+                    UserSingupEntity userEntity = userFactory.create(
+                            successUser.getUsername(),
+                            successUser.getEmail(),
+                            "",
+                            successUser.getRole()
+                    );
 
-                        // todo: return event image here
-                        if (eventEntity.isValid()[0].equals("SUCCESS")) {
+                    if (userEntity.canCreateEvents()) {
+                        return eventRepo.getFromEmail(user.getEmail())
+                                .thenCompose(events -> {
+                                    List<CompletableFuture<GetEventResponseModel>> eventFutures = events.stream()
+                                            .map(event -> processEventWithImage(event, true))
+                                            .collect(Collectors.toList());
 
+                                    return CompletableFuture.allOf(eventFutures.toArray(new CompletableFuture[0]))
+                                            .thenApply(v -> {
+                                                List<GetEventResponseModel> results = eventFutures.stream()
+                                                        .map(CompletableFuture::join)
+                                                        .filter(Objects::nonNull)
+                                                        .collect(Collectors.toList());
 
-                            returnList.add(new GetEventResponseModel(
-                                    event.getId(),
-                                    event.getName(),
-                                    event.getDescription(),
-                                    event.getEventDate(),
-                                    event.getLocation(),
-                                    new File(""),
-                                    event.getOrganizerId(),
-                                    event.getCreationDate(),
-                                    event.getIsPrivate()
-                            ));
-                        }
+                                                return eventPresenter.prepareSuccessView(results);
+                                            })
+                                            .exceptionally(error -> {
+                                                return eventPresenter.prepareFailView(
+                                                        "There was an error processing events: " + error.getMessage()
+                                                );
+                                            });
+                                });
+                    } else {
+                        return eventRepo.getPublic()
+                                .thenCompose(events -> {
+                                    List<CompletableFuture<GetEventResponseModel>> eventFutures = events.stream()
+                                            .map(event -> processEventWithImage(event, false))
+                                            .collect(Collectors.toList());
+
+                                    return CompletableFuture.allOf(eventFutures.toArray(new CompletableFuture[0]))
+                                            .thenApply(v -> {
+                                                List<GetEventResponseModel> results = eventFutures.stream()
+                                                        .map(CompletableFuture::join)
+                                                        .filter(Objects::nonNull)
+                                                        .collect(Collectors.toList());
+
+                                                return eventPresenter.prepareSuccessView(results);
+                                            })
+                                            .exceptionally(error -> {
+                                                return eventPresenter.prepareFailView(
+                                                        "There was an error processing events: " + error.getMessage()
+                                                );
+                                            });
+                                });
                     }
-                    return eventPresenter.prepareSuccessView(returnList);
-                }).exceptionally(error -> {
+                })
+                .exceptionally(error -> {
                     return eventPresenter.prepareFailView(
-                            "There was an error: " + error.getMessage()
+                            "Error: the user maybe doesn't exist " + error.getMessage()
                     );
                 });
-            }
+    }
 
-            return eventRepo.getPublic().thenApply(successMessage -> {
+    private CompletableFuture<GetEventResponseModel> processEventWithImage(
+            EventPersistenceModel event,
+            boolean includePrivate) {
 
-                for (EventPersistenceModel event : successMessage) {
-                    LocalDateTime eventDate = LocalDateTime.parse(event.getEventDate());
-                    EventEntity eventEntity = eventFactory.create(
-                            event.getName(),
-                            event.getDescription(),
-                            eventDate,
-                            event.getLocation(),
-                            null,
-                            null
-                    );
+        LocalDateTime eventDate = LocalDateTime.parse(event.getEventDate());
+        EventEntity eventEntity = eventFactory.create(
+                event.getName(),
+                event.getDescription(),
+                eventDate,
+                event.getLocation(),
+                null,
+                null
+        );
 
-                    // todo: return event image here
-                    if (eventEntity.isValid()[0].equals("SUCCESS")) {
+        if (!eventEntity.isValid()[0].equals("SUCCESS")) {
+            return CompletableFuture.completedFuture(null);
+        }
 
-                        returnList.add(new GetEventResponseModel(
-                                event.getId(),
-                                event.getName(),
-                                event.getDescription(),
-                                event.getEventDate(),
-                                event.getLocation(),
-                                new File(""),
-                                event.getOrganizerId()));
+        if (event.getOrganizerImageUrl() != null && !event.getOrganizerImageUrl().isBlank()) {
+            return imageRepo.get(event.getOrganizerImageUrl())
+                    .thenApply(image -> createResponseModel(event, image, includePrivate))
+                    .exceptionally(error -> {
+                        return createResponseModel(event, new File(""), includePrivate);
+                    });
+        } else {
+            return CompletableFuture.completedFuture(
+                    createResponseModel(event, new File(""), includePrivate)
+            );
+        }
+    }
 
-                    }
-                }
-                return eventPresenter.prepareSuccessView(returnList);
-            }).exceptionally(error -> {
-                return eventPresenter.prepareFailView(
-                        "There was an error: " + error.getMessage()
-                );
+    private GetEventResponseModel createResponseModel(
+            EventPersistenceModel event,
+            File image,
+            boolean includePrivate) {
 
-            });
-        }).exceptionally(error -> {
-            return eventPresenter.prepareFailView("Error: the user maybe doesn't exist " + error.getMessage());
-        });
+        if (includePrivate) {
+            return new GetEventResponseModel(
+                    event.getId(),
+                    event.getName(),
+                    event.getDescription(),
+                    event.getEventDate(),
+                    event.getLocation(),
+                    image,
+                    event.getOrganizerId(),
+                    event.getCreationDate(),
+                    event.getIsPrivate()
+            );
+        } else {
+            return new GetEventResponseModel(
+                    event.getId(),
+                    event.getName(),
+                    event.getDescription(),
+                    event.getEventDate(),
+                    event.getLocation(),
+                    image,
+                    event.getOrganizerId()
+            );
+        }
     }
 }

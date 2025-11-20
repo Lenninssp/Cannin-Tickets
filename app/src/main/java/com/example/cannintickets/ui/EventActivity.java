@@ -1,13 +1,22 @@
 package com.example.cannintickets.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,11 +31,34 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.models.events.modify.ModifyEventRequestModel;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class EventActivity extends AppCompatActivity {
-    Button createEvent, getEvents, updateEvent, deleteEvent;
+    Button createEvent, getEvents, updateEvent, deleteEvent, getImage;
     TextView debugText;
     EditText modId;
+
+    File myFile;
+
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            new ActivityResultCallback<Uri>() {
+                @Override
+                public void onActivityResult(Uri uri) {
+                    if (uri == null) return;
+
+                    try {
+
+                        myFile = uriToTempFile(uri);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+    );
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +148,22 @@ public class EventActivity extends AppCompatActivity {
             });;
         });
 
+        getImage = findViewById(R.id.get_image);
+        getImage.setOnClickListener(V -> {
+            // taken from: https://codemia.io/knowledge-hub/path/convert_file_uri_to_file_in_android
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                    100
+            );
+            if (ContextCompat.checkSelfPermission(
+                    getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES) ==
+                    PackageManager.PERMISSION_GRANTED) {
+                mGetContent.launch("image/*");
+
+            }
+        });
+
         createEvent.setOnClickListener(V -> {
             CreateEventController endpoint = new CreateEventController();
             endpoint.POST(
@@ -125,7 +173,7 @@ public class EventActivity extends AppCompatActivity {
                             "2027-04-20T18:30",
                             "Any city, Austria",
                             false,
-                            new File("empty")
+                            myFile
                     )
             ).thenApply(event -> {
                 if (event.isSuccess()){
@@ -145,5 +193,22 @@ public class EventActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    private File uriToTempFile(Uri uri) throws Exception {
+        File temp = new File(getCacheDir(), System.currentTimeMillis() + ".tmp");
+
+        try (InputStream in = getContentResolver().openInputStream(uri);
+             OutputStream out = new FileOutputStream(temp)) {
+
+            byte[] buffer = new byte[8192];
+            int bytesRead;
+
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
+        }
+
+        return temp;
     }
 }

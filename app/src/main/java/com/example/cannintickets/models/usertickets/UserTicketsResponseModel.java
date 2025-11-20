@@ -1,5 +1,6 @@
 package com.example.cannintickets.models.usertickets;
 
+import java.io.File;
 import java.util.Date;
 
 public class UserTicketsResponseModel {
@@ -10,6 +11,7 @@ public class UserTicketsResponseModel {
     private String location;
     private String ticketName;
     private String message;
+    private File image;
 
     public UserTicketsResponseModel(String message) {
         this.message = message;
@@ -54,5 +56,9 @@ public class UserTicketsResponseModel {
 
     public String getMessage() {
         return message;
+    }
+
+    public File getImage() {
+        return image;
     }
 }

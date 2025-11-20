@@ -16,6 +16,7 @@ import com.example.cannintickets.models.usertickets.UserTicketResponseFormatter;
 import com.example.cannintickets.models.usertickets.UserTicketsPersistence;
 import com.example.cannintickets.models.usertickets.UserTicketsResponseModel;
 import com.example.cannintickets.repositories.EventRepository;
+import com.example.cannintickets.repositories.ImageRepository;
 import com.example.cannintickets.repositories.TicketRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
@@ -99,6 +100,8 @@ public class GetUserTicketsUseCase implements GetUserTicketsInputBoundary {
                                 );
                             }
                             return presenter.prepareSuccessView(returnList);
+                        }).exceptionally(error -> {
+                            return presenter.prepareFailView("Error: " + error);
                         });
                     });
                 } else {
