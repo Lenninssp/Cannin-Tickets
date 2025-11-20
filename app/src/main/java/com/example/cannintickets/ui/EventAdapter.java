@@ -20,6 +20,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder>{
 
     List<GetEventResponseModel> events = new ArrayList<>();
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    private OnItemClickListener listener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public EventAdapter(List<GetEventResponseModel> events) {
         this.events = events;
     }
@@ -67,7 +77,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder>{
             eventname = itemView.findViewById(R.id.event_name);
             eventdescription = itemView.findViewById(R.id.event_date);
 
+            itemView.setOnClickListener(v -> {
+                if (listener != null) {
+                    int position = getBindingAdapterPosition();
+
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(position);
+                    }
+                }
+            });
+
 
         }
     }
+
+
+
+
 }

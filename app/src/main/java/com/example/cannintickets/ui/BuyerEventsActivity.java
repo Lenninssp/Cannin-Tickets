@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -45,6 +46,19 @@ public class BuyerEventsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         loadEvents();
+
+        adapter.setOnItemClickListener(position -> {
+            GetEventResponseModel clicked = events.get(position);
+
+            Intent intent = new Intent(this, EventDetailActivity.class);
+            intent.putExtra("eventId", clicked.getId());
+            intent.putExtra("name", clicked.getName());
+            intent.putExtra("description", clicked.getDescription());
+            intent.putExtra("location", clicked.getLocation());
+            intent.putExtra("date", clicked.getEventDate());
+
+            startActivity(intent);
+        });
     }
 
     private void loadEvents() {

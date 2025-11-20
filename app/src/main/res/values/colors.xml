@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="orange">#D65A31</color>
     <color name="bluegray">#222831</color>
+    <color name="bluegray_light">#393E46</color>
 </resources>

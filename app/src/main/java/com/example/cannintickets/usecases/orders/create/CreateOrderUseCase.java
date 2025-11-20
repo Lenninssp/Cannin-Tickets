@@ -151,19 +151,30 @@ public class CreateOrderUseCase implements CreateOderInputBoundary {
                                             return ordersRepotitory.create(persistenceOrder)
                                                     .thenCompose(result -> {
 
-                                                        UserTicketsPersistence utPersistence = new UserTicketsPersistence(
-                                                                false,
-                                                                eventPersistence.getEventDate(),
-                                                                orderRequest.getEventId(),
-                                                                eventEntity.getName(),
-                                                                eventEntity.getLocation(),
-                                                                orderRequest.getTicketId(),
-                                                                ticketPersistence.getName(),
-                                                                userPersistence.getEmail()
-                                                        );
+                                                        int quantity = orderRequest.getQuantity();
 
-                                                        return userTicketRepository.create(utPersistence)
-                                                                .thenApply(success -> presenter.prepareSuccessView("The order and tickets were created successfully"))
+                                                        CompletableFuture<Void> ticketsFuture = CompletableFuture.completedFuture(null);
+
+                                                        for (int i = 0; i < quantity; i++) {
+                                                            UserTicketsPersistence utPersistence = new UserTicketsPersistence(
+                                                                    false,
+                                                                    eventPersistence.getEventDate(),
+                                                                    orderRequest.getEventId(),
+                                                                    eventEntity.getName(),
+                                                                    eventEntity.getLocation(),
+                                                                    orderRequest.getTicketId(),
+                                                                    ticketPersistence.getName(),
+                                                                    userPersistence.getEmail()
+                                                            );
+
+                                                            ticketsFuture = ticketsFuture.thenCompose(v ->
+                                                                    userTicketRepository.create(utPersistence)
+                                                                            .thenApply(ignore -> null)
+                                                            );
+                                                        }
+
+                                                        return ticketsFuture
+                                                                .thenApply(v -> presenter.prepareSuccessView("The order and tickets were created successfully"))
                                                                 .exceptionally(error -> presenter.prepareFailView("Error: " + error.getMessage()));
                                                     })
                                                     .exceptionally(error ->

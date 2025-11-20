@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CanninTickets">
         <activity
+            android:name=".ui.EventDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SellerEventsActivity"
             android:exported="false" />
         <activity
