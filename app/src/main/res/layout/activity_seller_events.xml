@@ -43,22 +43,29 @@
         >
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/event_seller_item" />
+        <Button
+            android:id="@+id/create_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CREATE EVENT"
+            android:textColor="@color/orange"
+            android:backgroundTint="@color/bluegray"
+            android:textSize="16dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
 
 
     </ScrollView>
-    <Button
-        android:id="@+id/create_event"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CREATE EVENT"
-        android:textColor="@color/orange"
-        android:backgroundTint="@color/bluegray"
-        android:textSize="16dp"
-        android:layout_gravity="center"/>
+
 </LinearLayout>

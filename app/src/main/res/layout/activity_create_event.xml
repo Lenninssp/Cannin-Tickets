@@ -7,121 +7,125 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/orange">
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="NEW"
-            android:textSize="50sp"
-            android:includeFontPadding="false"
-            android:textStyle="bold"
-            android:textColor="@color/bluegray"
-            />
+        android:layout_height="match_parent">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="EVENT"
-            android:textSize="20sp"
-            android:includeFontPadding="false"
-            android:textStyle="bold"
-            android:textColor="@color/bluegray"
-            />
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="15dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        android:padding="20dp"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="NEW"
+                    android:textSize="50sp"
+                    android:includeFontPadding="false"
+                    android:textStyle="bold"
+                    android:textColor="@color/bluegray" />
 
-        >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="EVENT"
+                    android:textSize="20sp"
+                    android:includeFontPadding="false"
+                    android:textStyle="bold"
+                    android:textColor="@color/bluegray" />
+            </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="NAME"
-            android:textColor="@color/white"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="50dp"
+                android:padding="20dp">
 
-            android:layout_marginBottom="8dp"/>
-        <EditText
-            android:id="@+id/name_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_box"
-            android:backgroundTint="@color/bluegray"
-            android:padding="12dp"
-            android:textSize="12sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@color/white"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NAME"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="DESCRIPTION"
-            android:textColor="@color/white"
+                <EditText
+                    android:id="@+id/name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_box"
+                    android:backgroundTint="@color/bluegray"
+                    android:padding="12dp"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white" />
 
-            android:layout_marginBottom="8dp"/>
-        <EditText
-            android:id="@+id/description_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_box"
-            android:backgroundTint="@color/bluegray"
-            android:padding="12dp"
-            android:textSize="12sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@color/white"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DESCRIPTION"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LOCATION"
-            android:textColor="@color/white"
+                <EditText
+                    android:id="@+id/description_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_box"
+                    android:backgroundTint="@color/bluegray"
+                    android:padding="12dp"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/white" />
 
-            android:layout_marginBottom="8dp"/>
-        <EditText
-            android:id="@+id/location_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_box"
-            android:backgroundTint="@color/bluegray"
-            android:layout_marginBottom="30dp"
-            android:textColor="@color/white"
-            android:padding="12dp"
-            android:textSize="12sp"/>
-        <DatePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/date_picker"
-            android:background="@drawable/rounded_box"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="LOCATION"
+                    android:textColor="@color/white"
+                    android:layout_marginBottom="8dp" />
 
-            />
+                <EditText
+                    android:id="@+id/location_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_box"
+                    android:backgroundTint="@color/bluegray"
+                    android:layout_marginBottom="30dp"
+                    android:textColor="@color/white"
+                    android:padding="12dp"
+                    android:textSize="12sp" />
 
-        <Button
-            android:id="@+id/next_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="NEXT"
-            android:textColor="@color/orange"
-            android:backgroundTint="@color/bluegray"
-            android:textSize="16dp"/>
+                <DatePicker
+                    android:id="@+id/date_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_box" />
 
-            />
+                <TimePicker
+                    android:id="@+id/time_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
+                <Button
+                    android:id="@+id/next_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="NEXT"
+                    android:textColor="@color/orange"
+                    android:backgroundTint="@color/bluegray"
+                    android:textSize="16sp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-
-
-
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

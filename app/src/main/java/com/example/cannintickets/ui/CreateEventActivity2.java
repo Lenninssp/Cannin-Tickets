@@ -1,6 +1,7 @@
 package com.example.cannintickets.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,13 +15,12 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.events.CreateEventController;
+import com.example.cannintickets.controllers.events.GetEventsController;
 import com.example.cannintickets.models.events.create.CreateEventRequestModel;
+import com.example.cannintickets.models.events.get.GetEventResponseModel;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,18 +34,19 @@ public class CreateEventActivity2 extends AppCompatActivity {
 
     File myFile;
 
-    ActivityResultLauncher<String> mGetContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+    ActivityResultLauncher<String> mGetContent = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
             new ActivityResultCallback<Uri>() {
                 @Override
                 public void onActivityResult(Uri uri) {
                     if (uri == null) return;
 
                     try {
-
                         myFile = uriToTempFile(uri);
-
+                        Toast.makeText(CreateEventActivity2.this, "Image selected", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
+                        Toast.makeText(CreateEventActivity2.this, "Error loading image", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -57,19 +58,15 @@ public class CreateEventActivity2 extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_create_event2);
 
-
         name = getIntent().getStringExtra("name");
         location = getIntent().getStringExtra("location");
         date = getIntent().getStringExtra("date");
         description = getIntent().getStringExtra("description");
 
-
-
         createEvent = findViewById(R.id.next_button);
         addImageButton = findViewById(R.id.add_image_button);
 
-        addImageButton.setOnClickListener(V -> {
-            // taken from: https://codemia.io/knowledge-hub/path/convert_file_uri_to_file_in_android
+        addImageButton.setOnClickListener(v -> {
             ActivityCompat.requestPermissions(
                     this,
                     new String[]{Manifest.permission.READ_MEDIA_IMAGES},
@@ -79,41 +76,46 @@ public class CreateEventActivity2 extends AppCompatActivity {
                     getApplicationContext(), Manifest.permission.READ_MEDIA_IMAGES) ==
                     PackageManager.PERMISSION_GRANTED) {
                 mGetContent.launch("image/*");
-
             }
         });
 
-
-        createEvent.setOnClickListener(V -> {
+        createEvent.setOnClickListener(v -> {
             if (myFile == null) {
-                Toast.makeText(this, "Please add an image", Toast.LENGTH_SHORT);}
-            else {
-                CreateEventController endpoint = new CreateEventController();
-                endpoint.POST(
-                        new CreateEventRequestModel(
-                                name,
-                                description,
-                                date,
-                                location,
-                                false,
-                                myFile
-                        )
-                ).thenApply(event -> {
-                    if (event.isSuccess()){
-                        Toast.makeText(this, "The event was created", Toast.LENGTH_SHORT).show();
-                        System.out.println("The event creation was successful");
-                    }
-                    else {
-                        Toast.makeText(this, event.getMessage(), Toast.LENGTH_SHORT).show();
-                        System.out.println(event.getMessage());
-                    }
-                    return event;
-                });
+                Toast.makeText(this, "Please add an image", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            CreateEventController endpoint = new CreateEventController();
+            endpoint.POST(
+                    new CreateEventRequestModel(
+                            name,
+                            description,
+                            date,
+                            location,
+                            false,
+                            myFile
+                    )
+            ).thenApply(event -> {
+                if (event.isSuccess()) {
+                    GetEventsController endpointCheck = new GetEventsController();
+                    endpointCheck.GET().thenApply(events -> {
+                        for (GetEventResponseModel eventCheck : events) {
+                            if (eventCheck.getName().equals(name)) {
+                                Intent intent = new Intent(this, CreateTicketsActivity.class);
+                                intent.putExtra("eventName", name);
+                                intent.putExtra("eventId", eventCheck.getId());
+                                startActivity(intent);
+                                break;
+                            }
+                        }
+                        return events;
+                    });
+                } else {
+                    System.out.println(event.getMessage());
                 }
+                return event;
+            });
         });
-
-
-
     }
 
     private File uriToTempFile(Uri uri) throws Exception {
