@@ -18,6 +18,8 @@ import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.auth.LoginController;
 import com.example.cannintickets.entities.user.login.UserLoginEntity;
 import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,7 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     Button login;
     TextView register;
-
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
 

@@ -15,11 +15,13 @@ import com.example.cannintickets.models.orders.OrderRequestModel;
 import com.example.cannintickets.ui.BuyerEventsActivity;
 import com.example.cannintickets.ui.CheckOutActivity;
 import com.example.cannintickets.ui.EventActivity;
+import com.example.cannintickets.ui.SellerEventsActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
 
 public class MainActivity extends AppCompatActivity {
     Button goBuyersEvents;
+    Button goSellerEvents;
     Button goPayment;
     Button goSignUp;
     Button goEvent;
@@ -38,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         goTicket = findViewById(R.id.go_ticket);
         goPayment = findViewById(R.id.go_payment);
         createOrder = findViewById(R.id.create_order);
+        goSellerEvents = findViewById(R.id.go_sellersevents);
+
+
+
+
+        goSellerEvents.setOnClickListener(V -> {
+            Intent intent = new Intent(this, SellerEventsActivity.class);
+            startActivity(intent);
+        });
+
 
 
         createOrder.setOnClickListener(V -> {
