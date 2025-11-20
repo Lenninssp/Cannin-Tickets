@@ -96,23 +96,33 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:paddingHorizontal="16dp"
-        android:paddingBottom="8dp"
-        tools:listitem="@layout/ticket_item" />
+
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="8dp"
+            tools:listitem="@layout/ticket_item" />
+    </ScrollView>
 
     <Button
         android:id="@+id/finish_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Finish"
-        android:textColor="@color/orange"
+        android:textColor="@color/white"
         android:backgroundTint="@color/bluegray"
         android:textSize="16sp"
-        android:layout_margin="16dp" />
+        android:layout_marginBottom="50dp"
+        android:layout_marginHorizontal="30dp"
+
+/>
 
 </LinearLayout>

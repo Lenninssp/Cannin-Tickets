@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,8 +60,8 @@ public class CreateTicketsActivity extends AppCompatActivity {
         }
 
         ArrayAdapter<TicketName> spinnerAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, TicketName.values());
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                new ArrayAdapter<>(this, R.layout.spinner_item, TicketName.values());
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         ticketNameSpinner.setAdapter(spinnerAdapter);
 
         adapter = new TicketSellerAdapter(new ArrayList<>());
@@ -144,6 +145,7 @@ public class CreateTicketsActivity extends AppCompatActivity {
         });
 
         finishButton.setOnClickListener(v -> finish());
+        Intent newIntent = new Intent(this, SellerEventsActivity.class);
     }
 
     private void loadTickets() {
