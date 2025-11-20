@@ -15,6 +15,8 @@ import com.example.cannintickets.ui.EventActivity;
 import com.example.cannintickets.ui.ProfilePictureActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     Button goBuyersEvents;

@@ -151,17 +151,6 @@ public class CreateOrderUseCase implements CreateOderInputBoundary {
                                             return ordersRepotitory.create(persistenceOrder)
                                                     .thenCompose(result -> {
 
-                                                        UserTicketEntity uTicketEntity = userTicketFactory.create(
-                                                                false,
-                                                                LocalDateTime.parse(eventPersistence.getEventDate()),
-                                                                orderRequest.getEventId(),
-                                                                eventEntity.getName(),
-                                                                eventEntity.getLocation(),
-                                                                orderRequest.getTicketId(),
-                                                                ticketPersistence.getName(),
-                                                                userPersistence.getEmail()
-                                                        );
-
                                                         UserTicketsPersistence utPersistence = new UserTicketsPersistence(
                                                                 false,
                                                                 eventPersistence.getEventDate(),
