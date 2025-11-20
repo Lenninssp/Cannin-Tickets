@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 
-public class OrdersRepotitory implements OrderEntity {
+public class OrdersRepotitory {
    final FirebaseFirestore db;
 
    public OrdersRepotitory() {
