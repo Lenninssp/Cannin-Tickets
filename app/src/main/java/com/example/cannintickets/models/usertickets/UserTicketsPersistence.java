@@ -5,7 +5,7 @@ import java.util.Date;
 public class UserTicketsPersistence {
     private String id;
     private Boolean checked;
-    private Date eventDate;
+    private String eventDate;
     private String eventId;
     private String eventName;
     private String location;
@@ -15,7 +15,7 @@ public class UserTicketsPersistence {
 
     public UserTicketsPersistence(){}
 
-    public UserTicketsPersistence(String id, Boolean checked, Date eventDate, String eventId, String eventName, String location, String ticketId, String ticketName, String userEmail) {
+    public UserTicketsPersistence(Boolean checked, String eventDate, String eventId, String eventName, String location, String ticketId, String ticketName, String userEmail) {
         this.checked = checked;
         this.eventDate = eventDate;
         this.eventId = eventId;
@@ -38,7 +38,7 @@ public class UserTicketsPersistence {
         return checked;
     }
 
-    public Date getEventDate() {
+    public String getEventDate() {
         return eventDate;
     }
 

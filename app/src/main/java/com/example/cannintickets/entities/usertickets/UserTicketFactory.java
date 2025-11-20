@@ -1,12 +1,12 @@
 package com.example.cannintickets.entities.usertickets;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface UserTicketFactory {
     UserTicketEntity create(
-            String id,
             Boolean checked,
-            Date eventDate,
+            LocalDateTime eventDate,
             String eventId,
             String eventName,
             String location,

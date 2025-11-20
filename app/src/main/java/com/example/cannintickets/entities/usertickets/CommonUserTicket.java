@@ -1,12 +1,13 @@
 package com.example.cannintickets.entities.usertickets;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class CommonUserTicket implements UserTicketEntity {
 
     private String id;
     private Boolean checked;
-    private Date eventDate;
+    private LocalDateTime eventDate;
     private String eventId;
     private String eventName;
     private String location;
@@ -14,8 +15,7 @@ public class CommonUserTicket implements UserTicketEntity {
     private String ticketName;
     private String userEmail;
 
-    public CommonUserTicket(String id, Boolean checked, Date eventDate, String eventId, String eventName, String location, String ticketId, String ticketName, String userEmail) {
-        this.id = id;
+    public CommonUserTicket(Boolean checked, LocalDateTime eventDate, String eventId, String eventName, String location, String ticketId, String ticketName, String userEmail) {
         this.checked = checked;
         this.eventDate = eventDate;
         this.eventId = eventId;
@@ -39,7 +39,7 @@ public class CommonUserTicket implements UserTicketEntity {
         return checked;
     }
 
-    public Date getEventDate() {
+    public LocalDateTime getEventDate() {
         return eventDate;
     }
 

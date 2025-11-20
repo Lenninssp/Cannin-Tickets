@@ -11,14 +11,12 @@ public class OrderPersistenceModel {
     private Integer quantity;
     private Double total;
     private String paymentIntentId;
-    private String status;
     private String eventName;
     private String eventId;
     private String createdAt;
     private String updatedAt;
     public OrderPersistenceModel() {}
     public OrderPersistenceModel(
-            String id,
             String customerEmail,
             String ticketId,
             String ticketName,
@@ -26,13 +24,11 @@ public class OrderPersistenceModel {
             Integer quantity,
             Double total,
             String paymentIntentId,
-            String status,
             String eventName,
             String eventId,
             String createdAt,
             String updatedAt
     ) {
-        this.id = id;
         this.customerEmail = customerEmail;
         this.ticketId = ticketId;
         this.ticketName = ticketName;
@@ -40,7 +36,6 @@ public class OrderPersistenceModel {
         this.quantity = quantity;
         this.total = total;
         this.paymentIntentId = paymentIntentId;
-        this.status = status;
         this.eventName = eventName;
         this.eventId = eventId;
         this.createdAt = createdAt;
@@ -77,10 +72,6 @@ public class OrderPersistenceModel {
 
     public String getPaymentIntentId() {
         return paymentIntentId;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getTicketId() {
