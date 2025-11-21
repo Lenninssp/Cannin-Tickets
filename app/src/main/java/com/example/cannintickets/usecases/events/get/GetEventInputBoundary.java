@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface GetEventInputBoundary {
-    CompletableFuture<List<GetEventResponseModel>> execute();
+    CompletableFuture<List<GetEventResponseModel>> execute(Boolean saved);
 }

@@ -14,8 +14,8 @@ public class GetEventsController {
         this.userInput = new GetEventUseCase();
     }
 
-    public CompletableFuture<List<GetEventResponseModel>> GET() {
-        return userInput.execute().thenApply(result -> {
+    public CompletableFuture<List<GetEventResponseModel>> GET(Boolean saved) {
+        return userInput.execute(saved).thenApply(result -> {
             return result;
         });
     }

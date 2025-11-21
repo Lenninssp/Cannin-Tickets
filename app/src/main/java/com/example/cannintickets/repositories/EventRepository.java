@@ -56,7 +56,6 @@ public class EventRepository {
         newEvent.put("isPrivate", eventPersistenceModel.getIsPrivate());
         newEvent.put("location", eventPersistenceModel.getLocation());
         newEvent.put("organizerId", eventPersistenceModel.getOrganizerId());
-        newEvent.put("organizerImageUrl", eventPersistenceModel.getOrganizerImageUrl());
         db.collection("Event").document(eventPersistenceModel.getId()).update(newEvent)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
