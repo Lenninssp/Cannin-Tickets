@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cannintickets.R;
+import com.example.cannintickets.controllers.events.DeleteEventController;
 import com.example.cannintickets.controllers.events.GetEventsController;
+import com.example.cannintickets.controllers.tickets.DeleteTicketController;
+import com.example.cannintickets.controllers.tickets.GetTicketsController;
 import com.example.cannintickets.models.events.get.GetEventResponseModel;
 
 import java.util.ArrayList;
@@ -51,18 +54,44 @@ public class SellerEventsActivity extends AppCompatActivity {
 
         loadEvents();
 
-        adapter.setOnItemClickListener(position -> {
-            GetEventResponseModel clicked = events.get(position);
+        adapter.setOnItemClickListener(new EventSellerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                GetEventResponseModel clicked = events.get(position);
 
-            Intent intent = new Intent(this, ModifyEventActivity.class);
-            intent.putExtra("eventId", clicked.getId());
-            intent.putExtra("name", clicked.getName());
-            intent.putExtra("description", clicked.getDescription());
-            intent.putExtra("date", clicked.getEventDate());
-            intent.putExtra("location", clicked.getLocation());
+                Intent intent = new Intent(SellerEventsActivity.this, ModifyEventActivity.class);
+                intent.putExtra("event_id", clicked.getId());
+                intent.putExtra("event_name", clicked.getName());
+                intent.putExtra("event_description", clicked.getDescription());
+                intent.putExtra("event_date", clicked.getEventDate());
+                intent.putExtra("event_location", clicked.getLocation());
+                intent.putExtra("event_is_private", clicked.getPrivate());
+                // intent.putExtra("cover_image", clicked.getCoverImage());
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onDeleteClick(int position) {
+                DeleteEventController endpoint = new DeleteEventController();
+                endpoint.DELETE(events.get(position).getId()).thenApply(
+                        response -> {
+                            if(!response.isSuccess()){
+                                Toast.makeText(SellerEventsActivity.this, "Error deleting event", Toast.LENGTH_SHORT).show();
+
+                            }else{
+                                Toast.makeText(SellerEventsActivity.this, "Event deleted", Toast.LENGTH_SHORT).show();
+
+                            }
+                            loadEvents();
+                            return null;
+                        }
+                );
 
 
-            startActivity(intent);
+
+
+            }
         });
 
         createEventButton.setOnClickListener(view -> {

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cannintickets.MainActivity;
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.tickets.CreateTicketController;
 import com.example.cannintickets.controllers.tickets.DeleteTicketController;
@@ -144,8 +145,12 @@ public class CreateTicketsActivity extends AppCompatActivity {
             });
         });
 
-        finishButton.setOnClickListener(v -> finish());
-        Intent newIntent = new Intent(this, SellerEventsActivity.class);
+        finishButton.setOnClickListener(
+                view -> {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                }
+        );
     }
 
     private void loadTickets() {
