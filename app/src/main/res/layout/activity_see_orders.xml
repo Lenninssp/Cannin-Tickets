@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TICKETS"
+        android:text="ORDERS"
         android:textStyle="bold"
         android:textSize="60dp"
         android:textColor="@color/white"/>
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recycler_view"
-            tools:listitem="@layout/manage_ticket_item"
+            tools:listitem="@layout/order_option_item"
             />
 
     </ScrollView>

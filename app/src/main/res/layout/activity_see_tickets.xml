@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recycler_view"
-            tools:listitem="@layout/manage_ticket_item"
+            tools:listitem="@layout/ticket_option_item"
             />
 
     </ScrollView>

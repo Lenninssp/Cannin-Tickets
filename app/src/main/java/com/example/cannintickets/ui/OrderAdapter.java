@@ -24,15 +24,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.viewholder>{
 
     List<OrderResponseModel> orders = new ArrayList<>();
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
 
-    private OnItemClickListener listener;
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
+
+
 
     public OrderAdapter(List<OrderResponseModel> orders) {
         this.orders = orders;
@@ -61,12 +56,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.viewholder>{
 
 
 
-        holder.eventName.setText(order);
-        holder.createdAt.setText(order);
-        holder.ticketType.setText(order);
-        holder.ticketPrice.setText(order);
-        holder.ticketQuantity.setText(order);
-        holder.totalPrice.setText(order);
+        holder.eventName.setText(order.getEventName());
+        holder.createdAt.setText(String.valueOf(order.getCreatedAt()));
+        holder.ticketType.setText(order.getTicketName());
+        holder.ticketPrice.setText(String.valueOf(order.getTicketPrice()));
+        holder.ticketQuantity.setText(String.valueOf(order.getQuantity()));
+        holder.totalPrice.setText(String.valueOf(order.getTotal()));
 
 
 
@@ -99,15 +94,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.viewholder>{
 
 
 
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getBindingAdapterPosition();
-
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
-                    }
-                }
-            });
 
 
         }

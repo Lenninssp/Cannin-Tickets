@@ -1,7 +1,7 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,56 +13,55 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cannintickets.R;
 import com.example.cannintickets.controllers.events.GetEventsController;
-import com.example.cannintickets.controllers.orders.GetOrderController;
 import com.example.cannintickets.models.events.get.GetEventResponseModel;
-import com.example.cannintickets.models.orders.OrderResponseModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersActivity extends AppCompatActivity {
-
-    TextView eventName, createdAt, ticketType, ticketPrice, ticketQuantity, totalPrice;
-
+public class SeeOrdersActivity extends AppCompatActivity {
     RecyclerView recyclerView;
-    OrderAdapter adapter;
+    SeeOrderAdapter adapter;
 
-    List<OrderResponseModel> orders = new ArrayList<>();
+    List<GetEventResponseModel> events = new ArrayList<>();
 
-    String eventId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_orders);
+        setContentView(R.layout.activity_see_orders);
 
 
-        adapter = new OrderAdapter(orders);
+        adapter = new SeeOrderAdapter(events);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        eventId = getIntent().getStringExtra("eventId");
+        loadEvents();
 
+        adapter.setOnItemClickListener(position -> {
+            GetEventResponseModel clicked = events.get(position);
 
-        loadOrders();
+            Intent intent = new Intent(this, OrdersActivity.class);
+            intent.putExtra("eventId", clicked.getId());
 
-
+            startActivity(intent);
+        });
     }
+    private void loadEvents() {
+        GetEventsController endpoint = new GetEventsController();
+        endpoint.GET(false).thenAccept(eventList -> {
 
-    private void loadOrders() {
-        GetOrderController endpoint = new GetOrderController();
-        endpoint.GET(eventId).thenAccept(orderList -> {
-
-            orders.clear();
-            orders.addAll(orderList);
+            events.clear();
+            events.addAll(eventList);
             adapter.notifyDataSetChanged();
 
 
 
         });
+
+
     }
 }

@@ -15,6 +15,8 @@ import com.example.cannintickets.models.orders.OrderRequestModel;
 import com.example.cannintickets.ui.BuyerEventsActivity;
 import com.example.cannintickets.ui.CheckOutActivity;
 import com.example.cannintickets.ui.EventActivity;
+import com.example.cannintickets.ui.SeeOrdersActivity;
+import com.example.cannintickets.ui.SeeTicketsActivity;
 import com.example.cannintickets.ui.SellerEventsActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
@@ -26,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     Button goSignUp;
     Button goEvent;
     Button goTicket;
+
+    Button seeOrders;
+    Button seeTickets;
+
 
     Button createOrder;
     @Override
@@ -41,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
         goPayment = findViewById(R.id.go_payment);
         createOrder = findViewById(R.id.create_order);
         goSellerEvents = findViewById(R.id.go_sellersevents);
+        seeOrders = findViewById(R.id.see_orders);
+        seeTickets = findViewById(R.id.see_tickets);
+
+
+
 
 
 
@@ -126,6 +137,18 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, BuyerEventsActivity.class);
             startActivity(intent);
         });
+
+        seeOrders.setOnClickListener(V -> {
+            Intent intent = new Intent(this, SeeOrdersActivity.class);
+            startActivity(intent);
+        });
+
+        seeTickets.setOnClickListener(V -> {
+            Intent intent = new Intent(this, SeeTicketsActivity.class);
+            startActivity(intent);
+        });
+
+        // Stripe key
 
 
 
