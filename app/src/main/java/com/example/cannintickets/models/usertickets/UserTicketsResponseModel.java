@@ -11,19 +11,20 @@ public class UserTicketsResponseModel {
     private String location;
     private String ticketName;
     private String message;
-    private File image;
+    private String userEmail;
 
     public UserTicketsResponseModel(String message) {
         this.message = message;
     }
 
-    public UserTicketsResponseModel(String id, Boolean checked, String eventDate, String eventName, String location, String ticketName) {
+    public UserTicketsResponseModel(String id, Boolean checked, String eventDate, String eventName, String location, String ticketName, String userEmail) {
         this.id = id;
         this.checked = checked;
         this.eventDate = eventDate;
         this.eventName = eventName;
         this.location = location;
         this.ticketName = ticketName;
+        this.userEmail = userEmail;
     }
 
     public boolean hasError() {
@@ -58,7 +59,7 @@ public class UserTicketsResponseModel {
         return message;
     }
 
-    public File getImage() {
-        return image;
+    public String getUserEmail() {
+        return userEmail;
     }
 }
