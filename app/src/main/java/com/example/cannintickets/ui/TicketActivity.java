@@ -1,28 +1,28 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cannintickets.R;
-import com.example.cannintickets.controllers.tickets.CreateTicketController;
-import com.example.cannintickets.models.tickets.create.CreateTicketRequestModel;
+import com.example.cannintickets.controllers.usertickets.GetUserTicketsController;
+import com.example.cannintickets.controllers.usertickets.ModifyUserTicketController;
+import com.example.cannintickets.models.usertickets.UserTicketsResponseModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TicketActivity extends AppCompatActivity {
 
-    Button create, delete, modify, get;
-    EditText eventId;
-    TextView textView;
+    RecyclerView recyclerView;
+    ManageTicketAdapter adapter;
 
+    List<UserTicketsResponseModel> tickets = new ArrayList<>();
+
+    String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,44 +30,30 @@ public class TicketActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ticket);
 
-        create = findViewById(R.id.create_ticket);
-        delete = findViewById(R.id.delete_ticket);
-        modify = findViewById(R.id.modify_ticket);
-        get = findViewById(R.id.get_ticket);
+        recyclerView = findViewById(R.id.recycler_view);
 
-        eventId = findViewById(R.id.event_id_text);
-        textView = findViewById(R.id.tickets_display);
-
-        
-
-
-        create.setOnClickListener(V -> {
-            CreateTicketController endoint = new CreateTicketController();
-            endoint.POST(
-                    new CreateTicketRequestModel(
-                            "GA",
-                            eventId.getText().toString(),
-                            1000,
-                            100.0
-                    )
-            ).thenApply(ticket -> {
-                if (ticket.isSuccess()) {
-                    Toast.makeText(this, "The ticket was created successfully", Toast.LENGTH_SHORT).show();
-                    Log.d("tickets", "The event was created successfully");
-                }
-                else {
-                    Toast.makeText(this, ticket.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.d("tickets", ticket.getMessage());
-                }
-                return ticket;
-            });
+        adapter = new ManageTicketAdapter(tickets, (ticket, isChecked, position) -> {
+            ModifyUserTicketController endpoint = new ModifyUserTicketController();
+            endpoint.POST(ticket.getId(), isChecked);
 
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        eventId = getIntent().getStringExtra("eventId");
+
+        loadTickets();
+    }
+
+    private void loadTickets() {
+        GetUserTicketsController endpoint = new GetUserTicketsController();
+        endpoint.GET(eventId).thenAccept(ticketList -> {
+            runOnUiThread(() -> {
+                tickets.clear();
+                tickets.addAll(ticketList);
+                adapter.notifyDataSetChanged();
+            });
         });
     }
 }

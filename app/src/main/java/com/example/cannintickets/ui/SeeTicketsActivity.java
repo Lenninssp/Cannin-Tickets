@@ -44,7 +44,7 @@ public class SeeTicketsActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(position -> {
             GetEventResponseModel clicked = events.get(position);
 
-            Intent intent = new Intent(this, OrdersActivity.class);
+            Intent intent = new Intent(this, TicketActivity.class);
             intent.putExtra("eventId", clicked.getId());
 
             startActivity(intent);
