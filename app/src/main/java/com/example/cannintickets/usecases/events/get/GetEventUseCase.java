@@ -12,6 +12,7 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.models.events.persistence.EventPersistenceModel;
 import com.example.cannintickets.repositories.EventRepository;
 import com.example.cannintickets.repositories.ImageRepository;
+import com.example.cannintickets.repositories.SaveRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +32,7 @@ public class GetEventUseCase implements GetEventInputBoundary {
     final UserRepository userRepo;
     final UserSignupFactory userFactory;
     final ImageRepository imageRepo;
+    final SaveRepository saveRepo;
 
     public GetEventUseCase() {
         this.eventFactory = new CommonEventFactory();
@@ -40,10 +42,10 @@ public class GetEventUseCase implements GetEventInputBoundary {
         this.userRepo = new UserRepository();
         this.userFactory = new CommonUserSignupFactory();
         this.imageRepo = new ImageRepository();
+        this.saveRepo = new SaveRepository();
     }
-
     @Override
-    public CompletableFuture<List<GetEventResponseModel>> execute() {
+    public CompletableFuture<List<GetEventResponseModel>> execute(Boolean saved) {
         FirebaseUser user = authRepo.currentUser();
 
         if (user == null) {
@@ -86,6 +88,34 @@ public class GetEventUseCase implements GetEventInputBoundary {
                                             });
                                 });
                     } else {
+                        if (Boolean.TRUE.equals(saved)) {
+                            return saveRepo.getFromUser(user.getEmail())
+                                    .thenCompose(savedIds ->
+                                            eventRepo.getPublic().thenCompose(events -> {
+                                                List<EventPersistenceModel> filtered = events.stream()
+                                                        .filter(e -> savedIds.contains(e.getId()))
+                                                        .collect(Collectors.toList());
+
+                                                List<CompletableFuture<GetEventResponseModel>> futures =
+                                                        filtered.stream()
+                                                                .map(event -> processEventWithImage(event, false))
+                                                                .collect(Collectors.toList());
+
+                                                return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                                                        .thenApply(v ->
+                                                                futures.stream()
+                                                                        .map(CompletableFuture::join)
+                                                                        .filter(Objects::nonNull)
+                                                                        .collect(Collectors.toList())
+                                                        )
+                                                        .thenApply(eventPresenter::prepareSuccessView);
+                                            })
+                                    )
+                                    .exceptionally(e ->
+                                            eventPresenter.prepareFailView("Error while filtering saved events")
+                                    );
+                        }
+
                         return eventRepo.getPublic()
                                 .thenCompose(events -> {
                                     List<CompletableFuture<GetEventResponseModel>> eventFutures = events.stream()
