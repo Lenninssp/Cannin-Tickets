@@ -29,4 +29,31 @@ public class OrderResponseModel {
         return message != null && !message.isEmpty();
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public String getTicketName() {
+        return ticketName;
+    }
+
+    public Double getTicketPrice() {
+        return ticketPrice;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

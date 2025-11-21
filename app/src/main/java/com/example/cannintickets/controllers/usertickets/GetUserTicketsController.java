@@ -1,8 +1,8 @@
 package com.example.cannintickets.controllers.usertickets;
 
 import com.example.cannintickets.models.usertickets.UserTicketsResponseModel;
-import com.example.cannintickets.usecases.usertickets.GetUserTicketsInputBoundary;
-import com.example.cannintickets.usecases.usertickets.GetUserTicketsUseCase;
+import com.example.cannintickets.usecases.usertickets.get.GetUserTicketsInputBoundary;
+import com.example.cannintickets.usecases.usertickets.get.GetUserTicketsUseCase;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

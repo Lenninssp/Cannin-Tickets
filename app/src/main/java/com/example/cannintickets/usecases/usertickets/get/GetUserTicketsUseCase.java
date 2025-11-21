@@ -1,23 +1,18 @@
-package com.example.cannintickets.usecases.usertickets;
+package com.example.cannintickets.usecases.usertickets.get;
 
 import com.example.cannintickets.entities.event.CommonEventFactory;
 import com.example.cannintickets.entities.event.EventEntity;
 import com.example.cannintickets.entities.event.EventFactory;
-import com.example.cannintickets.entities.ticket.TicketFactory;
 import com.example.cannintickets.entities.user.signup.CommonUserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSignupFactory;
 import com.example.cannintickets.entities.user.signup.UserSingupEntity;
 import com.example.cannintickets.entities.usertickets.CommonUserTicketFactory;
-import com.example.cannintickets.entities.usertickets.UserTicketEntity;
 import com.example.cannintickets.entities.usertickets.UserTicketFactory;
-import com.example.cannintickets.models.tickets.get.GetTicketPresenter;
 import com.example.cannintickets.models.usertickets.UserTicketPresenter;
 import com.example.cannintickets.models.usertickets.UserTicketResponseFormatter;
 import com.example.cannintickets.models.usertickets.UserTicketsPersistence;
 import com.example.cannintickets.models.usertickets.UserTicketsResponseModel;
 import com.example.cannintickets.repositories.EventRepository;
-import com.example.cannintickets.repositories.ImageRepository;
-import com.example.cannintickets.repositories.TicketRepository;
 import com.example.cannintickets.repositories.UserAuthRepository;
 import com.example.cannintickets.repositories.UserRepository;
 import com.example.cannintickets.repositories.UserTicketRepository;

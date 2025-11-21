@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -22,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 public class UserTicketRepository {
     final FirebaseFirestore db;
 
-    public UserTicketRepository() { db = FirebaseFirestore.getInstance(); }
+    public  UserTicketRepository() { db = FirebaseFirestore.getInstance(); }
 
     public CompletableFuture<List<UserTicketsPersistence>> getFromEvent(String userEmail) {
         CompletableFuture<List<UserTicketsPersistence>> future = new CompletableFuture<>();
@@ -76,20 +77,37 @@ public class UserTicketRepository {
         return future;
     }
 
-    public CompletableFuture<String> modify(UserTicketsPersistence ticket) {
-        CompletableFuture<String> future = new CompletableFuture<>();
-        Map<String, Object> newTicket = new HashMap<>();
-        newTicket.put("checked", ticket.getChecked());
-        newTicket.put("eventDate", ticket.getEventDate());
-        newTicket.put("eventId", ticket.getEventId());
-        newTicket.put("eventName", ticket.getEventName());
-        newTicket.put("location", ticket.getLocation());
-        newTicket.put("ticketId", ticket.getTicketId());
-        newTicket.put("ticketName", ticket.getTicketName());
-        newTicket.put("userEmail", ticket.getUserEmail());
+    public CompletableFuture<UserTicketsPersistence> get(String userTicketId) {
+        CompletableFuture<UserTicketsPersistence> future = new CompletableFuture<>();
 
         db.collection("UserTicket")
-                .document(ticket.getId())
+                .document(userTicketId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            UserTicketsPersistence ticket = document.toObject(UserTicketsPersistence.class);
+                            assert ticket != null;
+                            ticket.setId(document.getId());
+                            future.complete(ticket);
+                        }
+                        else {
+                            future.complete(null);
+                        }
+                    }
+                });
+
+        return future;
+    }
+
+    public CompletableFuture<String> modify(String ticketId, Boolean checked) {
+        CompletableFuture<String> future = new CompletableFuture<>();
+        Map<String, Object> newTicket = new HashMap<>();
+        newTicket.put("checked", checked);
+        db.collection("UserTicket")
+                .document(ticketId)
                 .update(newTicket)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
