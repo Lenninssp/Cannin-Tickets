@@ -98,7 +98,8 @@ public class GetOrdersUserCase implements GetOrdersInputBoundary {
                                         order.getQuantity(),
                                         order.getTicketName(),
                                         order.getTicketPrice(),
-                                        order.getTotal()
+                                        order.getTotal(),
+                                        order.getCustomerEmail()
                                 ));
                             }
                             return presenter.prepareSuccessView(returnList);
@@ -119,7 +120,8 @@ public class GetOrdersUserCase implements GetOrdersInputBoundary {
                             order.getQuantity(),
                             order.getTicketName(),
                             order.getTicketPrice(),
-                            order.getTotal()
+                            order.getTotal(),
+                            order.getCustomerEmail()
                     ));
                 }
                 return presenter.prepareSuccessView(returnList);
