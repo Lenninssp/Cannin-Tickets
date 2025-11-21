@@ -19,4 +19,10 @@ public class GetUserTicketsController {
             return result;
         });
     }
+
+    public CompletableFuture<List<UserTicketsResponseModel>> GETbuyer() {
+        return userInput.execute(null).thenApply(result -> {
+            return result;
+        });
+    }
 }

@@ -106,8 +106,7 @@ public class GetUserTicketsUseCase implements GetUserTicketsInputBoundary {
                     );
                 }
             }
-
-            return ticketRepo.getFromEvent(user.getEmail()).thenApply(tickets -> {
+            return ticketRepo.getFromBuyer(user.getEmail()).thenApply(tickets -> {
                 for (UserTicketsPersistence ticket : tickets) {
                     returnList.add(new UserTicketsResponseModel(
                                     ticket.getId(),
@@ -122,7 +121,6 @@ public class GetUserTicketsUseCase implements GetUserTicketsInputBoundary {
                 }
                 return presenter.prepareSuccessView(returnList);
             });
-
         }).exceptionally(error -> {
             return presenter.prepareFailView("Error: " + error.getMessage());
         });
