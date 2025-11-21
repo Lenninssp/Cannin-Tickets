@@ -9,6 +9,8 @@ public class SimpleResponseModel {
         this.message = message;
     }
 
-    public boolean isSuccess() { return success; }
+    public boolean isSuccess() {
+        return message != null && !message.isEmpty();
+    }
     public String getMessage() { return message; }
 }
