@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class OrderResponseModel {
     private LocalDateTime createdAt;
     private String eventName;
+    private String userEmail;
     private Integer quantity;
     private String ticketName;
     private Double ticketPrice;
@@ -16,13 +17,14 @@ public class OrderResponseModel {
         this.message = message;
     }
 
-    public OrderResponseModel(LocalDateTime createdAt, String eventName, Integer quantity, String ticketName, Double ticketPrice, Double total) {
+    public OrderResponseModel(LocalDateTime createdAt, String eventName, Integer quantity, String ticketName, Double ticketPrice, Double total, String userEmail) {
         this.createdAt = createdAt;
         this.eventName = eventName;
         this.quantity = quantity;
         this.ticketName = ticketName;
         this.ticketPrice = ticketPrice;
         this.total = total;
+        this.userEmail = userEmail;
     }
 
     public boolean isSuccess() {
@@ -55,5 +57,9 @@ public class OrderResponseModel {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
     }
 }
