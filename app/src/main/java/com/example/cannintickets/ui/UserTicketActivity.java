@@ -51,9 +51,9 @@ public class UserTicketActivity extends AppCompatActivity {
 
 
         GetUserTicketsController endpoint = new GetUserTicketsController();
-        endpoint.GET(null).thenAccept(ticketList -> {
+        endpoint.GETbuyer().thenAccept(ticketList -> {
             runOnUiThread(() -> {
-                Log.d("Tickets", ticketList.toString());
+                Log.d("Lennin", ticketList.toString());
                 tickets.clear();
                 tickets.addAll(ticketList);
                 adapter.notifyDataSetChanged();
