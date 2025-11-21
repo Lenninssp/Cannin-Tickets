@@ -98,7 +98,7 @@ public class CreateEventActivity2 extends AppCompatActivity {
             ).thenApply(event -> {
                 if (event.isSuccess()) {
                     GetEventsController endpointCheck = new GetEventsController();
-                    endpointCheck.GET().thenApply(events -> {
+                    endpointCheck.GET(false).thenApply(events -> {
                         for (GetEventResponseModel eventCheck : events) {
                             if (eventCheck.getName().equals(name)) {
                                 Intent intent = new Intent(this, CreateTicketsActivity.class);

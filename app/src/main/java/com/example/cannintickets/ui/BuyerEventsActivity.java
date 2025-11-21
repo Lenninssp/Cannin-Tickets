@@ -63,7 +63,7 @@ public class BuyerEventsActivity extends AppCompatActivity {
 
     private void loadEvents() {
         GetEventsController endpoint = new GetEventsController();
-        endpoint.GET().thenAccept(eventList -> {
+        endpoint.GET(false).thenAccept(eventList -> {
 
                 events.clear();
                 events.addAll(eventList);

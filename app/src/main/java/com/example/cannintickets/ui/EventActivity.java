@@ -103,7 +103,7 @@ public class EventActivity extends AppCompatActivity {
 
             GetEventsController endpoint = new GetEventsController();
 
-            endpoint.GET().thenApply(events -> {
+            endpoint.GET(false).thenApply(events -> {
 
                 StringBuilder sb = new StringBuilder();
 
