@@ -38,10 +38,12 @@ public class UserTicketsActivity extends AppCompatActivity {
     private void loadTickets() {
         GetUserTicketsController endpoint = new GetUserTicketsController();
 
+
         endpoint.GET(null).thenAccept(ticketList -> {
             runOnUiThread(() -> {
                 tickets.clear();
                 if (ticketList != null) {
+
                     tickets.addAll(ticketList);
                 }
                 adapter.notifyDataSetChanged();

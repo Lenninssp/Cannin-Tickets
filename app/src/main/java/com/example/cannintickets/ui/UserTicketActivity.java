@@ -1,6 +1,7 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,8 +51,9 @@ public class UserTicketActivity extends AppCompatActivity {
 
 
         GetUserTicketsController endpoint = new GetUserTicketsController();
-        endpoint.GET("mvSb7yPR9LD1AXQMESU7").thenAccept(ticketList -> {
+        endpoint.GET(null).thenAccept(ticketList -> {
             runOnUiThread(() -> {
+                Log.d("Tickets", ticketList.toString());
                 tickets.clear();
                 tickets.addAll(ticketList);
                 adapter.notifyDataSetChanged();
