@@ -1,4 +1,4 @@
-package com.example.cannintickets.usecases.usertickets;
+package com.example.cannintickets.usecases.usertickets.get;
 
 import com.example.cannintickets.models.usertickets.UserTicketsResponseModel;
 
