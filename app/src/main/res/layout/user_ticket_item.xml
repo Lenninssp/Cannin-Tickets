@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/ticket_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ticket id"/>
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="event name"/>
+    <TextView
+        android:id="@+id/ticket_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ticket name"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="event date"
+        android:id="@+id/event_date"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="event location"
+        android:id="@+id/event_location"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ticket status"
+        android:id="@+id/ticket_status"/>
+
+
+
+</LinearLayout>

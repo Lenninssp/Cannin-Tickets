@@ -45,6 +45,8 @@ public class CheckOutActivity extends AppCompatActivity {
     String EmphericalKey = "";
     String PaymentIntentId = "";
 
+    String eventName;
+
     Double total;
     Long amountInCents;
 
@@ -65,6 +67,7 @@ public class CheckOutActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_check_out);
 
+        eventName = getIntent().getStringExtra("eventName");
 
         total = getIntent().getDoubleExtra("total", 0.0);
         amountInCents = Math.round(total * 100);
@@ -164,7 +167,9 @@ public class CheckOutActivity extends AppCompatActivity {
                                 Toast.makeText(CheckOutActivity.this, "Order failed for ticket " + ticketIds.get(index) + ": " + response.getMessage(), Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(CheckOutActivity.this, "Order created for ticket " + ticketIds.get(index), Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(this, MainActivity.class);
+                                Intent intent = new Intent(this, SuccessActivity.class);
+                                intent.putExtra("eventId", eventId);
+                                intent.putExtra("eventName", eventName);
                                 startActivity(intent);
                             }
                             return response;

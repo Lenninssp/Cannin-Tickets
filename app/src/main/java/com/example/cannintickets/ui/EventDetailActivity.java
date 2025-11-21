@@ -99,6 +99,8 @@ public class EventDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(EventDetailActivity.this, CheckOutActivity.class);
             intent.putExtra("total", total);
             intent.putExtra("eventId", eventId);
+            intent.putExtra("eventName", name);
+
             intent.putStringArrayListExtra("ticketIds", ticketIds);
             intent.putIntegerArrayListExtra("quantities", quantities);
 

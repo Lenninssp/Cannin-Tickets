@@ -20,6 +20,7 @@ import com.example.cannintickets.ui.SeeTicketsActivity;
 import com.example.cannintickets.ui.SellerEventsActivity;
 import com.example.cannintickets.ui.SignUpActivity;
 import com.example.cannintickets.ui.TicketActivity;
+import com.example.cannintickets.ui.UserTicketActivity;
 
 public class MainActivity extends AppCompatActivity {
     Button goBuyersEvents;
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         goTicket.setOnClickListener(V -> {
-            Intent intent = new Intent(this, TicketActivity.class);
+            Intent intent = new Intent(this, UserTicketActivity.class);
             startActivity(intent);
         });
 
