@@ -25,7 +25,7 @@ public class OrderResponseModel {
         this.total = total;
     }
 
-    public boolean hasError() {
+    public boolean isSuccess() {
         return message != null && !message.isEmpty();
     }
 
