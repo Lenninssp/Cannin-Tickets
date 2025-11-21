@@ -90,7 +90,8 @@ public class GetUserTicketsUseCase implements GetUserTicketsInputBoundary {
                                                 ticket.getEventDate(),
                                                 ticket.getEventName(),
                                                 ticket.getLocation(),
-                                                ticket.getTicketName()
+                                                ticket.getTicketName(),
+                                                ticket.getUserEmail()
                                         )
                                 );
                             }
@@ -114,7 +115,8 @@ public class GetUserTicketsUseCase implements GetUserTicketsInputBoundary {
                                     ticket.getEventDate().toString(),
                                     ticket.getEventName(),
                                     ticket.getLocation(),
-                                    ticket.getTicketName()
+                                    ticket.getTicketName(),
+                                    ticket.getUserEmail()
                             )
                     );
                 }
