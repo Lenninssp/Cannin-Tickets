@@ -3,18 +3,27 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="@color/orange">
+    android:background="@color/bluegray">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MY\nTICKETS"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="-10dp"
+        android:textColor="@android:color/white"
+        android:padding="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/recycler_view"
-        tools:listitem="@layout/user_ticket_item"
-        />
-
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:listitem="@layout/user_ticket_item" />
 
 </LinearLayout>
