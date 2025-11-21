@@ -51,7 +51,7 @@ public class UserTicketActivity extends AppCompatActivity {
 
 
         GetUserTicketsController endpoint = new GetUserTicketsController();
-        endpoint.GET(null).thenAccept(ticketList -> {
+        endpoint.GET("mvSb7yPR9LD1AXQMESU7").thenAccept(ticketList -> {
             runOnUiThread(() -> {
                 Log.d("Tickets", ticketList.toString());
                 tickets.clear();
