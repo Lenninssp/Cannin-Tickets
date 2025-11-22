@@ -101,6 +101,16 @@
             android:textStyle="italic"
             android:textSize="30dp"/>
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:padding="10dp"
+            android:indeterminate="true"
+            android:visibility="visible" />
+
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -2,7 +2,9 @@ package com.example.cannintickets.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,7 +25,7 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellerEventsActivity extends AppCompatActivity {
+public class SellerEventsActivity extends BaseActivity {
 
 
     RecyclerView recyclerView;
@@ -32,6 +34,8 @@ public class SellerEventsActivity extends AppCompatActivity {
     List<GetEventResponseModel> events = new ArrayList<>();
 
     Button createEventButton;
+    private ProgressBar progressBar;
+
 
 
 
@@ -41,7 +45,11 @@ public class SellerEventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_seller_events);
+        setChildContentView(R.layout.activity_seller_events);
+        progressBar = findViewById(R.id.progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
+
 
         createEventButton = findViewById(R.id.create_event);
 
@@ -66,7 +74,6 @@ public class SellerEventsActivity extends AppCompatActivity {
                 intent.putExtra("event_date", clicked.getEventDate());
                 intent.putExtra("event_location", clicked.getLocation());
                 intent.putExtra("event_is_private", clicked.getPrivate());
-                // intent.putExtra("cover_image", clicked.getCoverImage());
 
                 startActivity(intent);
             }
@@ -109,6 +116,8 @@ public class SellerEventsActivity extends AppCompatActivity {
             events.clear();
             events.addAll(eventList);
             adapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+
 
 
 

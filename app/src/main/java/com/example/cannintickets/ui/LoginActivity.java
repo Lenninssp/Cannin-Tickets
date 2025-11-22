@@ -73,13 +73,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 ).thenApply(success -> {
-                    //Toast.makeText(this, "Process completed", Toast.LENGTH_SHORT).show();
                     if(!success.isSuccess()){
                         Toast.makeText(LoginActivity.this, "failed", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "success", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, SplashScreen.class);
                         startActivity(intent);
 
                     }

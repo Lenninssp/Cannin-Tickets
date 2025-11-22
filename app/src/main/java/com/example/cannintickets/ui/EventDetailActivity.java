@@ -2,7 +2,9 @@ package com.example.cannintickets.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,7 +24,7 @@ import com.example.cannintickets.models.tickets.get.GetTicketResponseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends BaseActivity {
 
     TicketAdapter adapter;
     RecyclerView recyclerView;
@@ -34,6 +36,7 @@ public class EventDetailActivity extends AppCompatActivity {
     String eventId;
     Button checkoutButton;
     Double total;
+    private ProgressBar progressBar;
 
 
 
@@ -42,7 +45,11 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_event_detail);
+        setChildContentView(R.layout.activity_event_detail);
+
+        progressBar = findViewById(R.id.progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         adapter = new TicketAdapter(tickets);
 
@@ -116,6 +123,8 @@ public class EventDetailActivity extends AppCompatActivity {
         endpoint.GET(eventId).thenAccept(ticketList -> {
 
                 adapter.setTickets(ticketList);
+                progressBar.setVisibility(View.GONE);
+
 
 
         });

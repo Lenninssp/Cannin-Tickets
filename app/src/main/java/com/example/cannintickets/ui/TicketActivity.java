@@ -1,6 +1,8 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -27,6 +29,7 @@ public class TicketActivity extends AppCompatActivity {
     String eventName;
 
     TextView eventNameTextView;
+    private ProgressBar progressBar;
 
 
 
@@ -35,6 +38,10 @@ public class TicketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ticket);
+
+        progressBar = findViewById(R.id.progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -67,6 +74,8 @@ public class TicketActivity extends AppCompatActivity {
                 tickets.clear();
                 tickets.addAll(ticketList);
                 adapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+
             });
         });
     }

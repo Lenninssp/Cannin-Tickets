@@ -1,6 +1,8 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +32,8 @@ public class OrdersActivity extends AppCompatActivity {
     List<OrderResponseModel> orders = new ArrayList<>();
 
     String eventId;
+    private ProgressBar progressBar;
+
 
 
     @Override
@@ -37,6 +41,10 @@ public class OrdersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_orders);
+
+        progressBar = findViewById(R.id.progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
 
         adapter = new OrderAdapter(orders);
@@ -65,6 +73,8 @@ public class OrdersActivity extends AppCompatActivity {
             orders.clear();
             orders.addAll(orderList);
             adapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+
 
 
 

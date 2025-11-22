@@ -2,6 +2,8 @@ package com.example.cannintickets.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +20,14 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeeOrdersActivity extends AppCompatActivity {
+public class SeeOrdersActivity extends BaseActivity {
     RecyclerView recyclerView;
     SeeOrderAdapter adapter;
 
     List<GetEventResponseModel> events = new ArrayList<>();
+    private ProgressBar progressBar;
+
+
 
 
 
@@ -30,7 +35,11 @@ public class SeeOrdersActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_see_orders);
+        setChildContentView(R.layout.activity_see_orders);
+
+        progressBar = findViewById(R.id.progress_bar);
+
+        progressBar.setVisibility(View.VISIBLE);
 
 
         adapter = new SeeOrderAdapter(events);
@@ -59,6 +68,8 @@ public class SeeOrdersActivity extends AppCompatActivity {
             events.clear();
             events.addAll(eventList);
             adapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.GONE);
+
 
 
 

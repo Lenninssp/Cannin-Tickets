@@ -20,7 +20,7 @@ public class SuccessActivity extends AppCompatActivity {
     Button ticketButton;
 
     private Handler handler = new Handler(Looper.getMainLooper());
-    private static final int CHECK_INTERVAL_MS = 2000; // 2 seconds
+    private static final int CHECK_INTERVAL_MS = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +35,13 @@ public class SuccessActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Event: " + eventName, Toast.LENGTH_SHORT).show();
 
-        // Initial state
         ticketButton.setEnabled(false);
         ticketButton.setText("Creating tickets...");
 
-        // Start polling
         checkTickets();
 
-        // When user clicks (after tickets exist)
         ticketButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, UserTicketsActivity.class);
+            Intent intent = new Intent(this, UserTicketActivity.class);
             startActivity(intent);
         });
     }
@@ -65,7 +62,6 @@ public class SuccessActivity extends AppCompatActivity {
                     for (int i = 0; i < tickets.size(); i++) {
                         String ticketName = tickets.get(i).getEventName();
 
-                        // Debug: show ticket names (optional)
                         Toast.makeText(this, "Ticket: " + ticketName, Toast.LENGTH_SHORT).show();
 
                         if (eventName.equals(ticketName)) {
@@ -78,12 +74,10 @@ public class SuccessActivity extends AppCompatActivity {
                         ticketButton.setEnabled(true);
                         ticketButton.setText("Go to tickets");
                     } else {
-                        // Not found yet -> check again
                         handler.postDelayed(this::checkTickets, CHECK_INTERVAL_MS);
                     }
                 }))
                 .exceptionally(e -> {
-                    // Optional: show error and retry
                     runOnUiThread(() ->
                             Toast.makeText(this, "Error checking tickets", Toast.LENGTH_SHORT).show()
                     );

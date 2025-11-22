@@ -15,7 +15,19 @@
         android:text="ORDERS"
         android:textStyle="bold"
         android:textSize="60dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:padding="15dp"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:padding="10dp"
+        android:indeterminate="true"
+        android:visibility="visible" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

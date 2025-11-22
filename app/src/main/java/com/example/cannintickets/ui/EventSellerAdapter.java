@@ -25,7 +25,7 @@ public class EventSellerAdapter extends RecyclerView.Adapter<EventSellerAdapter.
 
     public interface OnItemClickListener {
         void onItemClick(int position);
-        void onDeleteClick(int position);    // delete text click
+        void onDeleteClick(int position);
 
     }
 
@@ -79,7 +79,7 @@ public class EventSellerAdapter extends RecyclerView.Adapter<EventSellerAdapter.
         ImageView imageview;
         TextView eventname;
         TextView eventdescription;
-        TextView deleteEvent;    // <--- add this
+        TextView deleteEvent;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
@@ -87,7 +87,7 @@ public class EventSellerAdapter extends RecyclerView.Adapter<EventSellerAdapter.
             eventname = itemView.findViewById(R.id.event_name);
             eventdescription = itemView.findViewById(R.id.event_date);
             imageview = itemView.findViewById(R.id.event_image);
-            deleteEvent = itemView.findViewById(R.id.delete_event); // <--- bind it
+            deleteEvent = itemView.findViewById(R.id.delete_event);
 
 
             itemView.setOnClickListener(v -> {
@@ -99,7 +99,6 @@ public class EventSellerAdapter extends RecyclerView.Adapter<EventSellerAdapter.
                 }
             });
 
-            // Delete text click
             deleteEvent.setOnClickListener(v -> {
                 if (listener != null) {
                     int position = getBindingAdapterPosition();

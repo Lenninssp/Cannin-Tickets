@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,19 +19,17 @@ import com.example.cannintickets.controllers.auth.SignupController;
 import com.example.cannintickets.models.user.auth.UserLoginRequestModel;
 import com.example.cannintickets.models.user.auth.UserSignupRequestModel;
 
-public class SignUpActivity extends AppCompatActivity {
-    Button signup, login, logout, currentState;
-    TextView debugtxt;
+public class SignUpActivity extends BaseActivity {
+    Button logout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sign_up);
-        signup = findViewById(R.id.sign_up);
-        login = findViewById(R.id.log_in);
+        setChildContentView(R.layout.activity_sign_up);
+
         logout = findViewById(R.id.log_out);
-        currentState = findViewById(R.id.current_state);
-        debugtxt = findViewById(R.id.debug_txt);
+
 
         logout.setOnClickListener(V -> {
             LogoutController endpoint = new LogoutController();
@@ -38,68 +37,20 @@ public class SignUpActivity extends AppCompatActivity {
                     .thenApply(message -> {
                         if (message[0].equals("ERROR")){
                             Toast.makeText(this, "There was an error", Toast.LENGTH_SHORT).show();
-                            debugtxt.setText(message[1]);
                             return  message;
                         }
                         else {
                             Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
-                            debugtxt.setText("User logged out successfully");
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            startActivity(intent);
                             return message;
                         }
                     });
         });
 
-        login.setOnClickListener(V -> {
-            LoginController endpoint = new LoginController();
-            endpoint.POST(
-                    new UserLoginRequestModel(
-                            "sesoos2@gmail.com",
-                            "cocoMarino23")
 
-            ).thenApply(success -> {
-                Toast.makeText(this, "Process completed", Toast.LENGTH_SHORT).show();
-                if(!success.isSuccess()){
-                    debugtxt.setText(success.getError());
-                }
-                else {
-                    debugtxt.setText("success");
-                }
-                return success;
-            });
-        });
 
-        signup.setOnClickListener(V -> {
-            SignupController endpoint = new SignupController();
-//            CompletableFuture<UserSignupResponseModel> response = endpoint.POST(
-//                    new UserSignupRequestModel(
-//                            "LenninSabogal",
-//                            "lenninssp1021@gmail.com",
-//                            "Sabogareto13*",
-//                            "Seller")
-            endpoint.POST(
-                    new UserSignupRequestModel(
-                            "lenninpapi",
-                            "sesoos2@gmail.com",
-                            "cocoMarino23",
-                            "Seller")
-            ).thenApply(success -> {
-                Toast.makeText(this, success.toString(), Toast.LENGTH_SHORT).show();
-                if(!success.isSuccess()){
-                    debugtxt.setText(success.getError());
-                }
-                else {
-                    debugtxt.setText(success.toString());
-                }
-                return success;
-            });
 
-        });
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
     }
 
 }

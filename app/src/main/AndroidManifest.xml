@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CanninTickets">
         <activity
+            android:name=".ui.BaseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.UserTicketActivity"
             android:exported="false" />
         <activity

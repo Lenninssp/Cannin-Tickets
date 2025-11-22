@@ -69,8 +69,6 @@ public class TicketSellerAdapter extends RecyclerView.Adapter<TicketSellerAdapte
         holder.ticketName.setText(ticket.getName());
         holder.ticketPrice.setText(String.valueOf(ticket.getPrice()));
 
-        // Use whatever field holds the quantity: getCapacity(), getQuantity(), etc.
-        // This assumes getCapacity() exists and is numeric.
         holder.ticketQuantity.setText(String.valueOf(ticket.getCapacity()));
     }
 

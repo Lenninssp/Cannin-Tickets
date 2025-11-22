@@ -59,7 +59,6 @@ public class CheckOutActivity extends AppCompatActivity {
 
 
 
-    //mensage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +164,9 @@ public class CheckOutActivity extends AppCompatActivity {
                         .thenApply(response -> {
                             if (!response.isSuccess()) {
                                 Toast.makeText(CheckOutActivity.this, "Order failed for ticket " + ticketIds.get(index) + ": " + response.getMessage(), Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(this, PaymentErrorActivity.class);
+                                intent.putExtra("eventId", response.getMessage());
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(CheckOutActivity.this, "Order created for ticket " + ticketIds.get(index), Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(this, SuccessActivity.class);
