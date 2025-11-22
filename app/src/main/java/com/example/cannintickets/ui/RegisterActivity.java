@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -76,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, "success", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, SplashScreen.class);
+                    startActivity(intent);
                 }
                 return success;
             });
