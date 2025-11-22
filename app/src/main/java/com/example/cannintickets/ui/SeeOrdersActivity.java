@@ -46,6 +46,8 @@ public class SeeOrdersActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, OrdersActivity.class);
             intent.putExtra("eventId", clicked.getId());
+            intent.putExtra("eventName", clicked.getName());
+
 
             startActivity(intent);
         });

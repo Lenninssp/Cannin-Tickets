@@ -46,6 +46,8 @@ public class SeeTicketsActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, TicketActivity.class);
             intent.putExtra("eventId", clicked.getId());
+            intent.putExtra("eventName", clicked.getName());
+
 
             startActivity(intent);
         });

@@ -56,7 +56,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.viewholder>{
 
 
 
-        holder.eventName.setText(order.getEventName());
+        holder.eventName.setText(order.getUserEmail());
         holder.createdAt.setText(String.valueOf(order.getCreatedAt()));
         holder.ticketType.setText(order.getTicketName());
         holder.ticketPrice.setText(String.valueOf(order.getTicketPrice()));

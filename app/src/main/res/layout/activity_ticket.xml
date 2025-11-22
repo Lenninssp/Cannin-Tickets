@@ -14,7 +14,8 @@
         android:text="TICKETS"
         android:textStyle="bold"
         android:textSize="60dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:id="@+id/event_name"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

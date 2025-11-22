@@ -1,6 +1,7 @@
 package com.example.cannintickets.ui;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,11 @@ public class TicketActivity extends AppCompatActivity {
     List<UserTicketsResponseModel> tickets = new ArrayList<>();
 
     String eventId;
+    String eventName;
+
+    TextView eventNameTextView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +47,15 @@ public class TicketActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        eventNameTextView = findViewById(R.id.event_name);
+
+
         eventId = getIntent().getStringExtra("eventId");
+
+        eventName = getIntent().getStringExtra("eventName");
+
+        eventNameTextView.setText(eventName);
+
 
         loadTickets();
     }

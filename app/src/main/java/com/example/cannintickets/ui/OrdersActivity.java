@@ -46,6 +46,11 @@ public class OrdersActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         eventId = getIntent().getStringExtra("eventId");
+        eventName = findViewById(R.id.event_name);
+        eventName.setText(getIntent().getStringExtra("eventName"));
+
+
+
 
 
         loadOrders();
