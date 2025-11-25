@@ -147,7 +147,7 @@ public class CreateTicketsActivity extends AppCompatActivity {
 
         finishButton.setOnClickListener(
                 view -> {
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(this, SellerEventsActivity.class);
                     startActivity(intent);
                 }
         );

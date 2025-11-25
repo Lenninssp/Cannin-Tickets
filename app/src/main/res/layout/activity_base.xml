@@ -40,6 +40,22 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/saved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/heart_icon"
+                android:background="@android:color/transparent"
+                android:contentDescription="Profile" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_weight="1"
@@ -87,6 +103,8 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="Profile" />
         </LinearLayout>
+
+
 
     </LinearLayout>
 

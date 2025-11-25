@@ -1,6 +1,5 @@
 package com.example.cannintickets.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -18,10 +17,10 @@ import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuyerEventsActivity extends BaseActivity {
+public class SavedEventsActivity extends BaseActivity {
 
     RecyclerView recyclerView;
-    EventAdapter adapter;
+    SaveEventAdapter adapter;
 
     List<GetEventResponseModel> events = new ArrayList<>();
 
@@ -31,12 +30,12 @@ public class BuyerEventsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setChildContentView(R.layout.activity_buyer_events);
+        setChildContentView(R.layout.activity_saved_events);
 
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.VISIBLE);
 
-        adapter = new EventAdapter(events);
+        adapter = new SaveEventAdapter(events);
 
         adapter.setOnLikeClickListener(position -> {
             GetEventResponseModel likedEvent = events.get(position);
@@ -50,33 +49,23 @@ public class BuyerEventsActivity extends BaseActivity {
             });
         });
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         loadEvents();
-
-        adapter.setOnItemClickListener(position -> {
-            GetEventResponseModel clicked = events.get(position);
-
-            Intent intent = new Intent(this, EventDetailActivity.class);
-            intent.putExtra("eventId", clicked.getId());
-            intent.putExtra("name", clicked.getName());
-            intent.putExtra("description", clicked.getDescription());
-            intent.putExtra("location", clicked.getLocation());
-            intent.putExtra("date", clicked.getEventDate());
-            intent.putExtra("image", clicked.getCoverImage());
-
-            startActivity(intent);
-        });
     }
 
     private void loadEvents() {
+
         GetEventsController endpoint = new GetEventsController();
-        endpoint.GET(false).thenAccept(eventList -> {
+        endpoint.GET(true).thenAccept(eventList -> {
             runOnUiThread(() -> {
                 events.clear();
                 events.addAll(eventList);
+
+                adapter.setAllLiked();
+
                 adapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
             });

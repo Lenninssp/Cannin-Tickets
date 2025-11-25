@@ -1,9 +1,12 @@
 package com.example.cannintickets.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +24,7 @@ import com.example.cannintickets.controllers.tickets.GetTicketsController;
 import com.example.cannintickets.models.events.get.GetEventResponseModel;
 import com.example.cannintickets.models.tickets.get.GetTicketResponseModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,8 @@ public class EventDetailActivity extends BaseActivity {
     List<GetTicketResponseModel> tickets = new ArrayList<>();
     String eventId;
     Button checkoutButton;
+
+    ImageView eventImage;
     Double total;
     private ProgressBar progressBar;
 
@@ -61,6 +67,10 @@ public class EventDetailActivity extends BaseActivity {
         String description = getIntent().getStringExtra("description");
         String location = getIntent().getStringExtra("location");
         String date = getIntent().getStringExtra("date");
+        File image = (File) getIntent().getSerializableExtra("image");
+
+
+
 
 
 
@@ -69,6 +79,8 @@ public class EventDetailActivity extends BaseActivity {
         eventDate = findViewById(R.id.event_date);
         eventLocation = findViewById(R.id.event_location);
         checkoutButton = findViewById(R.id.checkout_button);
+        eventImage = findViewById(R.id.event_image);
+
 
 
 
@@ -76,6 +88,12 @@ public class EventDetailActivity extends BaseActivity {
         eventDescription.setText(description);
         eventDate.setText(date);
         eventLocation.setText(location);
+        Bitmap bitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+        eventImage.setImageBitmap(bitmap);
+
+
+
+
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);

@@ -21,40 +21,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder> {
+public class SaveEventAdapter extends RecyclerView.Adapter<SaveEventAdapter.viewholder> {
 
     List<GetEventResponseModel> events = new ArrayList<>();
 
     private final Set<String> likedEventIds = new HashSet<>();
 
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
-
     public interface OnLikeClickListener {
         void onLikeClick(int position);
     }
 
-    private OnItemClickListener listener;
     private OnLikeClickListener likeListener;
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
 
     public void setOnLikeClickListener(OnLikeClickListener likeListener) {
         this.likeListener = likeListener;
     }
 
-    public EventAdapter(List<GetEventResponseModel> events) {
+    public SaveEventAdapter(List<GetEventResponseModel> events) {
         this.events = events;
+    }
+
+    public void setAllLiked() {
+        likedEventIds.clear();
+        for (GetEventResponseModel e : events) {
+            likedEventIds.add(e.getId());
+        }
     }
 
     @NonNull
     @Override
     public viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.event_item, parent, false);
+                .inflate(R.layout.saved_event_item, parent, false);
 
         return new viewholder(view);
     }
@@ -63,18 +61,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder> 
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
         GetEventResponseModel event = events.get(position);
 
-        holder.eventname.setText(event.getName());
-        holder.eventdescription.setText(event.getEventDate());
+        holder.eventName.setText(event.getName());
+        holder.eventDate.setText(event.getEventDate());
 
         if (event.getCoverImage() != null && event.getCoverImage().exists()) {
             Bitmap bitmap = BitmapFactory.decodeFile(event.getCoverImage().getAbsolutePath());
-            holder.imageview.setImageBitmap(bitmap);
-        } else {
-            holder.imageview.setImageResource(R.drawable.placeholder);
+            holder.eventImage.setImageBitmap(bitmap);
         }
 
         boolean liked = likedEventIds.contains(event.getId());
         int colorRes = liked ? R.color.orange : R.color.white;
+
         holder.likeButton.setColorFilter(
                 ContextCompat.getColor(holder.itemView.getContext(), colorRes)
         );
@@ -86,27 +83,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.viewholder> 
     }
 
     public class viewholder extends RecyclerView.ViewHolder {
-        ImageView imageview;
-        TextView eventname;
-        TextView eventdescription;
+        TextView eventName, eventDate;
+        ImageView eventImage;
         ImageButton likeButton;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
 
-            eventname = itemView.findViewById(R.id.event_name);
-            eventdescription = itemView.findViewById(R.id.event_date);
-            imageview = itemView.findViewById(R.id.event_image);
+            eventName = itemView.findViewById(R.id.event_name);
+            eventDate = itemView.findViewById(R.id.event_date);
+            eventImage = itemView.findViewById(R.id.event_image);
             likeButton = itemView.findViewById(R.id.save_button);
-
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getBindingAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(position);
-                    }
-                }
-            });
 
             likeButton.setOnClickListener(v -> {
                 int position = getBindingAdapterPosition();

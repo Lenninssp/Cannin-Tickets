@@ -21,7 +21,7 @@ import com.example.cannintickets.controllers.auth.GetUserController;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private ImageButton eventsBtn, ticketsBtn, profileBtn, orderBtn;
+    private ImageButton eventsBtn, ticketsBtn, profileBtn, orderBtn, saveBtn;
     private LinearLayout ordersLayout;
 
     private String role;
@@ -39,6 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         profileBtn = findViewById(R.id.profile);
         ordersLayout = findViewById(R.id.orders);
         orderBtn = findViewById(R.id.order_button_clickable);
+        saveBtn = findViewById(R.id.saved);
 
         defaultTint  = ColorStateList.valueOf(
                 ContextCompat.getColor(this, R.color.bluegray));
@@ -48,6 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         eventsBtn.setImageTintList(defaultTint);
         ticketsBtn.setImageTintList(defaultTint);
         profileBtn.setImageTintList(defaultTint);
+        saveBtn.setImageTintList(defaultTint);
         if (orderBtn != null) {
             orderBtn.setImageTintList(defaultTint);
         }
@@ -58,6 +60,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             selectButton(ticketsBtn);
         } else if (this instanceof SeeOrdersActivity) {
             selectButton(orderBtn);
+        } else if (this instanceof SavedEventsActivity) {
+            selectButton(saveBtn);
         } else if (this instanceof SignUpActivity) {
             selectButton(profileBtn);
         }
@@ -118,6 +122,17 @@ public abstract class BaseActivity extends AppCompatActivity {
                                 }
                             });
                         }
+
+
+                        if (saveBtn != null) {
+                            saveBtn.setOnClickListener(v -> {
+                                selectButton(saveBtn);
+                                if ("BUYER".equals(role)
+                                        && !(BaseActivity.this instanceof SavedEventsActivity)) {
+                                    startActivity(new Intent(BaseActivity.this, SavedEventsActivity.class));
+                                }
+                            });
+                        }
                     });
                 })
                 .exceptionally(throwable -> {
@@ -138,9 +153,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (ticketsBtn != null) ticketsBtn.setImageTintList(defaultTint);
         if (profileBtn != null) profileBtn.setImageTintList(defaultTint);
         if (orderBtn != null) orderBtn.setImageTintList(defaultTint);
+        if (saveBtn != null) saveBtn.setImageTintList(defaultTint);
 
         if (selectedButton != null) {
             selectedButton.setImageTintList(selectedTint);
         }
     }
 }
+
