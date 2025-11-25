@@ -1,5 +1,6 @@
 package com.example.cannintickets.ui;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cannintickets.R;
@@ -55,6 +57,7 @@ public class UserTicketAdapter extends RecyclerView.Adapter<UserTicketAdapter.vi
         UserTicketsResponseModel ticket = tickets.get(position);
 
 
+        Context context = holder.ticketStatus.getContext();
 
 
         holder.eventName.setText(ticket.getEventName());
@@ -62,10 +65,12 @@ public class UserTicketAdapter extends RecyclerView.Adapter<UserTicketAdapter.vi
         holder.eventLocation.setText(ticket.getLocation());
         holder.ticketName.setText(ticket.getTicketName());
         holder.ticketId.setText(ticket.getId());
-        if(ticket.getChecked()){
-            holder.ticketStatus.setText("Checked");
-        }else{
-            holder.ticketStatus.setText("Unchecked");
+        if (ticket.getChecked()) {
+            holder.ticketStatus.setText("USED");
+            holder.ticketStatus.setTextColor(ContextCompat.getColor(context, R.color.red));
+        } else {
+            holder.ticketStatus.setText("ACTIVE");
+            holder.ticketStatus.setTextColor(ContextCompat.getColor(context, R.color.green));
         }
 
 

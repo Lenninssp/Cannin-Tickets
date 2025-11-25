@@ -8,33 +8,16 @@
     android:orientation="vertical"
     android:background="@color/orange"
     >
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="15dp"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="MY"
-            android:textSize="50sp"
-            android:includeFontPadding="false"
-            android:textStyle="bold"
-            android:textColor="@color/bluegray"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="EVENTS"
-            android:textSize="20sp"
-            android:includeFontPadding="false"
-            android:textStyle="bold"
-            android:textColor="@color/bluegray"
-            />
-
-    </LinearLayout>
+        android:text="MY\nEVENTS"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="-10dp"
+        android:textColor="@android:color/white"
+        android:padding="16dp" />
 
     <ScrollView
         android:layout_width="match_parent"
